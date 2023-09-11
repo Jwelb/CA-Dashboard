@@ -12,7 +12,7 @@ function Chat(){
         <Navbar/>
         <VStack>
         <Box><Input size='lg' placeholder="My question goes here"></Input></Box>
-        <Box><Textarea isDisabled placeholder="My question goes here"></Textarea></Box>
+        <Box><Textarea isDisabled placeholder="My Answer goes here"></Textarea></Box>
         </VStack>
         </HStack>
       </SimpleGrid>
