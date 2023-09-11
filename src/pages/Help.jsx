@@ -1,14 +1,13 @@
+import React from 'react'
+import Navbar from '../components/Navbar'
 
-import React from "react";
-import Navbar from "../components/Navbar";
-
-function Help(){
+function Help() {
   return (
     <div>
-      <Navbar></Navbar>
-      <h1>Help Page</h1>
+      <Navbar/>
+      Help Page
     </div>
-  );
-};
-  
-export default Help;
+  )
+}
+
+export default Help
