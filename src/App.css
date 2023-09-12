@@ -13,11 +13,23 @@
 }
 
 .sideBarList .row{
-  height: 2vh ;
+  height: 4.5vh ;
   width: 100% ;
   display: flex ;
   flex-direction: row ;
   justify-content: center ;
   align-items: center ;
   font-family: 'Lucida Sans', 'Arial, sans-serif','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', ;
+}
+
+#show{
+  display: block;
+}
+
+#hidden{
+  display: none;
+}
+
+#link{
+  cursor: pointer;
 }

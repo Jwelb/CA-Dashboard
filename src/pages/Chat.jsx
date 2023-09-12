@@ -9,7 +9,7 @@ import TextField from "../components/TextField";
 
 function Chat(){
 
-    const [answer, setAnswer] = useState('initial')
+  const [answer, setAnswer] = useState('initial')
 
   const getResponse = ({...props}) => {
       setAnswer('Request recieved')
@@ -33,7 +33,7 @@ function Chat(){
       {(formik) => (
         <HStack 
         w="100%" 
-        spacing={'70vh'}
+        spacing={'55vh'}
         as={Form}>
 
         {Navbar()}
@@ -48,6 +48,7 @@ function Chat(){
                 autoComplete="off"
                 width='40vh'
                 height='5vh'
+                borderColor="black"
               />
             
               <Button 
@@ -57,7 +58,10 @@ function Chat(){
               </Button>
 
             </HStack>
-            <Text opacity={answer == 'initial' ? 0 : 1}>{answer}</Text>
+
+            <Text opacity={answer == 'initial' ? 0 : 1}>
+              {answer}
+            </Text>
         </VStack>
       </HStack>
       )}

@@ -1,36 +1,43 @@
 import React from 'react'
-import {Stack, Button} from "@chakra-ui/react"
+import {Stack, IconButton} from "@chakra-ui/react"
 import { HamburgerIcon } from '@chakra-ui/icons'
 
 import NavbarData from './NavbarData'
 import { useNavigate } from "react-router" ;
+import { useState } from 'react';
 
 
 function Navbar() {
 
   const navigate = useNavigate()
 
+  const [isOpen, setIsOpen] = useState(true)
+
   return (
-    <Stack bg='gray' className="Sidebar">
-      <ul className='sideBarList'>
-      <Button>
-        <HamburgerIcon/>
-      </Button>
-      <li className="row" id="name" ></li>
+    <Stack className="Sidebar">
+      <IconButton
+      height='4vh'
+      onClick={() => {
+        setIsOpen(!isOpen)
+      }}
+      icon={<HamburgerIcon/>}
+      />
+      <ul className='sideBarList' id={isOpen === true ? "show" : "hidden"}>
+      <li className="row" id="name"></li>
         <li className="row"></li>
         {NavbarData.map((val, key) => {
         return (
           <li key={key} 
           className="row"
-          id={window.location.pathname === val.link ? "active" : "" }
+          id="link"
           onClick={() => {
             navigate(val.link)
         }}>
-          <div id="icon">{val.icon}</div><div id="title">{val.title} </div>
+          <div id="title">{val.title}</div>
           </li>
-          )
-        })}
+          )})}
       </ul>
+
     </Stack>
   )
 }
