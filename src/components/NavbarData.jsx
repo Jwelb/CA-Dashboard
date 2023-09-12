@@ -6,16 +6,16 @@ export const NavbarData= [
         link: "/Chat"
     },
     {
-        title: "Help",
-        link: "/Help"
+        title: "Search",
+        link: "/Search"
     },
     {
         title: "Map",
         link: "/Map"
     },
     {
-        title: "Search",
-        link: "/Search"
+        title: "Help",
+        link: "/Help"
     },
     {
         title: "Settings",

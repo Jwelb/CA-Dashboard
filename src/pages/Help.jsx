@@ -1,13 +1,13 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-
-function Help() {
+import React from "react";
+import Navbar from "../components/Navbar";
+  
+const Help = () => {
   return (
     <div>
-      <Navbar/>
-      Help Page
+      <Navbar></Navbar>
+      <h1>Help Page</h1>
     </div>
-  )
-}
-
-export default Help
+  );
+};
+  
+export default Help;

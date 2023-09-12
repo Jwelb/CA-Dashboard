@@ -20,6 +20,7 @@ function Navbar() {
       onClick={() => {
         setIsOpen(!isOpen)
       }}
+      id='contextMenu'
       icon={<HamburgerIcon/>}
       />
       <ul className='sideBarList' id={isOpen === true ? "show" : "hidden"}>
@@ -28,12 +29,12 @@ function Navbar() {
         {NavbarData.map((val, key) => {
         return (
           <li key={key} 
-          className="row"
-          id="link"
-          onClick={() => {
-            navigate(val.link)
-        }}>
-          <div id="title">{val.title}</div>
+            className="row"
+            id="link"
+            onClick={() => {
+              navigate(val.link)
+            }}>
+            <div id="title">{val.title}</div>
           </li>
           )})}
       </ul>

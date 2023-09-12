@@ -33,7 +33,7 @@ function Chat(){
       {(formik) => (
         <HStack 
         w="100%" 
-        spacing={'55vh'}
+        spacing={'30vw'}
         as={Form}>
 
         {Navbar()}

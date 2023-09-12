@@ -33,3 +33,7 @@
 #link{
   cursor: pointer;
 }
+
+#contextMenu{
+  cursor: context-menu ; 
+}
