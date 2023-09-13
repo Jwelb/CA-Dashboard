@@ -9,9 +9,10 @@ import TextField from "../components/TextField";
 function Search(){
 
   const [answer, setAnswer] = useState('initial')
+  const [resource, setResource] = useState('Internal')
 
   const getResponse = ({...props}) => {
-      setAnswer('Request recieved')
+      setAnswer(props.question)
       // Need to connect to back-end
   }
 
@@ -23,7 +24,7 @@ function Search(){
     })}
     onSubmit={(values, actions) => {
       const vals = {...values} ;
-      console.log(vals)
+      //console.log(vals)
       getResponse(vals)
       actions.resetForm()
       }}
@@ -32,16 +33,18 @@ function Search(){
       {(formik) => (
         <HStack 
         w="100%" 
-        spacing={'24vw'}
         as={Form}>
 
-        {Navbar()}
-    
-          <VStack spacing={50}>
 
-            <VStack spacing={50} marginBottom='10vh'>
+        <VStack>
+          {Navbar()}
+        </VStack>
+    
+          <VStack spacing={50} id='searchCenter'>
+
+            <VStack>
       
-              <HStack spacing={50}>
+              <HStack spacing={20}>
         
                 <TextField 
                   name='question'
@@ -66,72 +69,74 @@ function Search(){
               <Card opacity={answer === 'initial' ? 0 : 1}>
                 <HStack padding={10}>
                   <CardHeader>
-                    <Button id='link'>
-                    <Text size='sm'>Resource 1</Text>
+                    <Button id='link'
+                    bg={resource == 'Internal' ? 'red' : 'grey'}
+                    onClick={() => {
+                      setResource('Internal')
+                    }}>
+                    <Text size='sm'>Internal Resource</Text>
                     </Button>
                   </CardHeader>
                   <CardHeader>
-                  <Button id='link'>
-                    <Text size='sm'>Resource 2</Text>
+                  <Button id='link'
+                  bg={resource == 'Google' ? 'red' : 'grey'}
+                  onClick={() => {
+                    setResource('Google')
+                  }}>
+                    <Text size='sm'>Google Resource</Text>
                     </Button>
                   </CardHeader>
                   <CardHeader>
-                  <Button id='link'>
-                    <Text size='sm'>Resource 3</Text>
-                    </Button>
-                  </CardHeader>
-                  <CardHeader>
-                  <Button id='link'>
-                    <Text size='sm'>Resource 4</Text>
-                    </Button>
-                  </CardHeader>
-                  <CardHeader>
-                  <Button id='link'>
-                    <Text size='sm'>Resource 5</Text>
+                  <Button id='link'
+                  bg={resource == 'Wikipedia' ? 'red' : 'grey'}
+                  onClick={() => {
+                    setResource('Wikipedia')
+                  }}>
+                    <Text size='sm'>Wikipedia Resource</Text>
                     </Button>
                   </CardHeader>
                 </HStack>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='1'>
+                  <Stack divider={<StackDivider />} spacing='.3'>
                     <HStack>
-                      <Text size='sm' textTransform='uppercase' fontWeight='bold'>
-                        Summary
+                      <Text size='xs' fontWeight='bold'>
+                        {answer} article 1 from {resource}
                       </Text>
                       <Text pt='1' fontSize='sm'>
-                        View a summary of all your clients over the last month.
+                        ...
                       </Text>
                     </HStack>
                     <HStack>
-                      <Text size='xs' textTransform='uppercase' fontWeight='bold'>
-                        Overview
+                      <Text size='xs' fontWeight='bold'>
+                      {answer} article 2 from {resource}
                       </Text>
                       <Text pt='2' fontSize='sm'>
-                        Check out the overview of your clients.
+                      ...
                       </Text>
                     </HStack>
                     <HStack>
-                      <Text size='xs' textTransform='uppercase' fontWeight='bold'>
-                        Analysis
+                      <Text size='xs' fontWeight='bold'>
+                      {answer} article 3 from {resource}
                       </Text>
                       <Text pt='2' fontSize='sm'>
-                        See a detailed analysis of all your business clients.
+                      ...
                       </Text>
                     </HStack>
                     <HStack>
-                      <Text size='xs' textTransform='uppercase' fontWeight='bold'>
-                        Analysis
+                      <Text size='xs'fontWeight='bold'>
+                      {answer} article 4 from {resource}
                       </Text>
                       <Text pt='2' fontSize='sm'>
-                        See a detailed analysis of all your business clients.
+                      ...
                       </Text>
                     </HStack>
                     <HStack>
-                      <Text size='xs' textTransform='uppercase' fontWeight='bold'>
-                        Analysis
+                      <Text size='xs' fontWeight='bold'>
+                      {answer} article 5 from {resource}
                       </Text>
                       <Text pt='2' fontSize='sm'>
-                        See a detailed analysis of all your business clients.
+                      ...
                       </Text>
                     </HStack>
                   </Stack>

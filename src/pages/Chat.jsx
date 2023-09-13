@@ -12,7 +12,7 @@ function Chat(){
   const [answer, setAnswer] = useState('initial')
 
   const getResponse = ({...props}) => {
-      setAnswer('Request recieved')
+      setAnswer(props.question)
       // Need to connect to back-end
   }
 
@@ -24,7 +24,6 @@ function Chat(){
     })}
     onSubmit={(values, actions) => {
       const vals = {...values} ;
-      console.log(vals)
       getResponse(vals)
       actions.resetForm()
       }}
@@ -32,15 +31,16 @@ function Chat(){
 
       {(formik) => (
         <HStack 
-        w="100%" 
-        spacing={'30vw'}
+        w="100%"  
         as={Form}>
+        
+        <VStack>
+          {Navbar()}
+        </VStack>
 
-        {Navbar()}
-    
-          <VStack spacing={50}>
+        <VStack id='chatCenter' spacing={50}>
       
-            <HStack spacing={50}>
+            <HStack spacing={20}>
       
               <TextField 
                 name='question'
@@ -53,14 +53,13 @@ function Chat(){
             
               <Button 
               type='submit'
-              height='3vh'>
+              height='3vh'
+              id='link'>
                 Submit
               </Button>
-
             </HStack>
-
             <Text opacity={answer == 'initial' ? 0 : 1}>
-              {answer}
+                  request recieved as: {answer}
             </Text>
         </VStack>
       </HStack>
