@@ -5,18 +5,14 @@ import * as Yup from "yup" ;
 import { HStack, VStack, Input, Text, Box, Button } from "@chakra-ui/react";
 import { useState } from 'react';
 import TextField from "../components/TextField";
+import axios from 'axios'
 import { useEffect } from "react";
 
 
 function Chat(){
 
   const [answer, setAnswer] = useState('initial')
-
-  const getResponse = ({...props}) => {
-      setAnswer(props.question)
-      //fetch()
-      //  .then(response => response.json())
-  }
+  const [question, setQuestion] = useState('initial')
 
   return (
     <Formik
@@ -25,11 +21,22 @@ function Chat(){
       question: Yup.string().required("Please enter a question")
     })}
     onSubmit={(values, actions) => {
-      const vals = {...values} ;
-      getResponse(vals)
+      const vals = {...values} 
       actions.resetForm()
-      }}
-    >
+      axios({
+        method: 'post',
+        url: 'http://localhost:4000/test',
+        headers: {
+          'content-type': 'application/json',
+        },
+        data: {
+          userQuestion: vals.question
+        }
+      })
+      .then(response => {
+        console.log(response.data) ;
+      })
+      }}>
 
       {(formik) => (
         <HStack 
