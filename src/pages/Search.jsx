@@ -13,6 +13,7 @@ function Search(){
 
   const getResponse = ({...props}) => {
       setAnswer(props.question)
+      console.log(props.question)
       // Need to connect to back-end
   }
 

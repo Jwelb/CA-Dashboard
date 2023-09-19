@@ -2,17 +2,27 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup" ;
-import { HStack, VStack, Input, Text, Box, Button } from "@chakra-ui/react";
+import { HStack, VStack, Input, Text, Box, Button, Container } from "@chakra-ui/react";
 import { useState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
 import { useEffect } from "react";
+import {useEffect} from 'react'
 
 
 function Chat(){
 
   const [answer, setAnswer] = useState('initial')
   const [question, setQuestion] = useState('initial')
+  const [answer, setAnswer] = useState('initial');
+  const [data, setData] = useState('')
+  //input the data into the flask
+  const getResponse = ({...props}) => {
+      setAnswer(props.question)
+      console.log(props.question)
+      props.preventDefault();
+      // Need to connect to back-end
+  }
 
   return (
     <Formik
@@ -38,6 +48,7 @@ function Chat(){
       })
       }}>
 
+  
       {(formik) => (
         <HStack 
         w="100%"  
