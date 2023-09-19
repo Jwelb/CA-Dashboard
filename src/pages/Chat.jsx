@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { Field, Formik, Form } from 'formik'
 import * as Yup from "yup" ;
-import { HStack, VStack, Input, Text, Box, Button } from "@chakra-ui/react";
+import { HStack, VStack, Input, Text, Box, Button, Container } from "@chakra-ui/react";
 import { useState } from 'react';
 import TextField from "../components/TextField";
 
@@ -29,7 +29,6 @@ function Chat(){
       actions.resetForm()
       }}
     >
-
       {(formik) => (
         <HStack 
         w="100%"  
