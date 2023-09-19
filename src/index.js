@@ -2,18 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-
 import Chat from './pages/Chat';
 import Help from './pages/Help';
 import Search from './pages/Search';
 import Map from './pages/Map';
 import Settings from './pages/Settings';
 import Trends from './pages/Trends';
-
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
 } from "react-router-dom"
 
 const router = createBrowserRouter([

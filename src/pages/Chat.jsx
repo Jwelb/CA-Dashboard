@@ -1,10 +1,11 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import { Field, Formik, Form } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from "yup" ;
 import { HStack, VStack, Input, Text, Box, Button } from "@chakra-ui/react";
 import { useState } from 'react';
 import TextField from "../components/TextField";
+import { useEffect } from "react";
 
 
 function Chat(){
@@ -13,7 +14,8 @@ function Chat(){
 
   const getResponse = ({...props}) => {
       setAnswer(props.question)
-      // Need to connect to back-end
+      //fetch()
+      //  .then(response => response.json())
   }
 
   return (
