@@ -6,7 +6,6 @@ import { HStack, VStack, Input, Text, Box, Button, Container } from "@chakra-ui/
 import { useState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
-import { useEffect } from "react";
 import {useEffect} from 'react'
 
 
@@ -14,7 +13,7 @@ function Chat(){
 
   const [answer, setAnswer] = useState('initial')
   const [question, setQuestion] = useState('initial')
-  const [answer, setAnswer] = useState('initial');
+
   const [data, setData] = useState('')
   //input the data into the flask
   const getResponse = ({...props}) => {
