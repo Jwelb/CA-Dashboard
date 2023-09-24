@@ -1,5 +1,5 @@
 import React from 'react'
-import {Stack, IconButton} from "@chakra-ui/react"
+import {Stack, IconButton, useDisclosure, Collapse, Box} from "@chakra-ui/react"
 import { HamburgerIcon } from '@chakra-ui/icons'
 
 import NavbarData from './NavbarData'
@@ -11,19 +11,20 @@ function Navbar() {
 
   const navigate = useNavigate()
 
-  const [isOpen, setIsOpen] = useState(true)
+
+  const { isOpen, onToggle } = useDisclosure()
 
   return (
+    <>
     <Stack className="Sidebar">
       <IconButton
       height='4vh'
-      onClick={() => {
-        setIsOpen(!isOpen)
-      }}
+      onClick={onToggle}
       id='contextMenu'
       icon={<HamburgerIcon/>}
       />
-      <ul className='sideBarList' id={isOpen === true ? "show" : "hidden"}>
+      <Collapse in={!isOpen} animateOpacity>
+      <ul className='sideBarList' >
       <li className="row" id="name"></li>
         <li className="row"></li>
         {NavbarData.map((val, key) => {
@@ -34,12 +35,15 @@ function Navbar() {
             onClick={() => {
               navigate(val.link)
             }}>
-            <div id="title">{val.title}</div>
+            <Box id="icon" mr={3}>{val.icon}</Box>
+            <Box id="title">{val.title}</Box>
           </li>
           )})}
       </ul>
+      </Collapse>
 
     </Stack>
+    </>
   )
 }
 
