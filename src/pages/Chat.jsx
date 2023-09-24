@@ -113,48 +113,41 @@ const Chat = () => {
               <Box h='85vh' w='30vw' ml='7vw' className="inputOutput">
 
                 <Text align={'center'} fontWeight={'bold'} fontSize={20}>Output</Text>
-
-                  {(loading ? 
-                    <Progress size='lg' isIndeterminate />
-                    : 
-                    <Box border='1px' padding={'15px'}>
+                  <Box border='1px' padding={'15px'}>
                       {answers.map((answer, index) => {
                       return (
-                        <Box mb='1vh' mt='1vh'>
+                        <Box mb='1vh' mt='1vh' key={index}>
                           <Tag size={'sm'} colorScheme='teal' variant={"outline"}>
                                 <TagLabel>
                                 Response {index + 1}: 
                                 </TagLabel>
                               </Tag>
-                          <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} key={index} fontSize={20}>
+                          <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
                             {answer}
                           </Text>
                           
                         </Box>
                       )})}
-                    </Box>)}
-
+                      {(loading) ? <Progress size='lg' isIndeterminate /> : null}
+                    </Box>
               </Box>
 
               <Box h='85vh' w='30vw' ml='7vw' className="inputOutput">
                 <Text align={'center'} fontWeight={'bold'} fontSize={20}>Input</Text>
-
                   <Box  border='1px' padding={'15px'}>
                     {questions.map((question, index) => {
                       return (
-                        <Box mb='1vh' mt='1vh'>
+                        <Box mb='1vh' mt='1vh' key={index}>
                           <Tag size={'sm'} colorScheme='red' variant={"outline"}>
                                 <TagLabel>
                                 Question {index + 1}: 
                                 </TagLabel>
-                              </Tag>
-                          <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} key={index} fontSize={20}>
+                          </Tag>
+                          <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
                             {question}
                           </Text>
-                          
                         </Box>
-                      )
-                    })}
+                      )})}
                   </Box>
               </Box>
 
