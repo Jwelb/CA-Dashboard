@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup" ;
 import { HStack, VStack, Text, Box, Button} from "@chakra-ui/react";
-import { useState} from 'react';
+import { useState, setState} from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
 import { useDisclosure } from "@chakra-ui/react";
@@ -17,15 +17,18 @@ import {
   AlertDialogOverlay
 } from '@chakra-ui/react'
 
-function Chat(){
+const Chat = () => {
 
-  const [answer, setAnswer] = useState('initial')
+  const [answers, setAnswers] = useState([])
+  const [questions, setQuestions] = useState([])
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
 
   const getAnswer = (vals) => {
-    console.log(vals)
+    setQuestions(prevQuestions => [...prevQuestions, vals])
+
+    console.log(questions)
     axios({
       method: 'post',
       url: 'http://localhost:4000/test',
@@ -33,17 +36,15 @@ function Chat(){
         'content-type': 'application/json',
       },
       data: {
-        answer: vals
+        question: vals
       }
     }).catch(err => {
       return
     })
     .then(data => {
-      if (!data){return}
       return data.data
-    })
-    .then(data => {
-      setAnswer(data.answer)
+    }).then(data => {
+      setAnswers(prevAnswers => [...prevAnswers, data])
     })
   }
 
@@ -100,20 +101,35 @@ function Chat(){
 
             <HStack w={'100%'} mt='5vh'>
 
-              <Box w='50%' bg='red'>
-                <Text opacity={answer == 'initial' ? 0 : 1}>
-                      Output {answer}
-                </Text>
+            <Box h='85vh' w='40vw' bg='grey'>
+                <ul className='answerList'>
+                  <Text align={'center'}>Answers</Text>
+                  {answers.map((answer, index) => {
+                  return (
+                    <div>
+                      <Text noOfLines={[1,2,3]} key={index}>
+                        {answer}</Text>
+                    </div>
+                    )})}
+                </ul>
               </Box>
 
-              <Box w='50%' bg='red'>
-                <Text opacity={answer == 'initial' ? 0 : 1}>
-                      request recieved as: {answer}
-                </Text>
+              <Box h='85vh' w='40vw' bg='grey'>
+                <ul className='questionList'>
+                  <Text align={'center'}>Questions</Text>
+                  {questions.map((question, index) => {
+                  return (
+                    <div>
+                      <Text noOfLines={[1,2,3]} key={index}>
+                        {question}</Text>
+                    </div>
+                    )})}
+                </ul>
               </Box>
+
             </HStack>
 
-            <Box mt='85vh'> 
+            <Box mt='2vh'> 
               <HStack>
 
                 <TextField 
