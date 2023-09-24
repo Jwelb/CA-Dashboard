@@ -100,81 +100,81 @@ function Search() {
               borderColor="black"
             />
             <IconButton type='submit' aria-label='Search database' icon={<SearchIcon />} />
-
-            <Flex h='50vh' w='50vw' bg='grey' alignItems='center' justifyContent='center'>
-              <Card opacity={answer === 'initial' ? 0 : 1}>
-                <HStack padding={1}>
-                  <Tabs>
-                    <TabList>
-                      <Tab id='link'
-                        onClick={() => {
-                          setResource('Internal')
-                        }}>
-                        <Text size='sm'>Internal Resource</Text>
-                      </Tab>
-                      <Tab id='link'
-                        onClick={() => {
-                          setResource('Google')
-                        }}>
-                        <Text size='sm'>Google Resource</Text>
-                      </Tab>
-                      <Tab id='link'
-                        onClick={() => {
-                          setResource('Wikipedia')
-                        }}>
-                        <Text size='sm'>Wikipedia Resource</Text>
-                      </Tab>
-                    </TabList>
-                  </Tabs>
-                </HStack>
-
-                <Card>
-                  <Stack divider={<StackDivider />} spacing='.3'>
-                    <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                    <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                    <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                    <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                  </Stack>
-                </Card>
-              </Card>
-            </Flex>
           </Flex>
+          <Flex h='50vh' w='50vw' bg='grey' alignItems='center' justifyContent='center'>
+            <Card opacity={answer === 'initial' ? 0 : 1}>
+              <HStack padding={1}>
+                <Tabs>
+                  <TabList>
+                    <Tab id='link'
+                      onClick={() => {
+                        setResource('Internal')
+                      }}>
+                      <Text size='sm'>Internal Resource</Text>
+                    </Tab>
+                    <Tab id='link'
+                      onClick={() => {
+                        setResource('Google')
+                      }}>
+                      <Text size='sm'>Google Resource</Text>
+                    </Tab>
+                    <Tab id='link'
+                      onClick={() => {
+                        setResource('Wikipedia')
+                      }}>
+                      <Text size='sm'>Wikipedia Resource</Text>
+                    </Tab>
+                  </TabList>
+                </Tabs>
+              </HStack>
+
+              <Card>
+                <Stack divider={<StackDivider />} spacing='.3'>
+                  <HStack>
+                    <CardBody>
+                      <Text size='xs' fontWeight='bold'>
+                        {answer} article 1 from {resource}
+                      </Text>
+                      <Text pt='1' fontSize='sm'>
+                        ...
+                      </Text>
+                    </CardBody>
+                  </HStack>
+                  <HStack>
+                    <CardBody>
+                      <Text size='xs' fontWeight='bold'>
+                        {answer} article 1 from {resource}
+                      </Text>
+                      <Text pt='1' fontSize='sm'>
+                        ...
+                      </Text>
+                    </CardBody>
+                  </HStack>
+                  <HStack>
+                    <CardBody>
+                      <Text size='xs' fontWeight='bold'>
+                        {answer} article 1 from {resource}
+                      </Text>
+                      <Text pt='1' fontSize='sm'>
+                        ...
+                      </Text>
+                    </CardBody>
+                  </HStack>
+                  <HStack>
+                    <CardBody>
+                      <Text size='xs' fontWeight='bold'>
+                        {answer} article 1 from {resource}
+                      </Text>
+                      <Text pt='1' fontSize='sm'>
+                        ...
+                      </Text>
+                    </CardBody>
+                  </HStack>
+                </Stack>
+              </Card>
+            </Card>
+          </Flex>
+
 
 
         </HStack>
