@@ -15,6 +15,7 @@ import {
   BrowserRouter
 } from "react-router-dom"
 import { ChakraProvider } from "@chakra-ui/react" ;
+import Navbar from './components/Navbar';
 
 
 const router = createBrowserRouter([

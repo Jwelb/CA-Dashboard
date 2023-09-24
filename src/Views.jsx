@@ -10,6 +10,7 @@ import Trends from './pages/Trends';
 const Views = () => {
     return (
         <Routes>
+          <Route path="*" element={<Chat/>} />
           <Route path="/Chat" element={<Chat/>} />
           <Route path="/Search" element={<Search/>}/>
           <Route path="/Map" element={<Map/>} />
