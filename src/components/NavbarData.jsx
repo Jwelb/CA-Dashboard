@@ -20,9 +20,9 @@ export const NavbarData= [
         icon: <BsMap/>
     },
     {
-        title: "Help",
-        link: "/Help",
-        icon: <FiHelpCircle/>
+        title: "Trends",
+        link: "/Trends",
+        icon: <BiBarChartAlt2/>
     },
     {
         title: "Settings",
@@ -30,9 +30,9 @@ export const NavbarData= [
         icon: <FiSettings/>
     },
     {
-        title: "Trends",
-        link: "/Trends",
-        icon: <BiBarChartAlt2/>
+        title: "Help",
+        link: "/Help",
+        icon: <FiHelpCircle/>
     }
 ]
 

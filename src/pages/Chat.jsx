@@ -7,6 +7,7 @@ import { useState, setState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
 import { useDisclosure } from "@chakra-ui/react";
+import { ChevronDownIcon } from '@chakra-ui/icons'
 
 import {
   AlertDialog,
@@ -17,9 +18,10 @@ import {
   AlertDialogOverlay,
   Tag,
   TagLabel,
-  TagLeftIcon,
-  TagRightIcon,
-  TagCloseButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem
 } from '@chakra-ui/react'
 
 import { HiChevronDoubleRight } from "react-icons/hi2";
@@ -76,6 +78,8 @@ const Chat = () => {
         <HStack
           w="100%"
           as={Form}>
+          
+          <VStack>{Navbar()}</VStack>
 
           {/* Alert Box */}
           <AlertDialog
@@ -87,11 +91,9 @@ const Chat = () => {
                 <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                   Enter some input
                 </AlertDialogHeader>
-
                 <AlertDialogBody>
                   Please enter a question so that we can answer it!
                 </AlertDialogBody>
-
                 <AlertDialogFooter>
                   <Button ref={cancelRef} onClick={onClose}>
                     Roger that
@@ -99,12 +101,7 @@ const Chat = () => {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialogOverlay>
-
           </AlertDialog>
-
-          <VStack>
-            {Navbar()}
-          </VStack>
 
           <VStack height='100vh' w='100vw'>
 
@@ -117,17 +114,22 @@ const Chat = () => {
                       {answers.map((answer, index) => {
                       return (
                         <Box mb='1vh' mt='1vh' key={index}>
+
                           <Tag size={'sm'} colorScheme='teal' variant={"outline"}>
-                                <TagLabel>
+                              <TagLabel>
                                 Response {index + 1}: 
-                                </TagLabel>
-                              </Tag>
+                              </TagLabel>
+                          </Tag>
+
                           <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
                             {answer}
                           </Text>
+
                         </Box>
                       )})}
+
                       {(loading) ? <Progress size='lg' isIndeterminate /> : null}
+                      
                     </Box>
               </Box>
 
