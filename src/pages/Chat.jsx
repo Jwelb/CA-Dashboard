@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
-import { HStack, VStack, Text, Box, Button } from "@chakra-ui/react";
+import { HStack, VStack, Text, Box, Button, Divider, Progress } from "@chakra-ui/react";
 import { useState, setState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
@@ -14,8 +14,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogContent,
-  AlertDialogOverlay
+  AlertDialogOverlay,
+  Tag,
+  TagLabel,
+  TagLeftIcon,
+  TagRightIcon,
+  TagCloseButton,
 } from '@chakra-ui/react'
+
+import { HiChevronDoubleRight } from "react-icons/hi2";
 
 const Chat = () => {
 
@@ -25,13 +32,14 @@ const Chat = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
 
-  const getAnswer = (vals) => {
-    setQuestions(prevQuestions => [...prevQuestions, vals])
+  const [loading, setLoading] = useState(false)
 
-    console.log(questions)
-    axios({
+  const getAnswer = async (vals) => {
+    setQuestions(prevQuestions => [...prevQuestions, vals])
+    setLoading(true)
+    await axios({
       method: 'post',
-      url: 'http://localhost:4000/test',
+      url: 'http://localhost:4000/getAnswer',
       headers: {
         'content-type': 'application/json',
       },
@@ -45,6 +53,7 @@ const Chat = () => {
         return data.data
       }).then(data => {
         setAnswers(prevAnswers => [...prevAnswers, data])
+        setLoading(false)
       })
   }
 
@@ -85,7 +94,7 @@ const Chat = () => {
 
                 <AlertDialogFooter>
                   <Button ref={cancelRef} onClick={onClose}>
-                    Roger that, batman.
+                    Roger that
                   </Button>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -101,32 +110,52 @@ const Chat = () => {
 
             <HStack w={'100%'} mt='5vh'>
 
-              <Box h='85vh' w='40vw' bg='grey'>
-                <ul className='answerList'>
-                  <Text align={'center'}>Answers</Text>
-                  {answers.map((answer, index) => {
-                    return (
-                      <div>
-                        <Text noOfLines={[1, 2, 3]} key={index}>
-                          {answer}</Text>
-                      </div>
-                    )
-                  })}
-                </ul>
+              <Box h='85vh' w='30vw' ml='7vw' className="inputOutput">
+
+                <Text align={'center'} fontWeight={'bold'} fontSize={20}>Output</Text>
+
+                  {(loading ? 
+                    <Progress size='lg' isIndeterminate />
+                    : 
+                    <Box border='1px' padding={'15px'}>
+                      {answers.map((answer, index) => {
+                      return (
+                        <Box mb='1vh' mt='1vh'>
+                          <Tag size={'sm'} colorScheme='teal' variant={"outline"}>
+                                <TagLabel>
+                                Response {index + 1}: 
+                                </TagLabel>
+                              </Tag>
+                          <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} key={index} fontSize={20}>
+                            {answer}
+                          </Text>
+                          
+                        </Box>
+                      )})}
+                    </Box>)}
+
               </Box>
 
-              <Box h='85vh' w='40vw' bg='grey'>
-                <ul className='questionList'>
-                  <Text align={'center'}>Questions</Text>
-                  {questions.map((question, index) => {
-                    return (
-                      <div>
-                        <Text noOfLines={[1, 2, 3]} key={index}>
-                          {question}</Text>
-                      </div>
-                    )
-                  })}
-                </ul>
+              <Box h='85vh' w='30vw' ml='7vw' className="inputOutput">
+                <Text align={'center'} fontWeight={'bold'} fontSize={20}>Input</Text>
+
+                  <Box  border='1px' padding={'15px'}>
+                    {questions.map((question, index) => {
+                      return (
+                        <Box mb='1vh' mt='1vh'>
+                          <Tag size={'sm'} colorScheme='red' variant={"outline"}>
+                                <TagLabel>
+                                Question {index + 1}: 
+                                </TagLabel>
+                              </Tag>
+                          <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} key={index} fontSize={20}>
+                            {question}
+                          </Text>
+                          
+                        </Box>
+                      )
+                    })}
+                  </Box>
               </Box>
 
             </HStack>
@@ -144,10 +173,12 @@ const Chat = () => {
                 />
 
                 <Button
+                  isLoading={loading}
+                  rightIcon={<HiChevronDoubleRight/>}
                   type='submit'
                   height='5vh'
                   id='link'>
-                  Submit
+                  Enter
                 </Button>
 
               </HStack>
