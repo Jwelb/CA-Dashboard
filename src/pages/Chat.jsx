@@ -96,16 +96,25 @@ function Chat(){
           {Navbar()}
         </VStack>
 
-        <VStack height='100vh' w='100vw' >
+        <VStack height='100vh' w='100vw'>
 
-            <Box>
-              <Text opacity={answer == 'initial' ? 0 : 1}>
-                    request recieved as: {answer}
-              </Text>
-            </Box>
+            <HStack w={'100%'} mt='5vh'>
 
-            <Box>
-              <HStack mt='85vh'>
+              <Box w='50%' bg='red'>
+                <Text opacity={answer == 'initial' ? 0 : 1}>
+                      Output {answer}
+                </Text>
+              </Box>
+
+              <Box w='50%' bg='red'>
+                <Text opacity={answer == 'initial' ? 0 : 1}>
+                      request recieved as: {answer}
+                </Text>
+              </Box>
+            </HStack>
+
+            <Box mt='85vh'> 
+              <HStack>
 
                 <TextField 
                   name='question'
@@ -122,9 +131,11 @@ function Chat(){
                 id='link'>
                   Submit
                 </Button>
+                
               </HStack>
             </Box>
         </VStack>
+
       </HStack>
     )}
   </Formik>
