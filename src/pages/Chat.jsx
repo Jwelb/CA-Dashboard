@@ -1,9 +1,9 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
-import * as Yup from "yup" ;
-import { HStack, VStack, Text, Box, Button} from "@chakra-ui/react";
-import { useState, setState} from 'react';
+import * as Yup from "yup";
+import { HStack, VStack, Text, Box, Button } from "@chakra-ui/react";
+import { useState, setState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
 import { useDisclosure } from "@chakra-ui/react";
@@ -41,76 +41,77 @@ const Chat = () => {
     }).catch(err => {
       return
     })
-    .then(data => {
-      return data.data
-    }).then(data => {
-      setAnswers(prevAnswers => [...prevAnswers, data])
-    })
+      .then(data => {
+        return data.data
+      }).then(data => {
+        setAnswers(prevAnswers => [...prevAnswers, data])
+      })
   }
 
 
   return (
     <Formik
-    initialValues = {{question: ''}}
-    validationSchema = {Yup.object({question: Yup.string()})}
-    onSubmit={(values, actions) => {
-      if(values.question.trim() == ""){
-        {onOpen()}
-        return
-      }
-      actions.resetForm()
-      getAnswer(values.question)
-    }}>
+      initialValues={{ question: '' }}
+      validationSchema={Yup.object({ question: Yup.string() })}
+      onSubmit={(values, actions) => {
+        if (values.question.trim() == "") {
+          { onOpen() }
+          return
+        }
+        actions.resetForm()
+        getAnswer(values.question)
+      }}>
 
-  
+
       {(formik) => (
-        <HStack 
-        w="100%"  
-        as={Form}>
+        <HStack
+          w="100%"
+          as={Form}>
 
-        {/* Alert Box */}
-        <AlertDialog
-          isOpen={isOpen}
-          leastDestructiveRef={cancelRef}
-          onClose={onClose}>
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Enter some input
-            </AlertDialogHeader>
+          {/* Alert Box */}
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}>
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                  Enter some input
+                </AlertDialogHeader>
 
-            <AlertDialogBody>
-              Please enter a question so that we can answer it!
-            </AlertDialogBody>
+                <AlertDialogBody>
+                  Please enter a question so that we can answer it!
+                </AlertDialogBody>
 
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Roger that, batman.
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
+                <AlertDialogFooter>
+                  <Button ref={cancelRef} onClick={onClose}>
+                    Roger that, batman.
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
 
-      </AlertDialog>
-        
-        <VStack>
-          {Navbar()}
-        </VStack>
+          </AlertDialog>
 
-        <VStack height='100vh' w='100vw'>
+          <VStack>
+            {Navbar()}
+          </VStack>
+
+          <VStack height='100vh' w='100vw'>
 
             <HStack w={'100%'} mt='5vh'>
 
-            <Box h='85vh' w='40vw' bg='grey'>
+              <Box h='85vh' w='40vw' bg='grey'>
                 <ul className='answerList'>
                   <Text align={'center'}>Answers</Text>
                   {answers.map((answer, index) => {
-                  return (
-                    <div>
-                      <Text noOfLines={[1,2,3]} key={index}>
-                        {answer}</Text>
-                    </div>
-                    )})}
+                    return (
+                      <div>
+                        <Text noOfLines={[1, 2, 3]} key={index}>
+                          {answer}</Text>
+                      </div>
+                    )
+                  })}
                 </ul>
               </Box>
 
@@ -118,21 +119,22 @@ const Chat = () => {
                 <ul className='questionList'>
                   <Text align={'center'}>Questions</Text>
                   {questions.map((question, index) => {
-                  return (
-                    <div>
-                      <Text noOfLines={[1,2,3]} key={index}>
-                        {question}</Text>
-                    </div>
-                    )})}
+                    return (
+                      <div>
+                        <Text noOfLines={[1, 2, 3]} key={index}>
+                          {question}</Text>
+                      </div>
+                    )
+                  })}
                 </ul>
               </Box>
 
             </HStack>
 
-            <Box mt='2vh'> 
+            <Box mt='2vh'>
               <HStack>
 
-                <TextField 
+                <TextField
                   name='question'
                   placeholder={"Question goes here"}
                   autoComplete="off"
@@ -141,20 +143,21 @@ const Chat = () => {
                   borderColor="black"
                 />
 
-                <Button 
-                type='submit'
-                height='5vh'
-                id='link'>
+                <Button
+                  type='submit'
+                  height='5vh'
+                  id='link'>
                   Submit
                 </Button>
-                
+
               </HStack>
             </Box>
-        </VStack>
+          </VStack>
 
-      </HStack>
-    )}
-  </Formik>
-)}
-  
+        </HStack>
+      )}
+    </Formik>
+  )
+}
+
 export default Chat;
