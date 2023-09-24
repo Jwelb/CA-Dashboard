@@ -38,16 +38,3 @@
   cursor: context-menu ; 
 }
 
-#chatCenter{
-  height: 50vh ;
-  width: 100% ;
-  justify-content:top ;
-  align-items:center ;
-}
-
-#searchCenter{
-  height: 50vh ;
-  width: 100% ;
-  justify-content:top ;
-  align-items:center ;
-}

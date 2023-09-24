@@ -2,89 +2,132 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup" ;
-import { HStack, VStack, Input, Text, Box, Button, Container } from "@chakra-ui/react";
-import { useState } from 'react';
+import { HStack, VStack, Text, Box, Button} from "@chakra-ui/react";
+import { useState} from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
-import {useEffect} from 'react'
+import { useDisclosure } from "@chakra-ui/react";
 
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay
+} from '@chakra-ui/react'
 
 function Chat(){
 
   const [answer, setAnswer] = useState('initial')
-  const [question, setQuestion] = useState('initial')
 
-  const [data, setData] = useState('')
-  //input the data into the flask
-  const getResponse = ({...props}) => {
-      setAnswer(props.question)
-      console.log(props.question)
-      props.preventDefault();
-      // Need to connect to back-end
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = React.useRef()
+
+  const getAnswer = (vals) => {
+    console.log(vals)
+    axios({
+      method: 'post',
+      url: 'http://localhost:4000/test',
+      headers: {
+        'content-type': 'application/json',
+      },
+      data: {
+        answer: vals
+      }
+    }).catch(err => {
+      return
+    })
+    .then(data => {
+      if (!data){return}
+      return data.data
+    })
+    .then(data => {
+      setAnswer(data.answer)
+    })
   }
+
 
   return (
     <Formik
     initialValues = {{question: ''}}
-    validationSchema = {Yup.object({
-      question: Yup.string().required("Please enter a question")
-    })}
+    validationSchema = {Yup.object({question: Yup.string()})}
     onSubmit={(values, actions) => {
-      const vals = {...values} 
+      if(values.question.trim() == ""){
+        {onOpen()}
+        return
+      }
       actions.resetForm()
-      axios({
-        method: 'post',
-        url: 'http://localhost:4000/test',
-        headers: {
-          'content-type': 'application/json',
-        },
-        data: {
-          userQuestion: vals.question
-        }
-      })
-      .then(response => {
-        console.log(response.data) ;
-      })
-      }}>
+      getAnswer(values.question)
+    }}>
 
   
       {(formik) => (
         <HStack 
         w="100%"  
         as={Form}>
+
+        {/* Alert Box */}
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Enter some input
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Please enter a question so that we can answer it!
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Roger that, batman.
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+
+      </AlertDialog>
         
         <VStack>
           {Navbar()}
         </VStack>
 
-        <VStack id='chatCenter' spacing={50}>
-      
-            <HStack spacing={20}>
-      
-              <TextField 
-                name='question'
-                placeholder={"Question goes here"}
-                autoComplete="off"
-                width='40vh'
+        <VStack height='100vh' w='100vw' >
+
+            <Box>
+              <Text opacity={answer == 'initial' ? 0 : 1}>
+                    request recieved as: {answer}
+              </Text>
+            </Box>
+
+            <Box>
+              <HStack mt='85vh'>
+
+                <TextField 
+                  name='question'
+                  placeholder={"Question goes here"}
+                  autoComplete="off"
+                  width='70vw'
+                  height='5vh'
+                  borderColor="black"
+                />
+
+                <Button 
+                type='submit'
                 height='5vh'
-                borderColor="black"
-              />
-            
-              <Button 
-              type='submit'
-              height='3vh'
-              id='link'>
-                Submit
-              </Button>
-            </HStack>
-            <Text opacity={answer == 'initial' ? 0 : 1}>
-                  request recieved as: {answer}
-            </Text>
+                id='link'>
+                  Submit
+                </Button>
+              </HStack>
+            </Box>
         </VStack>
       </HStack>
-      )}
-    </Formik>
-  );
-};
+    )}
+  </Formik>
+)}
   
 export default Chat;
