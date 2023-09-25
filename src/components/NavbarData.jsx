@@ -1,38 +1,29 @@
-import { ChatIcon, Search2Icon } from '@chakra-ui/icons'
-import {BiBarChartAlt2} from 'react-icons/bi'
-import { FiSettings, FiHelpCircle } from 'react-icons/fi'
-import { BsMap } from 'react-icons/bs'
+import React from 'react' ;
 
 export const NavbarData= [
     {
         title: "Chat",
-        link: "/Chat",
-        icon: <ChatIcon/>
+        link: "/Chat"
     },
     {
         title: "Search",
-        link: "/Search",
-        icon: <Search2Icon/>
+        link: "/Search"
     },
     {
         title: "Map",
-        link: "/Map",
-        icon: <BsMap/>
-    },
-    {
-        title: "Trends",
-        link: "/Trends",
-        icon: <BiBarChartAlt2/>
-    },
-    {
-        title: "Settings",
-        link: "/Settings",
-        icon: <FiSettings/>
+        link: "/Map"
     },
     {
         title: "Help",
-        link: "/Help",
-        icon: <FiHelpCircle/>
+        link: "/Help"
+    },
+    {
+        title: "Settings",
+        link: "/Settings"
+    },
+    {
+        title: "Trends",
+        link: "/Trends"
     }
 ]
 
