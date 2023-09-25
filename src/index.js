@@ -8,15 +8,10 @@ import Search from './pages/Search';
 import Map from './pages/Map';
 import Settings from './pages/Settings';
 import Trends from './pages/Trends';
-import Views from './Views';
 import {
   createBrowserRouter,
   RouterProvider,
-  BrowserRouter
 } from "react-router-dom"
-import { ChakraProvider } from "@chakra-ui/react" ;
-import Navbar from './components/Navbar';
-
 
 const router = createBrowserRouter([
   {
@@ -52,11 +47,7 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <ChakraProvider>
-      <Views/>
-    </ChakraProvider>
-  </BrowserRouter>
+    <RouterProvider router={router}/>
 );
 
 
