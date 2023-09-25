@@ -2,12 +2,11 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
-import { HStack, VStack, Text, Box, Button, Divider, Progress } from "@chakra-ui/react";
-import { useState, setState } from 'react';
+import { HStack, VStack, Text, Box, Button, Progress, Collapse } from "@chakra-ui/react";
+import { useState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
 import { useDisclosure } from "@chakra-ui/react";
-import { ChevronDownIcon } from '@chakra-ui/icons'
 
 import {
   AlertDialog,
@@ -17,11 +16,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Tag,
-  TagLabel,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem
+  TagLabel
 } from '@chakra-ui/react'
 
 import { HiChevronDoubleRight } from "react-icons/hi2";
@@ -48,10 +43,7 @@ const Chat = () => {
       data: {
         question: vals
       }
-    }).catch(err => {
-      return
-    })
-      .then(data => {
+    }).then(data => {
         return data.data
       }).then(data => {
         setAnswers(prevAnswers => [...prevAnswers, data])
@@ -124,12 +116,12 @@ const Chat = () => {
                           <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
                             {answer}
                           </Text>
-
+                          
                         </Box>
                       )})}
 
-                      {(loading) ? <Progress size='lg' isIndeterminate /> : null}
-                      
+                      {(loading) ? <Progress size='xs' isIndeterminate /> : null}
+
                     </Box>
               </Box>
 
