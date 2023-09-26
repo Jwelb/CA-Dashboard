@@ -7,11 +7,6 @@
   width: 10vw ;
 }
 
-.sideBarList{
-  padding: 0 ; 
-  width: 100% ;
-}
-
 .sideBarList .row{
   height: 4.5vh ;
   width: 100% ;
@@ -22,6 +17,15 @@
   font-family: 'Lucida Sans', 'Arial, sans-serif','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', ;
 }
 
+.sideBarList .row:hover:not(#name):not(#active) {
+  cursor: pointer ;
+  background-color: #2D3748;
+}
+
+.sideBarList #active{
+  background-color: #2D3748;
+}
+
 #show{
   display: block;
 }
@@ -30,24 +34,8 @@
   display: none;
 }
 
-#link{
-  cursor: pointer;
-}
-
 #contextMenu{
-  cursor: context-menu ; 
+  cursor: pointer ; 
 }
 
-#chatCenter{
-  height: 50vh ;
-  width: 100% ;
-  justify-content:top ;
-  align-items:center ;
-}
 
-#searchCenter{
-  height: 50vh ;
-  width: 100% ;
-  justify-content:top ;
-  align-items:center ;
-}
