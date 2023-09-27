@@ -53,7 +53,7 @@ function Navbar() {
                 <Box id="title">{val.title}</Box>
               </ListItem>
               )})}
-              <ListItem><ToggleColorMode/></ListItem>
+              <ListItem id='footer'><ToggleColorMode/></ListItem>
           </List>
         </Stack>
       </Collapse>

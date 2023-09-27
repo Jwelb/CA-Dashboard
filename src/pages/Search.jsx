@@ -119,107 +119,107 @@ function Search() {
               />
             </HStack>
             
-            <Box w='80vw' mt='5vh'>
+            <Box w='80vw' mt='5vh' >
             {(loading) ? <Progress size='lg' isIndeterminate/> : 
             <Fade in={searchOpen} animateOpacity>
-            <Box mt='5vh' w='80vw'>
-              <Card opacity={answer === 'initial' ? 0 : 1}>
-                <HStack padding={1}>
-                  <Tabs alignItems={'center'}>
-                    <TabList alignItems={'center'}>
-                      {resources.map((item, index) => {
-                        return(
-                          <Tab 
-                          id='link'
-                          key={index}
-                          onClick={() => {
-                            setResource(item)
-                          }}>
-                            <Text size='sm'>{item}</Text>
-                          </Tab>
-                        )
-                      })}
-                    </TabList>
-                  </Tabs>
-                </HStack>
-                
-                <Card>
-                  <Stack divider={<StackDivider />} spacing='.3'>
+              <Box mt='5vh' w='80vw'>
+                <Card opacity={answer === 'initial' ? 0 : 1}>
+                  <HStack padding={1}>
+                    <Tabs alignItems={'center'}>
+                      <TabList alignItems={'center'}>
+                        {resources.map((item, index) => {
+                          return(
+                            <Tab 
+                            id='link'
+                            key={index}
+                            onClick={() => {
+                              setResource(item)
+                            }}>
+                              <Text size='sm'>{item}</Text>
+                            </Tab>
+                          )
+                        })}
+                      </TabList>
+                    </Tabs>
+                  </HStack>
+                  
+                  <Card>
+                    <Stack divider={<StackDivider />} spacing='.3'>
+                      <HStack>
+                        <CardBody>
+                          <Text size='xs' fontWeight='bold'>
+                            {answer} article 1 from {resource}
+                          </Text>
+                          <Text pt='1' fontSize='sm'>
+                            ...
+                          </Text>
+                        </CardBody>
+                      </HStack>
+                      <HStack>
+                        <CardBody>
+                          <Text size='xs' fontWeight='bold'>
+                            {answer} article 1 from {resource}
+                          </Text>
+                          <Text pt='1' fontSize='sm'>
+                            ...
+                          </Text>
+                        </CardBody>
+                      </HStack>
+                      <HStack>
+                        <CardBody>
+                          <Text size='xs' fontWeight='bold'>
+                            {answer} article 1 from {resource}
+                          </Text>
+                          <Text pt='1' fontSize='sm'>
+                            ...
+                          </Text>
+                        </CardBody>
+                      </HStack>
+                      <HStack>
+                        <CardBody>
+                          <Text size='xs' fontWeight='bold'>
+                            {answer} article 1 from {resource}
+                          </Text>
+                          <Text pt='1' fontSize='sm'>
+                            ...
+                          </Text>
+                        </CardBody>
+                      </HStack>
+                  
                     <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                    <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                    <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                    <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                
-                  <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                    <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
-                    <HStack>
-                      <CardBody>
-                        <Text size='xs' fontWeight='bold'>
-                          {answer} article 1 from {resource}
-                        </Text>
-                        <Text pt='1' fontSize='sm'>
-                          ...
-                        </Text>
-                      </CardBody>
-                    </HStack>
+                        <CardBody>
+                          <Text size='xs' fontWeight='bold'>
+                            {answer} article 1 from {resource}
+                          </Text>
+                          <Text pt='1' fontSize='sm'>
+                            ...
+                          </Text>
+                        </CardBody>
+                      </HStack>
+                      <HStack>
+                        <CardBody>
+                          <Text size='xs' fontWeight='bold'>
+                            {answer} article 1 from {resource}
+                          </Text>
+                          <Text pt='1' fontSize='sm'>
+                            ...
+                          </Text>
+                        </CardBody>
+                      </HStack>
+                      <HStack>
+                        <CardBody>
+                          <Text size='xs' fontWeight='bold'>
+                            {answer} article 1 from {resource}
+                          </Text>
+                          <Text pt='1' fontSize='sm'>
+                            ...
+                          </Text>
+                        </CardBody>
+                      </HStack>
                     </Stack>
+                  </Card>
                 </Card>
-              </Card>
-            </Box>
+              </Box>
             </Fade>}
             </Box>
           </VStack>

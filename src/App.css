@@ -38,4 +38,11 @@
   cursor: pointer ; 
 }
 
+#footer{
+  position: absolute ;
+  width: 15% ;
+  bottom: 10px ;
+  left: 5px ;
+  font-size: small;
+}
 

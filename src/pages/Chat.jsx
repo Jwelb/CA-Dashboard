@@ -112,7 +112,7 @@ const Chat = () => {
             overflowX="auto"
             whiteSpace="wrap"
             overflowY="auto">
-              <Box h='85vh' w='70vw' ml='7vw' className="inputOutput">
+              <Box h='85vh' w='70vw' ml='7vw' className="inputOutput" >
                   <Box padding={'10px'}>
                   
                       {questionAnswer.map((questionAnswer, index) => {
