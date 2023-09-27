@@ -1,11 +1,12 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import { Field, Formik, Form } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from "yup";
-import { HStack, VStack, Container, Text, Box, Button, Card, CardHeader, Heading, Stack, StackDivider, CardBody, Tabs, Tab, TabList, Center, IconButton, Flex } from "@chakra-ui/react";
+import { HStack, VStack, Progress, Text, Box, Button, Card, Stack, StackDivider, CardBody, Tabs, Tab, TabList, Fade, IconButton } from "@chakra-ui/react";
 import { SearchIcon } from '@chakra-ui/icons'
 import { useDisclosure } from "@chakra-ui/react";
 import { useState } from 'react';
+import axios from 'axios'
 import TextField from "../components/TextField";
 import {
   AlertDialog,
@@ -25,22 +26,40 @@ function Search() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
 
-  const getResponse = ({ ...props }) => {
-    setAnswer(props.question)
-    console.log(props.question)
-    // Need to connect to back-end
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const getResponse = async (vals) => {
+    // Set the resources
+    setLoading(true)
+    await axios({
+      method: 'post',
+      url: 'http://localhost:4000/searchQuery',
+      headers: {
+        'content-type': 'application/json',
+      },
+      data: {
+        question: vals
+      }
+    }).then(data => {
+        return data.data
+      }).then(data => {
+        setAnswer(data)
+        setLoading(false)
+      })
   }
+
   return (
     <Formik
       initialValues={{ question: '' }}
       validationSchema={Yup.object({ question: Yup.string() })}
       onSubmit={(values, actions) => {
         if (values.question.trim() == "") {
-          { onOpen() }
+          {onOpen()}
           return
         }
         const vals = { ...values };
-        getResponse(vals)
+        getResponse(vals.question)
         actions.resetForm()
       }}
     >
@@ -89,9 +108,20 @@ function Search() {
                 height='5vh'
                 borderColor="black"
               />
-              <IconButton type='submit' aria-label='Search database' icon={<SearchIcon />} />
+              <IconButton 
+              type='submit' 
+              isLoading={loading}
+              aria-label='Search database' 
+              icon={<SearchIcon />}
+              onClick={() => {
+                setSearchOpen(true)
+              }} 
+              />
             </HStack>
-
+            
+            <Box w='80vw' mt='5vh'>
+            {(loading) ? <Progress size='lg' isIndeterminate/> : 
+            <Fade in={searchOpen} animateOpacity>
             <Box mt='5vh' w='80vw'>
               <Card opacity={answer === 'initial' ? 0 : 1}>
                 <HStack padding={1}>
@@ -112,7 +142,7 @@ function Search() {
                     </TabList>
                   </Tabs>
                 </HStack>
-
+                
                 <Card>
                   <Stack divider={<StackDivider />} spacing='.3'>
                     <HStack>
@@ -155,14 +185,45 @@ function Search() {
                         </Text>
                       </CardBody>
                     </HStack>
-                  </Stack>
+                
+                  <HStack>
+                      <CardBody>
+                        <Text size='xs' fontWeight='bold'>
+                          {answer} article 1 from {resource}
+                        </Text>
+                        <Text pt='1' fontSize='sm'>
+                          ...
+                        </Text>
+                      </CardBody>
+                    </HStack>
+                    <HStack>
+                      <CardBody>
+                        <Text size='xs' fontWeight='bold'>
+                          {answer} article 1 from {resource}
+                        </Text>
+                        <Text pt='1' fontSize='sm'>
+                          ...
+                        </Text>
+                      </CardBody>
+                    </HStack>
+                    <HStack>
+                      <CardBody>
+                        <Text size='xs' fontWeight='bold'>
+                          {answer} article 1 from {resource}
+                        </Text>
+                        <Text pt='1' fontSize='sm'>
+                          ...
+                        </Text>
+                      </CardBody>
+                    </HStack>
+                    </Stack>
                 </Card>
               </Card>
             </Box>
-
+            </Fade>}
+            </Box>
           </VStack>
-        </HStack>
-      )}
+        </HStack>)}
     </Formik>
   );
 };

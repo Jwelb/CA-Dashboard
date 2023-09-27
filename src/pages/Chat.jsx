@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
-import { HStack, VStack, Text, Box, Button, Progress, Collapse } from "@chakra-ui/react";
+import { HStack, VStack, Text, Box, Button, Progress, useColorModeValue, Collapse } from "@chakra-ui/react";
 import { useState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
@@ -16,27 +16,34 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Tag,
-  TagLabel
+  TagLabel,
+  Divider,
+  Fade
 } from '@chakra-ui/react'
 
 import { HiChevronDoubleRight } from "react-icons/hi2";
 
 const Chat = () => {
 
-  const [answers, setAnswers] = useState([])
-  const [questions, setQuestions] = useState([])
+  const [questionAnswer, setQuestionAnswer] = useState([])
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
 
   const [loading, setLoading] = useState(false)
 
+  const buttonColor = useColorModeValue('#F4F7FF','#101720')
+
+  const [chatOpen, setChatOpen] = useState(false)
+
+
   const getAnswer = async (vals) => {
-    setQuestions(prevQuestions => [...prevQuestions, vals])
+    const currentIndex = questionAnswer.length; 
+    const updatedAnswers = [...questionAnswer, { question: vals, answer: null }];
     setLoading(true)
     await axios({
       method: 'post',
-      url: 'http://localhost:4000/getAnswer',
+      url: 'http://localhost:4000/chatQuery',
       headers: {
         'content-type': 'application/json',
       },
@@ -46,7 +53,9 @@ const Chat = () => {
     }).then(data => {
         return data.data
       }).then(data => {
-        setAnswers(prevAnswers => [...prevAnswers, data])
+        updatedAnswers[currentIndex].answer = data;
+        setQuestionAnswer(updatedAnswers); 
+        setChatOpen(true)
         setLoading(false)
       })
   }
@@ -58,9 +67,10 @@ const Chat = () => {
       validationSchema={Yup.object({ question: Yup.string() })}
       onSubmit={(values, actions) => {
         if (values.question.trim() == "") {
-          { onOpen() }
+          {onOpen()}
           return
         }
+        console.log(questionAnswer)
         actions.resetForm()
         getAnswer(values.question)
       }}>
@@ -96,52 +106,44 @@ const Chat = () => {
           </AlertDialog>
 
           <VStack height='100vh' w='100vw'>
-
-            <HStack w={'100%'} mt='5vh'>
-
-              <Box h='85vh' w='30vw' ml='7vw' className="inputOutput">
-
-                <Text align={'center'} fontWeight={'bold'} fontSize={20}>Output</Text>
-                  <Box border='1px' padding={'15px'}>
-                      {answers.map((answer, index) => {
+            <HStack 
+            w={'100%'} 
+            mt='5vh'
+            overflowX="auto"
+            whiteSpace="wrap"
+            overflowY="auto">
+              <Box h='85vh' w='70vw' ml='7vw' className="inputOutput">
+                  <Box padding={'10px'}>
+                  
+                      {questionAnswer.map((questionAnswer, index) => {
                       return (
                         <Box mb='1vh' mt='1vh' key={index}>
-
-                          <Tag size={'sm'} colorScheme='teal' variant={"outline"}>
-                              <TagLabel>
-                                Response {index + 1}: 
-                              </TagLabel>
-                          </Tag>
-
-                          <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
-                            {answer}
-                          </Text>
-                          
+                              <Box mb='1vh' align={'right'} border='2px' rounded={10} padding={3} borderColor={"#676e79"}>
+                                <Tag size={'sm'} colorScheme='blue' variant={"outline"}>
+                                    <TagLabel>
+                                    Question {index + 1}: 
+                                    </TagLabel>
+                                </Tag>
+                                <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
+                                {questionAnswer.question}
+                                </Text>
+                              </Box>
+                              
+                              <Box mb='1vh' mt='1vh' align={'left'} border='2px' rounded={10} padding={3} borderColor={"#676e79"}>
+                                <Tag size={'sm'} colorScheme='red' variant={"outline"}>
+                                      <TagLabel>
+                                      Response {index + 1}: 
+                                      </TagLabel>
+                                </Tag>
+                                <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
+                                  {questionAnswer.answer}
+                                </Text>
+                              </Box>
                         </Box>
                       )})}
-
-                      {(loading) ? <Progress size='xs' isIndeterminate /> : null}
-
-                    </Box>
-              </Box>
-
-              <Box h='85vh' w='30vw' ml='7vw' className="inputOutput">
-                <Text align={'center'} fontWeight={'bold'} fontSize={20}>Input</Text>
-                  <Box  border='1px' padding={'15px'}>
-                    {questions.map((question, index) => {
-                      return (
-                        <Box mb='1vh' mt='1vh' key={index}>
-                          <Tag size={'sm'} colorScheme='red' variant={"outline"}>
-                                <TagLabel>
-                                Question {index + 1}: 
-                                </TagLabel>
-                          </Tag>
-                          <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
-                            {question}
-                          </Text>
-                        </Box>
-                      )})}
+                      {(loading) ? <Progress size='lg' isIndeterminate/> : ''}
                   </Box>
+                
               </Box>
 
             </HStack>
@@ -163,10 +165,14 @@ const Chat = () => {
                   rightIcon={<HiChevronDoubleRight/>}
                   type='submit'
                   height='5vh'
-                  id='link'>
+                  id='link'
+                  bg={buttonColor}
+                  onClick={() => {
+                    setChatOpen(false)
+                  }}
+                  >
                   Enter
                 </Button>
-
               </HStack>
             </Box>
           </VStack>

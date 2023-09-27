@@ -1,9 +1,10 @@
 import React from 'react'
-import {Stack, IconButton, useDisclosure, Collapse, Box, List, ListItem} from "@chakra-ui/react"
+import {Stack, IconButton, useDisclosure, Collapse, Box, List, ListItem, useColorModeValue} from "@chakra-ui/react"
 import { HamburgerIcon } from '@chakra-ui/icons'
 
 import NavbarData from './NavbarData'
 import { useNavigate } from "react-router" ;
+import ToggleColorMode from './ToggleColorMode';
 
 
 function Navbar() {
@@ -11,6 +12,9 @@ function Navbar() {
   const navigate = useNavigate()
 
   const { isOpen, onToggle } = useDisclosure()
+
+  const barColor = useColorModeValue('#F4F7FF','#101720')
+  const textColor = useColorModeValue('black','white')
 
   return (
     <Stack
@@ -21,13 +25,15 @@ function Navbar() {
       onClick={onToggle}
       id='contextMenu'
       mb='-2'
-      bg='RGBA(255, 255, 255, 0.08)'
+      bg={barColor}
+      color={textColor}
       />
       <Collapse in={!isOpen} animateOpacity>
         <Stack 
         className="Sidebar"
-        bg={isOpen? '' : '#171923'}
+        bg={barColor}
         rounded={'lg'}
+        color={textColor}
         >
           
           <List className='sideBarList'>
@@ -47,6 +53,7 @@ function Navbar() {
                 <Box id="title">{val.title}</Box>
               </ListItem>
               )})}
+              <ListItem><ToggleColorMode/></ListItem>
           </List>
         </Stack>
       </Collapse>

@@ -1,11 +1,13 @@
 import './App.css';
 import { ChakraProvider } from '@chakra-ui/react'
-import Chat from './pages/Chat';
+import Views from './Views'
+import ToggleColorMode from './components/ToggleColorMode';
 
 function App() {
   return (
     <ChakraProvider>
-      <Chat/>
+      <ToggleColorMode/>
+      <Views/>
     </ChakraProvider>
   );
 }

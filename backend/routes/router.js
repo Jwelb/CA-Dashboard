@@ -8,20 +8,50 @@ const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
 );
 
-router.post('/getAnswer', async (req, res) => {
+router.post('/chatQuery', async (req, res) => {
     await delay(3000)
 
-    // const answer = LLAMA MODEL
+    try {
+         /*
+        const response = await axios.get('http://example.com') 
+        const llamaData = response.data
+        */
+        question = req.body.question
+        const date = new Date()
 
-    question = req.body.question
-    const date = new Date()
+        await client.query("INSERT INTO \"chat_queries\" VALUES($1,$2,$3)",
+            [question, date, question])
 
-    await client.query("INSERT INTO \"Civil-Affairs-DB\" VALUES($1,$2,$3)",
-    [question, date, question])
+        console.log('Query successfully sent.')
 
-    console.log('Query successfully sent.')
-    
-    res.send(question)
-})
+        res.send(question)
+    } catch (error) {
+        console.error('Error making request:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+router.post('/searchQuery', async (req, res) => {
+    await delay(3000)
+
+    try {
+        /*
+       const response = await axios.get('http://example.com') 
+       const solrData = response.data 
+       */
+       question = req.body.question
+       const date = new Date()
+
+       await client.query("INSERT INTO \"search_queries\" VALUES($1,$2,$3)",
+           [question, date, question])
+
+       console.log('Query successfully sent.')
+
+       res.send(question)
+   } catch (error) {
+       console.error('Error making request:', error);
+       res.status(500).send('Internal Server Error');
+   }
+});
 
 module.exports = router 

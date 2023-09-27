@@ -19,11 +19,11 @@
 
 .sideBarList .row:hover:not(#name):not(#active) {
   cursor: pointer ;
-  background-color: #2D3748;
+  background-color: #676e79;
 }
 
 .sideBarList #active{
-  background-color: #2D3748;
+  background-color: #676e79;
 }
 
 #show{
