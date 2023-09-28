@@ -39,18 +39,19 @@ const Chat = () => {
 
   const getAnswer = async (vals) => {
     const currentIndex = questionAnswer.length; 
-    const updatedAnswers = [...questionAnswer, { question: vals, answer: null }];
+    const updatedAnswers = [...questionAnswer, { Question: vals, answer: null }];
     setLoading(true)
     await axios({
-      method: 'post',
-      url: 'http://localhost:4000/chatQuery',
+      method: 'POST',
+      url: 'http://127.0.0.1:5000/generate_response',
       headers: {
-        'content-type': 'application/json',
+        'Content-type': 'application/json',
       },
       data: {
-        question: vals
+        Question: vals
       }
     }).then(data => {
+        console.log(data);
         return data.data
       }).then(data => {
         updatedAnswers[currentIndex].answer = data;
