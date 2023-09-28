@@ -116,12 +116,12 @@ const Chat = () => {
                       return (
                         <Box mb='1vh' mt='1vh' key={index}>
                               <Box mb='1vh' align={'right'} bg='' border='2px' rounded={10} padding={3} borderColor={"#676e79"}>
-                                <Tag size={'sm'} colorScheme='black' >
+                                <Tag size={'sm'} colorScheme='teal' variant={"outline"}>
                                     <TagLabel>
                                     Question {index + 1}: 
                                     </TagLabel>
                                 </Tag>
-                                <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
+                                <Text fontSize={20}>
                                 {questionAnswer.Question}
                                 </Text>
                               </Box>
@@ -132,7 +132,7 @@ const Chat = () => {
                                       Response {index + 1}: 
                                       </TagLabel>
                                 </Tag>
-                                <Text noOfLines={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} fontSize={20}>
+                                <Text  fontSize={20}>
                                   {questionAnswer.answer}
                                 </Text>
                               </Box>
@@ -145,7 +145,7 @@ const Chat = () => {
 
             </HStack>
 
-            <Box mt='2vh'>
+            <Box mt='1vh'>
               <HStack>
 
                 <TextField

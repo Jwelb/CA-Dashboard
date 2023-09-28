@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
-import { HStack, VStack, Progress, Text, Box, Button, Card, Stack, StackDivider, CardBody, Tabs, Tab, TabList, Fade, IconButton } from "@chakra-ui/react";
+import { HStack, VStack, Progress, Text, Box, Button, Card, Stack, StackDivider, CardBody, Tabs, Tab, TabList, Fade, IconButton, Collapse } from "@chakra-ui/react";
 import { SearchIcon } from '@chakra-ui/icons'
 import { useDisclosure } from "@chakra-ui/react";
 import { useState } from 'react';
@@ -46,6 +46,7 @@ function Search() {
       }).then(data => {
         setAnswer(data)
         setLoading(false)
+        setSearchOpen(true)
       })
   }
 
@@ -114,14 +115,14 @@ function Search() {
               aria-label='Search database' 
               icon={<SearchIcon />}
               onClick={() => {
-                setSearchOpen(true)
+                setSearchOpen(false)
               }} 
               />
             </HStack>
             
-            <Box w='80vw' mt='5vh' >
-            {(loading) ? <Progress size='lg' isIndeterminate/> : 
-            <Fade in={searchOpen} animateOpacity>
+            <Box w='80vw' mt='5vh'>
+            {(loading) ?  <Progress size='lg' isIndeterminate/> : '' } 
+            <Collapse in={searchOpen} animateOpacity>
               <Box mt='5vh' w='80vw'>
                 <Card opacity={answer === 'initial' ? 0 : 1}>
                   <HStack padding={1}>
@@ -220,7 +221,7 @@ function Search() {
                   </Card>
                 </Card>
               </Box>
-            </Fade>}
+            </Collapse>
             </Box>
           </VStack>
         </HStack>)}
