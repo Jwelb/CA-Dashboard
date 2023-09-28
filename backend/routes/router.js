@@ -16,6 +16,7 @@ router.post('/chatQuery', async (req, res) => {
         const response = await axios.get('http://example.com') 
         const llamaData = response.data
         */
+        // const response = await axios.get('http://127.0.0.1/generate_response')
         question = req.body.question
         const date = new Date()
 
