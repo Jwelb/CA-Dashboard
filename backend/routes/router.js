@@ -10,11 +10,16 @@ router.post('/chatQuery', async (req, res) => {
     delay(2000)
     question = req.body.question
     console.log({Question: question})
+    url = 'http://127.0.0.1:5000/generate_response'
+
     try {
+
+        realURL = url.concat("?Question=" + question)
+        console.log(realURL)
         
         await axios({
             method: 'GET',
-            url: 'http://127.0.0.1:5000/generate_response',
+            url: realURL,
             headers: {
               'Content-type': 'application/json',
               'User-Agent': 'Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion',
@@ -22,14 +27,13 @@ router.post('/chatQuery', async (req, res) => {
               'Accept-Encoding': 'gzip, deflate, br',
               'Connection': 'keep-alive',
             },
-            data: {
+            /*data: {
               Question: question
-            }
+            }*/
         }).then(data => {
-            console.log(data)
-            //return data.data
-        }).then(data => {
-            console.log(data)
+            console.log(data.data[0].generation.content)
+            answer = data.data[0].generation.content
+            //return data
         })
 
         const date = new Date()
@@ -39,7 +43,7 @@ router.post('/chatQuery', async (req, res) => {
         */
         console.log('Query successfully sent.')
 
-        res.send(question)
+        res.send(answer)
     } catch (error) {
         console.error('Error making request:', error);
         res.status(500).send('Internal Server Error');
