@@ -1,40 +1,38 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('axios');
+//const { defaults } = require('pg');
 
 const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
 );
 
 router.post('/chatQuery', async (req, res) => {
-    delay(2000)
     question = req.body.question
     console.log({Question: question})
-    url = 'http://127.0.0.1:5000/generate_response'
+    base = 'http://127.0.0.1:5000/generate_response'
 
     try {
-
-        realURL = url.concat("?Question=" + question)
-        console.log(realURL)
+        await delay(1500)
+        finalURL = base.concat("?Question=" + question)
+        console.log(finalURL)
         
+        /*
         await axios({
             method: 'GET',
-            url: realURL,
+            url: finalURL,
             headers: {
               'Content-type': 'application/json',
               'User-Agent': 'Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion',
-              'Accept': '*/*',
+              'Accept': '*\/*',
               'Accept-Encoding': 'gzip, deflate, br',
               'Connection': 'keep-alive',
             },
-            /*data: {
-              Question: question
-            }*/
         }).then(data => {
             console.log(data.data[0].generation.content)
             answer = data.data[0].generation.content
             //return data
-        })
+        })*/
 
         const date = new Date()
         /*
@@ -43,7 +41,7 @@ router.post('/chatQuery', async (req, res) => {
         */
         console.log('Query successfully sent.')
 
-        res.send(answer)
+        res.send(question)
     } catch (error) {
         console.error('Error making request:', error);
         res.status(500).send('Internal Server Error');

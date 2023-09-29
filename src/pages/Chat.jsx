@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
-import { HStack, VStack, Text, Box, Button, Progress, useColorModeValue, Collapse } from "@chakra-ui/react";
+import { HStack, VStack, Text, Box, Button, Progress, ScaleFade, useColorModeValue, Collapse, Skeleton } from "@chakra-ui/react";
 import { useState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
@@ -26,6 +26,7 @@ import { HiChevronDoubleRight } from "react-icons/hi2";
 const Chat = () => {
 
   const [questionAnswer, setQuestionAnswer] = useState([])
+  const [currentQuestion, setQuestion] = useState()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
@@ -35,6 +36,12 @@ const Chat = () => {
   const buttonColor = useColorModeValue('#F4F7FF','#101720')
 
   const [chatOpen, setChatOpen] = useState(false)
+
+  const [chatLength, setChatLength] = useState(1) ;
+
+  useEffect(() => {
+    setChatLength(questionAnswer.length)
+  }, [questionAnswer])
 
 
   const getAnswer = async (vals) => {
@@ -55,6 +62,7 @@ const Chat = () => {
         setQuestionAnswer(updatedAnswers); 
         setChatOpen(true)
         setLoading(false)
+        setChatLength(questionAnswer.length)
       })
   }
 
@@ -68,6 +76,7 @@ const Chat = () => {
           {onOpen()}
           return
         }
+        setQuestion(values.question)
         actions.resetForm()
         getAnswer(values.question)
       }}>
@@ -111,36 +120,98 @@ const Chat = () => {
             overflowY="auto">
               <Box h='85vh' w='70vw' ml='7vw' className="inputOutput" >
                   <Box padding={'10px'}>
-                  
-                      {questionAnswer.map((questionAnswer, index) => {
-                      return (
-                        <Box mb='1vh' mt='1vh' key={index}>
-                              <Box mb='1vh' align={'right'} bg='' border='2px' rounded={10} padding={3} borderColor={"#676e79"}>
-                                <Tag size={'sm'} colorScheme='teal' variant={"outline"}>
+                  {questionAnswer.map((questionAnswer, index) => {
+                    const isLastItem = index === chatLength ;
+                    return (
+                      <Box mb='1vh' mt='1vh' key={index}>
+                        <Box mb='1vh' mt='1vh'>
+                          <Box 
+                          mb='1vh' 
+                          align={'right'} 
+                          bg='' 
+                          border='2px' 
+                          rounded={10} 
+                          padding={3} 
+                          borderColor={"#676e79"}>
+                            <Tag 
+                            size={'sm'} 
+                            colorScheme='teal' 
+                            variant={"outline"}>
+                                <TagLabel>
+                                Question {index + 1}: 
+                                </TagLabel>
+                            </Tag>
+                            <Text fontSize={20}>
+                            {questionAnswer.Question}
+                            </Text>
+                          </Box>
+                          <ScaleFade initialScale={0.4} in={!isLastItem}>
+                          <Box 
+                          mb='1vh' 
+                          mt='1vh' 
+                          align={'left'} 
+                          border='2px'  
+                          rounded={10} 
+                          padding={3}
+                          borderColor={"#676e79"}>
+                            <Tag size={'sm'} colorScheme='red' variant={"outline"}>
+                                  <TagLabel>
+                                  Response {index + 1}: 
+                                  </TagLabel>
+                            </Tag>
+                            <Text  fontSize={20}>
+                              {questionAnswer.answer}
+                            </Text>
+                          </Box>
+                          </ScaleFade>
+                        </Box>
+                      </Box>
+                    )})}
+
+                    <Box mb='1vh' mt='1vh'>
+                      <Collapse in={loading}>
+                          {loading &&
+                          <Box mb='1vh'>
+                            <Skeleton 
+                            color='white'
+                            isLoaded={!chatOpen}>
+                              <Box 
+                              mb='1vh' 
+                              align={'right'} 
+                              bg='' 
+                              border='2px' 
+                              rounded={10} 
+                              padding={3} 
+                              borderColor={"#676e79"}>
+                                <Tag 
+                                size={'sm'} 
+                                colorScheme='teal' 
+                                variant={"outline"}>
                                     <TagLabel>
-                                    Question {index + 1}: 
+                                    Question {chatLength + 1}: 
                                     </TagLabel>
                                 </Tag>
                                 <Text fontSize={20}>
-                                {questionAnswer.Question}
+                                {currentQuestion}
                                 </Text>
                               </Box>
-                              
-                              <Box mb='1vh' mt='1vh' align={'left'} border='2px'  rounded={10} padding={3} borderColor={"#676e79"}>
-                                <Tag size={'sm'} colorScheme='red' variant={"outline"}>
-                                      <TagLabel>
-                                      Response {index + 1}: 
-                                      </TagLabel>
-                                </Tag>
-                                <Text  fontSize={20}>
-                                  {questionAnswer.answer}
-                                </Text>
+                            </Skeleton>
+                                  
+                            <Skeleton 
+                            color='white'
+                            isLoaded={chatOpen}>
+                              <Box 
+                              mb='1vh' 
+                              mt='1vh' 
+                              padding={3} >
+                                .
                               </Box>
-                        </Box>
-                      )})}
-                      {(loading) ? <Progress size='lg' isIndeterminate/> : ''}
+                            </Skeleton>
+                          </Box>}
+                      </Collapse>
                   </Box>
-                
+
+                </Box>
               </Box>
 
             </HStack>
