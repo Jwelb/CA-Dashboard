@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
-import { HStack, VStack, Text, Box, Button, Progress, ScaleFade, useColorModeValue, Collapse, Skeleton } from "@chakra-ui/react";
+import { HStack, VStack, Text, Box, Button, Progress, ScaleFade, useColorModeValue, Collapse, Skeleton, Flex, Tooltip, Avatar, Center } from "@chakra-ui/react";
 import { useState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
-import { useDisclosure } from "@chakra-ui/react";
-
+import { CheckIcon, SmallCloseIcon  } from '@chakra-ui/icons'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -18,10 +17,13 @@ import {
   Tag,
   TagLabel,
   Divider,
-  Fade
+  Fade,
+  useDisclosure,
+  SkeletonCircle
 } from '@chakra-ui/react'
-
+import { AiOutlineUser } from 'react-icons/ai'
 import { HiChevronDoubleRight } from "react-icons/hi2";
+import  llama  from '../components/icons/Llama-icon.png'
 
 const Chat = () => {
 
@@ -63,7 +65,12 @@ const Chat = () => {
         setChatOpen(true)
         setLoading(false)
         setChatLength(questionAnswer.length)
+        console.log(questionAnswer)
       })
+  }
+
+  const getFeedback = async (vals) => {
+    console.log(vals)
   }
 
 
@@ -114,108 +121,167 @@ const Chat = () => {
           <VStack height='100vh' w='100vw'>
             <HStack 
             w={'100%'} 
-            mt='5vh'
-            overflowX="auto"
-            whiteSpace="wrap"
-            overflowY="auto">
-              <Box h='85vh' w='70vw' ml='7vw' className="inputOutput" >
-                  <Box padding={'10px'}>
+            mt='2vh'>
+              <HStack 
+              h='100%' 
+              w='100%' 
+              overflowX="auto"
+              whiteSpace="wrap"
+              overflowY="auto">
+              <VStack h='85vh' w='75vw' ml='7vw'>
                   {questionAnswer.map((questionAnswer, index) => {
                     const isLastItem = index === chatLength ;
                     return (
-                      <Box mb='1vh' mt='1vh' key={index}>
-                        <Box mb='1vh' mt='1vh'>
-                          <Box 
-                          mb='1vh' 
-                          align={'right'} 
-                          bg='' 
-                          border='2px' 
-                          rounded={10} 
-                          padding={3} 
-                          borderColor={"#676e79"}>
-                            <Tag 
-                            size={'sm'} 
-                            colorScheme='teal' 
-                            variant={"outline"}>
-                                <TagLabel>
-                                Question {index + 1}: 
-                                </TagLabel>
-                            </Tag>
-                            <Text fontSize={20}>
-                            {questionAnswer.Question}
-                            </Text>
-                          </Box>
-                          <ScaleFade initialScale={0.4} in={!isLastItem}>
-                          <Box 
-                          mb='1vh' 
-                          mt='1vh' 
-                          align={'left'} 
-                          border='2px'  
-                          rounded={10} 
-                          padding={3}
-                          borderColor={"#676e79"}>
-                            <Tag size={'sm'} colorScheme='red' variant={"outline"}>
-                                  <TagLabel>
-                                  Response {index + 1}: 
-                                  </TagLabel>
-                            </Tag>
-                            <Text  fontSize={20}>
-                              {questionAnswer.answer}
-                            </Text>
-                          </Box>
-                          </ScaleFade>
-                        </Box>
-                      </Box>
-                    )})}
-
-                    <Box mb='1vh' mt='1vh'>
-                      <Collapse in={loading}>
-                          {loading &&
-                          <Box mb='1vh'>
-                            <Skeleton 
-                            color='white'
-                            isLoaded={!chatOpen}>
-                              <Box 
-                              mb='1vh' 
-                              align={'right'} 
-                              bg='' 
-                              border='2px' 
-                              rounded={10} 
-                              padding={3} 
-                              borderColor={"#676e79"}>
-                                <Tag 
-                                size={'sm'} 
-                                colorScheme='teal' 
-                                variant={"outline"}>
-                                    <TagLabel>
-                                    Question {chatLength + 1}: 
-                                    </TagLabel>
-                                </Tag>
+                        <VStack 
+                        key={index} >
+                          <HStack w='75vw' align={'center'}>
+                            <VStack 
+                            w={'100%'}
+                            h='9vh'
+                            align={'right'} 
+                            border='2px' 
+                            rounded={10} 
+                            padding={3} 
+                            borderColor={"#676e79"}>
+                                <Box align={'right'}>
+                                  <Tooltip label="Query #">
+                                    <Tag 
+                                    size={'sm'} 
+                                    colorScheme='teal' 
+                                    variant={"outline"}
+                                    h='2vh'
+                                    mr='3px'
+                                    ml='3px'>
+                                        <TagLabel>
+                                          Question {index + 1}
+                                        </TagLabel>
+                                    </Tag>
+                                  </Tooltip>
+                                </Box>
+                                <Text fontSize={20} align={'right'}>
+                                {questionAnswer.Question}
+                                </Text>
+                              </VStack>
+                              <Avatar bg='lightblue' showBorder icon={<AiOutlineUser/>}/>
+                            </HStack>
+                            <Box w='75vw'>
+                            <ScaleFade initialScale={0.5} in={!isLastItem}>
+                            <HStack align={'center'} w='100%'>
+                            <Avatar showBorder><llama/></Avatar>
+                            <VStack 
+                            align={'left'} 
+                            border='2px'  
+                            rounded={10} 
+                            padding={3}
+                            borderColor={"#676e79"}
+                            width={'75vw'}>
+                              <Box align='left'>
+                                  <HStack>
+                                    <Tooltip label="Good Result">
+                                    <Tag 
+                                    as={'button'}
+                                    type="button"
+                                    size={'sm'} 
+                                    colorScheme='green' 
+                                    variant={"outline"}
+                                    h='2vh'
+                                    mb='2'
+                                    onClick={() => {
+                                      getFeedback('Like')
+                                    }}
+                                    padding={3}>
+                                        <TagLabel>
+                                          <CheckIcon/>
+                                        </TagLabel>
+                                    </Tag>
+                                  </Tooltip>
+                                  <Tooltip label="Negative Result">
+                                    <Tag 
+                                    as={'button'}
+                                    type="button"
+                                    size={'sm'} 
+                                    colorScheme='red' 
+                                    variant={"outline"}
+                                    h='2vh'
+                                    mb='2'
+                                    onClick={() => {
+                                      getFeedback('Dislike')
+                                    }}
+                                    padding={3}>
+                                      <TagLabel>
+                                        <SmallCloseIcon/>
+                                      </TagLabel>
+                                    </Tag>
+                                  </Tooltip>
+                                </HStack>
                                 <Text fontSize={20}>
-                                {currentQuestion}
+                                  {questionAnswer.answer}
                                 </Text>
                               </Box>
-                            </Skeleton>
-                                  
-                            <Skeleton 
-                            color='white'
-                            isLoaded={chatOpen}>
-                              <Box 
-                              mb='1vh' 
-                              mt='1vh' 
-                              padding={3} >
-                                .
+                            </VStack>
+                            </HStack>
+                            </ScaleFade>
+                            </Box>
+                        </VStack>)})}
+
+                    <VStack w='100%'>
+                      <Collapse in={loading}>
+                          {loading &&
+                          <VStack width={'75vw'}>
+                              <HStack w='100%' align={'center'}>
+                                <Skeleton 
+                                color='white'
+                                w='100%'
+                                isLoaded={!chatOpen}>
+                                  <Box 
+                                  align={'right'} 
+                                  w='100%'
+                                  border='2px' 
+                                  rounded={10} 
+                                  padding={3} 
+                                  borderColor={"#676e79"}>
+                                    <Tag 
+                                    size={'sm'} 
+                                    colorScheme='teal' 
+                                    variant={"outline"}
+                                    h='2vh'
+                                    mr='3px'
+                                    ml='3px'
+                                    mb='3'>
+                                        <TagLabel>
+                                          Question {chatLength + 1}
+                                        </TagLabel>
+                                    </Tag>
+                                  <Text fontSize={20} align={'right'}>
+                                  {currentQuestion}
+                                  </Text>
                               </Box>
                             </Skeleton>
-                          </Box>}
+                            <Avatar bg='lightblue' showBorder icon={<AiOutlineUser/>}/>
+                            </HStack>
+                            <VStack 
+                            align={'left'} 
+                            width={'75vw'}>
+                              <HStack
+                              w='100%'>  
+                                <SkeletonCircle size='12' />
+                                <Skeleton 
+                                color='white'
+                                isLoaded={chatOpen}
+                                w='100%'>
+                                  <Box 
+                                  padding={3} >
+                                    .
+                                  </Box>
+                                </Skeleton>
+                              </HStack>    
+                            </VStack>
+                          </VStack>}
                       </Collapse>
-                  </Box>
-
-                </Box>
-              </Box>
-
-            </HStack>
-
+                  </VStack>
+                </VStack>
+              </HStack>
+        </HStack>
             <Box mt='1vh'>
               <HStack>
 
@@ -224,8 +290,9 @@ const Chat = () => {
                   placeholder={"Question goes here"}
                   autoComplete="off"
                   width='70vw'
-                  height='5vh'
+                  h='5vh'
                   borderColor="black"
+                  mb='1vh'
                 />
 
                 <Button

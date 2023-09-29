@@ -8,15 +8,14 @@ const delay = ms => new Promise(
 );
 
 router.post('/chatQuery', async (req, res) => {
+    await delay(2000)
     question = req.body.question
     console.log({Question: question})
     base = 'http://127.0.0.1:5000/generate_response'
 
     try {
-        await delay(1500)
         finalURL = base.concat("?Question=" + question)
         console.log(finalURL)
-        
         /*
         await axios({
             method: 'GET',
@@ -29,9 +28,10 @@ router.post('/chatQuery', async (req, res) => {
               'Connection': 'keep-alive',
             },
         }).then(data => {
-            console.log(data.data[0].generation.content)
-            answer = data.data[0].generation.content
-            //return data
+            return data.data
+        }).then(data => {
+            console.log(data[0].generation.content)
+            answer = data[0].generation.content
         })*/
 
         const date = new Date()
