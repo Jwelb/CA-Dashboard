@@ -23,7 +23,7 @@ import {
 } from '@chakra-ui/react'
 import { AiOutlineUser } from 'react-icons/ai'
 import { HiChevronDoubleRight } from "react-icons/hi2";
-import  llama  from '../components/icons/Llama-icon.png'
+import  Llama  from '../components/icons/Llama-icon.png'
 
 const Chat = () => {
 
@@ -167,7 +167,7 @@ const Chat = () => {
                             <Box w='75vw'>
                             <ScaleFade initialScale={0.5} in={!isLastItem}>
                             <HStack align={'center'} w='100%'>
-                            <Avatar showBorder><llama/></Avatar>
+                            <Avatar  src={Llama} bg='white'/>
                             <VStack 
                             align={'left'} 
                             border='2px'  

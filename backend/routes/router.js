@@ -16,14 +16,14 @@ router.post('/chatQuery', async (req, res) => {
     try {
         finalURL = base.concat("?Question=" + question)
         console.log(finalURL)
-        /*
-        await axios({
+        
+        /*await axios({
             method: 'GET',
             url: finalURL,
             headers: {
               'Content-type': 'application/json',
               'User-Agent': 'Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion',
-              'Accept': '*\/*',
+              'Accept': '\/*',
               'Accept-Encoding': 'gzip, deflate, br',
               'Connection': 'keep-alive',
             },
