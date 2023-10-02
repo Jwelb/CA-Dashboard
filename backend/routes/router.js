@@ -3,6 +3,7 @@ const router = express.Router()
 const axios = require('axios');
 //const { defaults } = require('pg');
 
+
 const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
 );
@@ -11,6 +12,8 @@ router.post('/chatQuery', async (req, res) => {
     await delay(2000)
     question = req.body.question
     console.log({Question: question})
+    // IP ADDRESS VARIABLE 
+    // PORT NUMBER ADDRESS VARIABLE
     base = 'http://127.0.0.1:5000/generate_response'
 
     try {
@@ -23,7 +26,7 @@ router.post('/chatQuery', async (req, res) => {
             headers: {
               'Content-type': 'application/json',
               'User-Agent': 'Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion',
-              'Accept': '\/*',
+              'Accept': '/*',
               'Accept-Encoding': 'gzip, deflate, br',
               'Connection': 'keep-alive',
             },
@@ -40,7 +43,6 @@ router.post('/chatQuery', async (req, res) => {
             [question, date, question])
         */
         console.log('Query successfully sent.')
-
         res.send(question)
     } catch (error) {
         console.error('Error making request:', error);
@@ -50,7 +52,7 @@ router.post('/chatQuery', async (req, res) => {
 
 router.post('/searchQuery', async (req, res) => {
     await delay(3000)
-
+    target = 'yes'
     try {
         /*
        const response = await axios.get('http://example.com') 
