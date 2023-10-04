@@ -2,13 +2,15 @@ import './App.css';
 import { ChakraProvider } from '@chakra-ui/react'
 import Views from './Views'
 import ToggleColorMode from './components/ToggleColorMode';
+import UserContext from './components/envContext';
 
 function App() {
   return (
-    <ChakraProvider>
-      <ToggleColorMode/>
-      <Views/>
-    </ChakraProvider>
+    <UserContext>
+      <ChakraProvider>
+        <Views/>
+      </ChakraProvider>
+    </UserContext>
   );
 }
 

@@ -21,6 +21,8 @@ import {
 
 const Settings = () => {
 
+  // Use effect to fetch what ip, port, and enviornment we are using 
+
   const resetTargetAddress = ({...vals}) => {
     const target = vals.targetAddress
     console.log(target)

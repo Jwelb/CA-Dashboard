@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
@@ -32,6 +32,7 @@ import {
 import { AiOutlineUser } from 'react-icons/ai'
 import { HiChevronDoubleRight } from "react-icons/hi2";
 import  Llama  from '../components/icons/llama.png'
+import { EnvContext } from '../components/envContext';
 
 const Chat = () => {
 
@@ -48,6 +49,9 @@ const Chat = () => {
   const [chatOpen, setChatOpen] = useState(false)
 
   const [chatLength, setChatLength] = useState(1) ;
+
+  const {env} = useContext(EnvContext)
+
 
   useEffect(() => {
     setChatLength(questionAnswer.length)
@@ -79,6 +83,7 @@ const Chat = () => {
 
   const getFeedback = async (vals) => {
     console.log(vals)
+    console.log(env)
   }
 
 
