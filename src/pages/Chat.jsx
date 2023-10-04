@@ -69,7 +69,8 @@ const Chat = () => {
         'content-type': 'application/json',
       },
       data: {
-        question: vals
+        question: vals,
+        environment: env
       }
     }).then(data => {
         updatedAnswers[currentIndex].answer = data.data;
@@ -149,7 +150,7 @@ const Chat = () => {
                           <HStack w='75vw' align={'center'}>
                             <VStack 
                             w={'100%'}
-                            h='9vh'
+                            h='11vh'
                             align={'right'} 
                             border='2px' 
                             rounded={10} 
@@ -169,10 +170,11 @@ const Chat = () => {
                                         </TagLabel>
                                     </Tag>
                                   </Tooltip>
-                                </Box>
-                                <Text fontSize={20} align={'right'}>
+                                  <Text fontSize={20} align={'right'}>
                                 {questionAnswer.Question}
                                 </Text>
+                                </Box>
+                         
                               </VStack>
                               <Avatar bg='lightblue' showBorder icon={<AiOutlineUser/>}/>
                             </HStack>
@@ -253,6 +255,7 @@ const Chat = () => {
                           border='2px' 
                           rounded={10} 
                           padding={3} 
+                          h='11vh'
                           borderColor={"#676e79"}>
                             <Tag 
                             size={'sm'} 
@@ -260,8 +263,7 @@ const Chat = () => {
                             variant={"outline"}
                             h='2vh'
                             mr='3px'
-                            ml='3px'
-                            mb='3'>
+                            ml='3px'>
                                 <TagLabel>
                                   Question {chatLength + 1}
                                 </TagLabel>

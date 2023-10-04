@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -17,9 +17,16 @@ import {
   useColorModeValue, 
   Collapse, 
 } from '@chakra-ui/react'
+import { EnvContext } from "../components/envContext";
   
 
 const Settings = () => {
+
+  const [formToChange, setFormToChange] = useState('initial')
+  const [envir, envToChange] = useState('initial')
+
+  const {env} = useContext(EnvContext)
+  const {setEnv} = useContext(EnvContext)
 
   // Use effect to fetch what ip, port, and enviornment we are using 
 
@@ -38,11 +45,9 @@ const Settings = () => {
 
   const resetEnvironment = (env) => {
     const target = env
-    console.log(target)
+    setEnv(target)
+    console.log(env)
   }
-
-  const [formToChange, setFormToChange] = useState('initial')
-  const [env, envToChange] = useState('initial')
 
   return (
     <Formik
@@ -62,7 +67,7 @@ const Settings = () => {
             resetPortNumber(vals);
             break ;
           case "environment":
-            resetEnvironment(env) ;
+            resetEnvironment(envir) ;
             break ;
           default:
             break ;
@@ -127,6 +132,7 @@ const Settings = () => {
               type='submit'
               height='5vh'
               id='link'
+              bg={env == 'Production' ? 'teal' : 'grey'}
               onClick={() => {
                 setFormToChange('environment')
                 envToChange('Production')
@@ -139,6 +145,7 @@ const Settings = () => {
               type='submit'
               height='5vh'
               id='link'
+              bg={env == 'Development' ? 'teal' : 'grey'}
               onClick={() => {
                 setFormToChange('environment')
                 envToChange('Development')

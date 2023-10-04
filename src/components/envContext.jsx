@@ -5,31 +5,18 @@ const { createContext, useState, useEffect } = require("react");
 export const EnvContext = createContext();
 
 const UserContext = ({ children }) => {
-  const [env, setEnv] = useState({ environment: 'Development' });
-  const navigate = useNavigate();
+  const [env, setEnv] = useState({ environment: null });
   useEffect(() => {
-    fetch("http://localhost:3000/chatQuery", {
+    fetch("http://localhost:4000/environmentSettings", {
       credentials: "include",
     })
-      .catch(err => {
-        setEnv({ environment: 'Development' });
-        return;
-      })
       .then(r => {
-        if (!r || !r.ok || r.status >= 400) {
-            setEnv({ environment: 'Development' });
-          return;
-        }
         return r.json();
       })
       .then(data => {
-        if (!data) {
-            setEnv({ environment: 'Development' });
-          return;
-        }
-        setEnv({ ...data });
+        console.log(data.environment, ' From EnvContext')
+        setEnv(data.environment);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <EnvContext.Provider value={{ env, setEnv }}>
