@@ -10,22 +10,19 @@ const delay = ms => new Promise(
 
 router
     .route('/chatQuery')
-    .get(async (req, res) => {
-        if(req.body){
-            console.log(1)
-        }else{console.log(2)}
-        res.json({ environment: 'Development' });
-      })
     .post(async (req, res) => {
         question = req.body.question
         console.log({Question: question})
         // IP ADDRESS VARIABLE 
         // PORT NUMBER ADDRESS VARIABLE
 
-        if(req.body.environment == 'Production'){
-            base = 'http://127.0.0.1:5000/generate_response'
-
+        if(req.body.environment.environment == 'Production'){
             try {
+                base = ('http://' + 
+                    req.body.environment.targetAddress + ":" +
+                    req.body.environment.portNumber  + 
+                    '/generate_response')
+
                 finalURL = base.concat("?Question=" + question)
                 console.log(finalURL)
                 
@@ -67,16 +64,40 @@ router
     .route('/environmentSettings')
     .get(async (req,res) => {
         if(req.session.env){
-            console.log(req.session.env.environment, ' from if')
-            res.json({environment: req.session.env.environment})
-        }else{
-            console.log(req.body)
             req.session.env = {
-                environment: 'Development'
+                environment: req.session.env.environment,
+                targetAddress: req.session.env.targetAddress,
+                portNumber: req.session.env.portNumber
             }
-            console.log(req.session.env.environment)
-            res.json({environment: 'Development'})
+            res.json({
+                environment: req.session.env.environment,
+                targetAddress: req.session.env.targetAddress,
+                portNumber: req.session.env.portNumber
+            })
+        }else{
+            req.session.env = {
+                environment: 'Development',
+                targetAddress: '127.0.0.1',
+                portNumber: '5000'
+            }
+            res.json({
+                environment: 'Development',
+                targetAddress: '127.0.0.1',
+                portNumber: '5000'
+            })
         }
+    })
+    .post(async (req,res) => {
+        req.session.env = {
+            environment: req.body.environment,
+            targetAddress: req.body.targetAddress,
+            portNumber: req.body.portNumber
+        }
+        res.json({
+            environment: req.body.environment,
+            targetAddress: req.body.targetAddress,
+            portNumber: req.body.portNumber
+    })
 })
 
 router.post('/searchQuery', async (req, res) => {

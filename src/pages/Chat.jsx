@@ -84,7 +84,6 @@ const Chat = () => {
 
   const getFeedback = async (vals) => {
     console.log(vals)
-    console.log(env)
   }
 
 
@@ -150,7 +149,7 @@ const Chat = () => {
                           <HStack w='75vw' align={'center'}>
                             <VStack 
                             w={'100%'}
-                            h='11vh'
+                            h='9vh'
                             align={'right'} 
                             border='2px' 
                             rounded={10} 
@@ -185,12 +184,12 @@ const Chat = () => {
                               <Avatar  src={Llama} bg='white'/>
                                 <VStack 
                                 align={'left'} 
-                                border='2px'  
-                                rounded={10} 
-                                padding={3}
-                                borderColor={"#676e79"}
                                 width={'75vw'}>
-                                  <Box align='left'>
+                                  <Box align='left'
+                                  border='2px'  
+                                  rounded={10} 
+                                  padding={3}
+                                  borderColor={"#676e79"}>
                                       <HStack>
                                         <Tooltip label="Good Result">
                                         <Tag 
@@ -255,7 +254,7 @@ const Chat = () => {
                           border='2px' 
                           rounded={10} 
                           padding={3} 
-                          h='11vh'
+                          h='9vh'
                           borderColor={"#676e79"}>
                             <Tag 
                             size={'sm'} 
@@ -283,9 +282,11 @@ const Chat = () => {
                           <Skeleton 
                           color='white'
                           isLoaded={chatOpen}
-                          w='100%'>
+                          w='100%'
+                          rounded={10} >
                             <Box 
-                            padding={3} >
+                            padding={3} 
+                            h='9vh'>
                               .
                             </Box>
                           </Skeleton>
@@ -308,7 +309,6 @@ const Chat = () => {
                   width='70vw'
                   h='5vh'
                   borderColor="black"
-                  mb='1vh'
                 />
                 <Button
                   isLoading={loading}

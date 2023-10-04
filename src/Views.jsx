@@ -6,11 +6,8 @@ import Map from './pages/Map';
 import Help from './pages/Help';
 import Settings from './pages/Settings';
 import Trends from './pages/Trends';
-import { useContext } from 'react';
-import { EnvContext } from './components/envContext';
 
 const Views = () => {
-  const {env} = useContext(EnvContext)
     return (
         <Routes>
           <Route path="*" element={<Chat/>} />
