@@ -63,40 +63,46 @@ router
 router  
     .route('/environmentSettings')
     .get(async (req,res) => {
-        if(req.session.env){
+        if(req.session.env){                        // Maintain Session Environment
             req.session.env = {
                 environment: req.session.env.environment,
                 targetAddress: req.session.env.targetAddress,
-                portNumber: req.session.env.portNumber
+                portNumber: req.session.env.portNumber,
+                chatHistory: req.session.env.chatHistory
             }
             res.json({
                 environment: req.session.env.environment,
                 targetAddress: req.session.env.targetAddress,
-                portNumber: req.session.env.portNumber
+                portNumber: req.session.env.portNumber,
+                chatHistory: req.session.env.chatHistory
             })
-        }else{
+        }else{                                      // Setup Initial Connection
             req.session.env = {
                 environment: 'Development',
                 targetAddress: '127.0.0.1',
-                portNumber: '5000'
+                portNumber: '5000',
+                chatHistory: []
             }
             res.json({
                 environment: 'Development',
                 targetAddress: '127.0.0.1',
-                portNumber: '5000'
+                portNumber: '5000',
+                chatHistory: []
             })
         }
     })
     .post(async (req,res) => {
-        req.session.env = {
+        req.session.env = {                        // Change Environment
             environment: req.body.environment,
             targetAddress: req.body.targetAddress,
-            portNumber: req.body.portNumber
+            portNumber: req.body.portNumber,
+            chatHistory: req.body.chatHistory
         }
         res.json({
             environment: req.body.environment,
             targetAddress: req.body.targetAddress,
-            portNumber: req.body.portNumber
+            portNumber: req.body.portNumber,
+            chatHistory: req.body.chatHistory
     })
 })
 

@@ -33,6 +33,7 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { HiChevronDoubleRight } from "react-icons/hi2";
 import  Llama  from '../components/icons/llama.png'
 import { EnvContext } from '../components/envContext';
+import Typewriter from "typewriter-effect";
 
 const Chat = () => {
 
@@ -45,17 +46,28 @@ const Chat = () => {
   const [loading, setLoading] = useState(false)
 
   const buttonColor = useColorModeValue('#F4F7FF','#101720')
+  const textColor = useColorModeValue('black','white')
 
   const [chatOpen, setChatOpen] = useState(false)
 
   const [chatLength, setChatLength] = useState(1) ;
 
   const {env} = useContext(EnvContext)
+  const {setEnv} = useContext(EnvContext)
 
 
   useEffect(() => {
-    setChatLength(questionAnswer.length)
-  }, [questionAnswer])
+      if(env.chatHistory){
+        setChatLength(env.chatHistory.length)
+      }else{
+        setChatLength(questionAnswer.length)
+      }
+  
+      if(env.chatHistory){
+        setQuestionAnswer(env.chatHistory)
+        setChatLength(env.chatHistory.length)
+      }
+    }, [questionAnswer, env])
 
 
   const getAnswer = async (vals) => {
@@ -78,12 +90,19 @@ const Chat = () => {
         setChatOpen(true)
         setLoading(false)
         setChatLength(questionAnswer.length)
-        console.log(questionAnswer)
+
+        setEnv({
+          environment: env.environment,
+          targetAddress: env.targetAddress,
+          portNumber: env.portNumber,
+          chatHistory: updatedAnswers
+        })
       })
   }
 
   const getFeedback = async (vals) => {
     console.log(vals)
+    console.log(env)
   }
 
 
@@ -152,7 +171,7 @@ const Chat = () => {
                           <HStack w='75vw' align={'center'}>
                             <VStack 
                             w={'100%'}
-                            h='11vh'
+                            h='10vh'
                             align={'right'} 
                             border='2px' 
                             rounded={10} 
@@ -257,7 +276,7 @@ const Chat = () => {
                           border='2px' 
                           rounded={10} 
                           padding={3} 
-                          h='11vh'
+                          h='10vh'
                           borderColor={"#676e79"}>
                             <Tag 
                             size={'sm'} 
@@ -270,7 +289,7 @@ const Chat = () => {
                                   Question {chatLength + 1}
                                 </TagLabel>
                             </Tag>
-                            <Text fontSize={20} align={'right'}>
+                            <Text fontSize={20} align={'right'} color={textColor}>
                             {currentQuestion}
                             </Text>
                           </Box>
@@ -305,6 +324,23 @@ const Chat = () => {
             {/* Input Elements */}
             <Box mt='1vh'>
               <HStack>
+              <Button
+                  isLoading={loading}
+                  height='5vh'
+                  id='link'
+                  bg={buttonColor}
+                  onClick={() => {
+                    setChatOpen(false)
+                    setEnv({
+                      environment: env.environment,
+                      targetAddress: env.targetAddress,
+                      portNumber: env.portNumber,
+                      chatHistory: []
+                    })
+                  }}
+                  >
+                  Clear History
+                </Button>
                 <TextField
                   name='question'
                   placeholder={"Question goes here"}

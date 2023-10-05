@@ -20,7 +20,8 @@ const UserContext = ({ children }) => {
         setEnv({
           environment: data.environment,
           targetAddress: data.targetAddress, 
-          portNumber: data.portNumber});
+          portNumber: data.portNumber,
+          chatHistory: data.chatHistory});
       });
   }, []);
   return (

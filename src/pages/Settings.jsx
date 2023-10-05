@@ -41,6 +41,9 @@ const Settings = () => {
       vals.targetAddress = env.targetAddress
       vals.portNumber = env.portNumber
     }
+
+    vals.chatHistory = env.chatHistory
+    
     fetch("http://localhost:4000/environmentSettings", {
       method: "POST",
       credentials: "include",
