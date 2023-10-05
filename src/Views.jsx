@@ -7,7 +7,9 @@ import Help from './pages/Help';
 import Settings from './pages/Settings';
 import Trends from './pages/Trends';
 
+
 const Views = () => {
+
     return (
         <Routes>
           <Route path="*" element={<Chat/>} />

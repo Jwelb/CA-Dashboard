@@ -111,7 +111,7 @@ const Settings = () => {
             </VStack>
 
             <VStack w='33%' bg='' h='20vh'>
-              <Text>Target Port Number</Text>
+              <Text>Llama Target Port Number</Text>
               <TextField
                 name='portNumber'
                 placeholder={"5000"}

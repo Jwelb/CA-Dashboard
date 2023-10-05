@@ -103,6 +103,7 @@ const Chat = () => {
 
 
       {(formik) => (
+        
         <HStack
           w="100%"
           as={Form}>
@@ -331,6 +332,7 @@ const Chat = () => {
           </VStack>
 
         </HStack>
+        
       )}
     </Formik>
   )
