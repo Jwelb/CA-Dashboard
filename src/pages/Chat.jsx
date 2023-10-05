@@ -107,7 +107,9 @@ const Chat = () => {
           w="100%"
           as={Form}>
           
-          <VStack>{Navbar()}</VStack>
+          <VStack w='10%'>
+            {Navbar()}
+          </VStack>
 
           {/* Alert Box */}
           <AlertDialog
@@ -149,7 +151,7 @@ const Chat = () => {
                           <HStack w='75vw' align={'center'}>
                             <VStack 
                             w={'100%'}
-                            h='9vh'
+                            h='11vh'
                             align={'right'} 
                             border='2px' 
                             rounded={10} 
@@ -254,7 +256,7 @@ const Chat = () => {
                           border='2px' 
                           rounded={10} 
                           padding={3} 
-                          h='9vh'
+                          h='11vh'
                           borderColor={"#676e79"}>
                             <Tag 
                             size={'sm'} 

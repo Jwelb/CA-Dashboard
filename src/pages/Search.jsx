@@ -120,7 +120,10 @@ function Search() {
               />
             </HStack>
             
-            <Box w='80vw' mt='5vh'>
+            <Box w='80vw' mt='5vh'
+            overflowX="auto"
+            whiteSpace="wrap"
+            overflowY="auto">
             {(loading) ?  <Progress size='lg' isIndeterminate/> : '' } 
             <Collapse in={searchOpen} animateOpacity>
               <Box mt='5vh' w='80vw'>

@@ -90,7 +90,7 @@ const Settings = () => {
 
           <VStack w='100%'>
             <HStack w='100%'>
-              <VStack w='33%' bg='' h='15vh'>
+              <VStack w='33%' bg='' h='20vh'>
               <Text>Llama Target IP Address</Text>
               <TextField
                 name='targetAddress'
@@ -110,7 +110,7 @@ const Settings = () => {
               </Button>
             </VStack>
 
-            <VStack w='33%' bg='' h='15vh'>
+            <VStack w='33%' bg='' h='20vh'>
               <Text>Target Port Number</Text>
               <TextField
                 name='portNumber'
@@ -130,7 +130,7 @@ const Settings = () => {
               </Button>
             </VStack>
 
-            <VStack w='33%' bg='' h='20vh' mt='5vh'>
+            <VStack w='33%' bg='' h='25vh' mt='5vh'>
             <Text mb='1vh'>Llama Server Usage</Text>
                 <Button
                   name='environment'

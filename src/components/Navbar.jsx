@@ -27,6 +27,8 @@ function Navbar() {
       mb='-2'
       bg={barColor}
       color={textColor}
+      w='100%'
+      h='5vh'
       />
       <Collapse in={!isOpen} animateOpacity>
         <Stack 
@@ -34,6 +36,7 @@ function Navbar() {
         bg={barColor}
         rounded={'lg'}
         color={textColor}
+        w='100%'
         >
           
           <List className='sideBarList'>
@@ -42,10 +45,9 @@ function Navbar() {
               <ListItem 
                 key={key} 
                 className="row"
-                mt={2}
-                mb={2}
+                mt={1}
+                mb={1}
                 id={window.location.pathname === val.link ? "active" : "" }
-                rounded={'lg'}
                 onClick={() => {
                   navigate(val.link)
                 }}>
