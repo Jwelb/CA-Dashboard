@@ -8,6 +8,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useState } from 'react';
 import axios from 'axios'
 import TextField from "../components/TextField";
+import SolrConnector from 'react-solr-connector';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -19,8 +20,11 @@ import {
 
 function Search() {
 
-  const [answer, setAnswer] = useState('initial')
+  const [docs, setDocs] = useState([])
+  const [length, setLength] = useState(0)
+
   const [resource, setResource] = useState('Internal')
+
   const resources = ['Internal', 'Google', 'Wikipedia']
 
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -29,25 +33,26 @@ function Search() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const getResponse = async (vals) => {
-    // Set the resources
+  const getResponse = async (vals) => { 
     setLoading(true)
+    const url = 'http://localhost:4000/searchSolr?q=' + vals
     await axios({
-      method: 'post',
-      url: 'http://localhost:4000/searchQuery',
+      method: 'get',
+      url: url,
       headers: {
         'content-type': 'application/json',
-      },
-      data: {
-        question: vals
       }
-    }).then(data => {
-        return data.data
-      }).then(data => {
-        setAnswer(data)
-        setLoading(false)
-        setSearchOpen(true)
-      })
+    })
+    .then(data => {
+      return data.data
+    })
+    .then(data => {
+      console.log(data)
+      setLength(data.numFound)
+      setDocs(data.docs)
+      setLoading(false)
+      setSearchOpen(true)
+    })
   }
 
   return (
@@ -127,7 +132,7 @@ function Search() {
             {(loading) ?  <Progress size='lg' isIndeterminate/> : '' } 
             <Collapse in={searchOpen} animateOpacity>
               <Box mt='5vh' w='80vw'>
-                <Card opacity={answer === 'initial' ? 0 : 1}>
+                <Card opacity={docs === 'initial' ? 0 : 1}>
                   <HStack padding={1}>
                     <Tabs alignItems={'center'}>
                       <TabList alignItems={'center'}>
@@ -149,77 +154,20 @@ function Search() {
                   
                   <Card>
                     <Stack divider={<StackDivider />} spacing='.3'>
-                      <HStack>
-                        <CardBody>
-                          <Text size='xs' fontWeight='bold'>
-                            {answer} article 1 from {resource}
-                          </Text>
-                          <Text pt='1' fontSize='sm'>
-                            ...
-                          </Text>
-                        </CardBody>
-                      </HStack>
-                      <HStack>
-                        <CardBody>
-                          <Text size='xs' fontWeight='bold'>
-                            {answer} article 1 from {resource}
-                          </Text>
-                          <Text pt='1' fontSize='sm'>
-                            ...
-                          </Text>
-                        </CardBody>
-                      </HStack>
-                      <HStack>
-                        <CardBody>
-                          <Text size='xs' fontWeight='bold'>
-                            {answer} article 1 from {resource}
-                          </Text>
-                          <Text pt='1' fontSize='sm'>
-                            ...
-                          </Text>
-                        </CardBody>
-                      </HStack>
-                      <HStack>
-                        <CardBody>
-                          <Text size='xs' fontWeight='bold'>
-                            {answer} article 1 from {resource}
-                          </Text>
-                          <Text pt='1' fontSize='sm'>
-                            ...
-                          </Text>
-                        </CardBody>
-                      </HStack>
-                  
-                    <HStack>
-                        <CardBody>
-                          <Text size='xs' fontWeight='bold'>
-                            {answer} article 1 from {resource}
-                          </Text>
-                          <Text pt='1' fontSize='sm'>
-                            ...
-                          </Text>
-                        </CardBody>
-                      </HStack>
-                      <HStack>
-                        <CardBody>
-                          <Text size='xs' fontWeight='bold'>
-                            {answer} article 1 from {resource}
-                          </Text>
-                          <Text pt='1' fontSize='sm'>
-                            ...
-                          </Text>
-                        </CardBody>
-                      </HStack>
-                      <HStack>
-                        <CardBody>
-                          <Text size='xs' fontWeight='bold'>
-                            {answer} article 1 from {resource}
-                          </Text>
-                          <Text pt='1' fontSize='sm'>
-                            ...
-                          </Text>
-                        </CardBody>
-                      </HStack>
+                      {docs.map((doc, index) => {
+                        return (
+                          <HStack key={index}>
+                            <CardBody>
+                              <Text size='sm' fontWeight='bold'>
+                              {doc.title || 'No title Found'} - {doc.author || ''} 
+                              </Text>
+                              <Text pt='1' fontSize='sm'>
+                                ...
+                              </Text>
+                            </CardBody>
+                        </HStack>
+                        )
+                      })}
                     </Stack>
                   </Card>
                 </Card>

@@ -1,12 +1,23 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('axios');
-//const { defaults } = require('pg');
+const solr = require('solr-client');
+const SolrNode = require('solr-node')
 
 
 const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
 );
+
+const solrClient = new SolrNode({
+    host: '127.0.0.1',
+    port: '8983',
+    core: 'gettingstarted',
+    protocol: 'http'
+});
+  
+// Set logger level (can be set to DEBUG, INFO, WARN, ERROR, FATAL or OFF)
+require('log4js').getLogger('solr-node').level = 'DEBUG';
 
 router
     .route('/chatQuery')
@@ -106,27 +117,23 @@ router
     })
 })
 
-router.post('/searchQuery', async (req, res) => {
-    await delay(3000)
-    target = 'yes'
-    try {
-        /*
-       const response = await axios.get('http://example.com') 
-       const solrData = response.data 
-       */
-       question = req.body.question
-       const date = new Date()
-
-       /*await client.query("INSERT INTO \"search_queries\" VALUES($1,$2,$3)",
-           [question, date, question])*/
-
-       console.log('Query successfully sent.')
-
-       res.send(question)
-   } catch (error) {
-       console.error('Error making request:', error);
-       res.status(500).send('Internal Server Error');
-   }
+router
+    .route('/searchSolr')    
+    .get(async (req, res) => {
+    const query = req.query.q;
+    console.log(query, 'is the query')
+  
+    const strQuery = solrClient.query().q(query);
+  
+    solrClient.search(strQuery, function (err, result) {
+    if (err) {
+       console.log(err);
+       return;
+    }
+    console.log(result.response)
+    res.json(result.response)
+ });
 });
+  
 
 module.exports = router 

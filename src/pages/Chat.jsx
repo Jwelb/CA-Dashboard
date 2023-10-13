@@ -141,7 +141,7 @@ const Chat = () => {
                 <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                   Enter some input
                 </AlertDialogHeader>
-                <AlertDialogBody>
+                <AlertDialogBody> 
                   Please enter a question so that we can answer it!
                 </AlertDialogBody>
                 <AlertDialogFooter>
@@ -162,7 +162,7 @@ const Chat = () => {
               overflowX="auto"
               whiteSpace="wrap"
               overflowY="auto">
-                <VStack h='85vh' w='75vw' ml='7vw'>
+                <VStack h='85vh' w='75vw' ml='7vw' align={'center'}>
                   {questionAnswer.map((questionAnswer, index) => {
                     const isLastItem = index === chatLength ;
                     return (
@@ -171,7 +171,7 @@ const Chat = () => {
                           <HStack w='75vw' align={'center'}>
                             <VStack 
                             w={'100%'}
-                            h='10vh'
+                            mb='1vh'
                             align={'right'} 
                             border='2px' 
                             rounded={10} 
@@ -276,7 +276,7 @@ const Chat = () => {
                           border='2px' 
                           rounded={10} 
                           padding={3} 
-                          h='10vh'
+                          mb='1vh'
                           borderColor={"#676e79"}>
                             <Tag 
                             size={'sm'} 
