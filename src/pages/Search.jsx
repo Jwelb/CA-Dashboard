@@ -8,7 +8,6 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useState } from 'react';
 import axios from 'axios'
 import TextField from "../components/TextField";
-import SolrConnector from 'react-solr-connector';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -21,11 +20,11 @@ import {
 function Search() {
 
   const [docs, setDocs] = useState([])
-  const [length, setLength] = useState(0)
+  const [googleRes, setGoogleRes] = useState([])
 
   const [resource, setResource] = useState('Internal')
 
-  const resources = ['Internal', 'Google', 'Wikipedia']
+  const resources = ['Internal', 'External']
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
@@ -47,9 +46,10 @@ function Search() {
       return data.data
     })
     .then(data => {
-      console.log(data)
-      setLength(data.numFound)
-      setDocs(data.docs)
+      console.log(data.solrResult)
+      console.log(data.googleResult)
+      setDocs(data.solrResult.docs)
+      setGoogleRes(data.googleResult)
       setLoading(false)
       setSearchOpen(true)
     })
@@ -125,7 +125,7 @@ function Search() {
               />
             </HStack>
             
-            <Box w='80vw' mt='5vh'
+            <Box w='80vw' mt='2vh'
             overflowX="auto"
             whiteSpace="wrap"
             overflowY="auto">
@@ -154,7 +154,7 @@ function Search() {
                   
                   <Card>
                     <Stack divider={<StackDivider />} spacing='.3'>
-                      {docs.map((doc, index) => {
+                      {resource=='Internal' && docs.map((doc, index) => {
                         return (
                           <HStack key={index}>
                             <CardBody>
@@ -166,8 +166,20 @@ function Search() {
                               </Text>
                             </CardBody>
                         </HStack>
-                        )
-                      })}
+                        )})}
+                      {resource=='External' && googleRes.map((doc, index) => {
+                        return (
+                          <HStack key={index}>
+                            <CardBody>
+                              <Text size='sm' fontWeight='bold'>
+                              {doc.title || 'No title Found'} 
+                              </Text>
+                              <Text pt='1' fontSize='sm'>
+                              {doc.snippet}
+                              </Text>
+                            </CardBody>
+                        </HStack>
+                      )})}
                     </Stack>
                   </Card>
                 </Card>

@@ -122,6 +122,33 @@ router
     .get(async (req, res) => {
     const query = req.query.q;
     console.log(query, 'is the query')
+    try {
+        const apiKey = 'AIzaSyCA0NoHS71O1M_AgsM4s_iAbjZ4f9IYRg4'
+        const cx = '97fdc22051d1a47f8'
+        await axios({
+            method: 'GET',
+            url: `https://www.googleapis.com/customsearch/v1?q=${query}&key=${apiKey}&cx=${cx}`,
+            headers: {
+            'Content-type': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion',
+            'Accept': '/*',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            },
+        }).then(data => {
+            //console.log(data.data.items)
+            googleRes = data.data.items
+        })
+
+        /*
+        await client.query("INSERT INTO \"chat_queries\" VALUES($1,$2,$3)",
+            [question, date, question])
+        */
+        console.log('Query successfully sent.')
+    } catch (error) {
+        console.error('Error making request:', error);
+        res.status(500).send('Internal Server Error');
+    }
   
     const strQuery = solrClient.query().q(query);
   
@@ -130,8 +157,9 @@ router
        console.log(err);
        return;
     }
-    console.log(result.response)
-    res.json(result.response)
+    const solr = result.response
+    //console.log(result.response)
+    res.json({solrResult: solr, googleResult: googleRes})
  });
 });
   
