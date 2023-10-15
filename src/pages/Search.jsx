@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
@@ -8,13 +8,16 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useState } from 'react';
 import axios from 'axios'
 import TextField from "../components/TextField";
+import { EnvContext } from '../components/envContext';
 import {
   AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogContent,
-  AlertDialogOverlay
+  AlertDialogOverlay,
+  Link,
+  useColorModeValue
 } from '@chakra-ui/react'
 
 function Search() {
@@ -31,6 +34,50 @@ function Search() {
 
   const [searchOpen, setSearchOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [frameOpen, setFrameOpen] =useState(false)
+
+  const [frame, setFrame] = useState('initial')
+  const barColor = useColorModeValue('#F4F7FF','#101720')
+
+  const {env} = useContext(EnvContext)
+  const {setEnv} = useContext(EnvContext)
+
+  useEffect(() => {
+    if(env.searchHistoryDocs){
+      setDocs(env.searchHistoryDocs)
+      setGoogleRes(env.searchHistoryGoogleDocs)
+      if(env.searchHistoryDocs.length == 0){
+        setSearchOpen(false)
+      }else{
+        setSearchOpen(true)
+      }
+    }else{
+      setSearchOpen(false)
+    }
+  }, [env])
+
+  const changeEnvironment = async (vals) => {
+    fetch("http://localhost:4000/environmentSettings", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vals),
+      })
+      .catch(err => {
+        return;
+      })
+      .then(res => {
+        if (!res || !res.ok || res.status >= 400) {
+          return; 
+        }
+        return res.json();
+      })
+      .then(data => {
+          setEnv({...data}) ;
+      });
+  }
 
   const getResponse = async (vals) => { 
     setLoading(true)
@@ -52,6 +99,16 @@ function Search() {
       setGoogleRes(data.googleResult)
       setLoading(false)
       setSearchOpen(true)
+
+      const vals = ({
+        environment: env.environment,
+        targetAddress: env.targetAddress,
+        portNumber: env.portNumber,
+        chatHistory: env.chatHistory,
+        searchHistoryDocs: data.solrResult.docs,
+        searchHistoryGoogleDocs: data.googleResult
+      })
+      changeEnvironment(vals)
     })
   }
 
@@ -73,11 +130,10 @@ function Search() {
       {(formik) => (
         <HStack
           w="100%"
+          h='100%'
           as={Form}>
 
-          <VStack>
-            {Navbar()}
-          </VStack>
+          {Navbar()}
 
           {/* Alert Box */}
           <AlertDialog
@@ -103,9 +159,23 @@ function Search() {
             </AlertDialogOverlay>
           </AlertDialog>
 
-          <VStack height='100vh' w='100vw'>
-
-            <HStack mt='5vh'>
+          <VStack height='97vh' w='100vw'>
+            <HStack mt='2vh' align={'center'}>
+            <Button mt='1vh'
+            onClick={() => {
+              setSearchOpen(false)
+              const vals = ({
+                environment: env.environment,
+                targetAddress: env.targetAddress,
+                portNumber: env.portNumber,
+                chatHistory: env.chatHistory,
+                searchHistoryDocs: [],
+                searchHistoryGoogleDocs: []
+              })
+              changeEnvironment(vals)
+            }}>
+                Clear History
+              </Button>
               <TextField
                 name='question'
                 placeholder={"Search Query goes here"}
@@ -113,15 +183,20 @@ function Search() {
                 width='70vw'
                 height='5vh'
                 borderColor="black"
+                mr='-1vw'
               />
               <IconButton 
+              mt='1vh'
               type='submit' 
+              align='center'
               isLoading={loading}
               aria-label='Search database' 
               icon={<SearchIcon />}
               onClick={() => {
                 setSearchOpen(false)
               }} 
+              h='4vh'
+              w='4vw'
               />
             </HStack>
             
@@ -131,9 +206,9 @@ function Search() {
             overflowY="auto">
             {(loading) ?  <Progress size='lg' isIndeterminate/> : '' } 
             <Collapse in={searchOpen} animateOpacity>
-              <Box mt='5vh' w='80vw'>
+              <Box w='80vw'>
                 <Card opacity={docs === 'initial' ? 0 : 1}>
-                  <HStack padding={1}>
+                  <HStack padding={1} bg={barColor} rounded={5} >
                     <Tabs alignItems={'center'}>
                       <TabList alignItems={'center'}>
                         {resources.map((item, index) => {
@@ -143,6 +218,7 @@ function Search() {
                             key={index}
                             onClick={() => {
                               setResource(item)
+                              setFrame(-1)
                             }}>
                               <Text size='sm'>{item}</Text>
                             </Tab>
@@ -158,12 +234,26 @@ function Search() {
                         return (
                           <HStack key={index}>
                             <CardBody>
-                              <Text size='sm' fontWeight='bold'>
-                              {doc.title || 'No title Found'} - {doc.author || ''} 
-                              </Text>
-                              <Text pt='1' fontSize='sm'>
-                                ...
-                              </Text>
+                              <VStack w={'100%'}>
+                              <HStack w={'100%'}>
+                                <VStack w='100%' align={'left'}>
+                                  <Text size='sm' fontWeight='bold'>
+                                  {doc.title || 'No title Found'}  - {doc.author}
+                                  </Text>
+                                  <Text pt='15px' fontSize='md'>
+                                  ...
+                                  </Text>
+                                </VStack>
+                                <VStack align='right'>
+                                  <Button w='5vw'
+                                  onClick={()=> {
+                                    setFrame(index)
+                                  }}>
+                                    Preview
+                                  </Button>
+                                </VStack>
+                              </HStack>
+                              </VStack>
                             </CardBody>
                         </HStack>
                         )})}
@@ -171,14 +261,65 @@ function Search() {
                         return (
                           <HStack key={index}>
                             <CardBody>
-                              <Text size='sm' fontWeight='bold'>
-                              {doc.title || 'No title Found'} 
-                              </Text>
-                              <Text pt='1' fontSize='sm'>
-                              {doc.snippet}
-                              </Text>
+                              <VStack w={'100%'}>
+                              <HStack w={'100%'}>
+                                <VStack w='100%' align={'left'}>
+                                  <Text size='sm' fontWeight='bold'>
+                                  {doc.title || 'No title Found'} 
+                                  </Text>
+                                  <Text pt='15px' fontSize='md'>
+                                  {doc.snippet}
+                                  </Text>
+                                </VStack>
+                                <VStack align='right'>
+                                  
+                                  <Link href={doc.formattedUrl} isExternal>
+                                    <Button w='5vw'>
+                                      Visit
+                                    </Button>
+                                  </Link>
+
+                                  <Button w='5vw'
+                                  onClick={()=> {
+                                    if(frame != index){
+                                      setFrame(index)
+                                      setFrameOpen(true)
+                                    }else{
+                                      setFrame(-1)
+                                      setFrameOpen(false)
+                                    }
+                                  }}>
+                                    Preview
+                                  </Button>
+                                </VStack>
+                              </HStack>
+                              <Box w='100%'>
+                              <Collapse in={frameOpen} animateOpacity>
+                                {index == frame && 
+                                  <HStack w='100%'>
+                                  <iframe
+                                    src={doc.formattedUrl}
+                                    width="100%"
+                                    height="400vh"
+                                    title="Website Preview"
+                                  />
+                                  <Button>
+                                    Transfer
+                                  </Button>
+                                  <iframe
+                                    src={doc.formattedUrl}
+                                    width="100%"
+                                    height="400vh"
+                                    title="Website Preview"
+                                  />
+                                  </HStack>
+                                }
+                                </Collapse>
+                                </Box>
+                              </VStack>
                             </CardBody>
                         </HStack>
+                        
                       )})}
                     </Stack>
                   </Card>

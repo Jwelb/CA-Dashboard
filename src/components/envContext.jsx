@@ -8,7 +8,10 @@ const UserContext = ({ children }) => {
   const [env, setEnv] = useState({ 
     environment: null, 
     targetAddress: null, 
-    portNumber: null });
+    portNumber: null,
+    chatHistory: null,
+    searchHistoryDocs: null,
+    searchHistoryGoogleDocs: null});
   useEffect(() => {
     fetch("http://localhost:4000/environmentSettings", {
       credentials: "include",
@@ -21,9 +24,11 @@ const UserContext = ({ children }) => {
           environment: data.environment,
           targetAddress: data.targetAddress, 
           portNumber: data.portNumber,
-          chatHistory: data.chatHistory});
-      });
-  }, []);
+          chatHistory: data.chatHistory,
+          searchHistoryDocs: data.searchHistoryDocs,
+          searchHistoryGoogleDocs: data.searchHistoryGoogleDocs
+        })})
+        }, []);
   return (
     <EnvContext.Provider value={{ env, setEnv }}>
       {children}

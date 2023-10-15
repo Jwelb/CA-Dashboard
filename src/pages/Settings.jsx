@@ -134,7 +134,7 @@ const Settings = () => {
             </VStack>
 
             <VStack w='33%' bg='' h='25vh' mt='5vh'>
-            <Text mb='1vh'>Llama Server Usage</Text>
+            <Text mb='1vh'>Server Usage</Text>
                 <Button
                   name='environment'
                   value='environment' 
@@ -169,7 +169,7 @@ const Settings = () => {
           <Box w='100%' align={'center'}>
               <Text>Current Target IP: {env.targetAddress}</Text>
               <Text>Current Port Number: {env.portNumber}</Text>
-              <Text>Current Llama Server Usage: {env.environment}</Text>
+              <Text>Current Server Usage: {env.environment}</Text>
           </Box>
         </VStack>
         </HStack>

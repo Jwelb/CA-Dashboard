@@ -74,47 +74,43 @@ router
 router  
     .route('/environmentSettings')
     .get(async (req,res) => {
-        if(req.session.env){                        // Maintain Session Environment
+        if(req.session.env){       
+            console.log(1)        // Maintain Session Environment
+            console.log(req.session.env)
             req.session.env = {
                 environment: req.session.env.environment,
                 targetAddress: req.session.env.targetAddress,
                 portNumber: req.session.env.portNumber,
-                chatHistory: req.session.env.chatHistory
+                chatHistory: req.session.env.chatHistory,
+                searchHistoryDocs: req.session.env.searchHistoryDocs,
+                searchHistoryGoogleDocs: req.session.env.searchHistoryGoogleDocs
             }
-            res.json({
-                environment: req.session.env.environment,
-                targetAddress: req.session.env.targetAddress,
-                portNumber: req.session.env.portNumber,
-                chatHistory: req.session.env.chatHistory
-            })
-        }else{                                      // Setup Initial Connection
+            console.log(req.session.env)
+            res.json(req.session.env)
+        }else{   
+            console.log(2)                              // Setup Initial Connection
             req.session.env = {
                 environment: 'Development',
                 targetAddress: '127.0.0.1',
                 portNumber: '5000',
-                chatHistory: []
+                chatHistory: [],
+                searchHistoryDocs: [],
+                searchHistoryGoogleDocs: []
             }
-            res.json({
-                environment: 'Development',
-                targetAddress: '127.0.0.1',
-                portNumber: '5000',
-                chatHistory: []
-            })
+            res.json(req.session.env)
         }
     })
     .post(async (req,res) => {
+        console.log(3)
         req.session.env = {                        // Change Environment
             environment: req.body.environment,
             targetAddress: req.body.targetAddress,
             portNumber: req.body.portNumber,
-            chatHistory: req.body.chatHistory
+            chatHistory: req.body.chatHistory,
+            searchHistoryDocs: req.body.searchHistoryDocs,
+            searchHistoryGoogleDocs: req.body.searchHistoryGoogleDocs
         }
-        res.json({
-            environment: req.body.environment,
-            targetAddress: req.body.targetAddress,
-            portNumber: req.body.portNumber,
-            chatHistory: req.body.chatHistory
-    })
+        res.json(req.session.env)
 })
 
 router
@@ -157,9 +153,9 @@ router
        console.log(err);
        return;
     }
-    const solr = result.response
+    const solrRes = result.response
     //console.log(result.response)
-    res.json({solrResult: solr, googleResult: googleRes})
+    res.json({solrResult: solrRes, googleResult: googleRes})
  });
 });
   
