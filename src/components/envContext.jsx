@@ -11,7 +11,8 @@ const UserContext = ({ children }) => {
     portNumber: null,
     chatHistory: null,
     searchHistoryDocs: null,
-    searchHistoryGoogleDocs: null});
+    searchHistoryGoogleDocs: null,
+    documentBuildContents: null});
   useEffect(() => {
     fetch("http://localhost:4000/environmentSettings", {
       credentials: "include",
@@ -26,7 +27,8 @@ const UserContext = ({ children }) => {
           portNumber: data.portNumber,
           chatHistory: data.chatHistory,
           searchHistoryDocs: data.searchHistoryDocs,
-          searchHistoryGoogleDocs: data.searchHistoryGoogleDocs
+          searchHistoryGoogleDocs: data.searchHistoryGoogleDocs,
+          documentBuildContents: data.documentBuildContents
         })})
         }, []);
   return (

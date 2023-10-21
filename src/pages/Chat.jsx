@@ -115,7 +115,8 @@ const Chat = () => {
           portNumber: env.portNumber,
           chatHistory: updatedAnswers,
           searchHistoryDocs: env.searchHistoryDocs,
-          searchHistoryGoogleDocs: env.searchHistoryGoogleDocs
+          searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
+          documentBuildContents: env.documentBuildContents
         })
         changeEnvironment(vals)
       })
@@ -123,7 +124,6 @@ const Chat = () => {
 
   const getFeedback = async (vals) => {
     console.log(vals)
-    console.log(env)
   }
 
 
@@ -143,11 +143,12 @@ const Chat = () => {
 
 
       {(formik) => (
-        
         <HStack
-          w="100%"
+          w="100vw"
+          h='100vh'
           as={Form}>
-          {Navbar()}
+            
+          <Box>{Navbar()}</Box>
 
           {/* Alert Box */}
           <AlertDialog
@@ -377,7 +378,8 @@ const Chat = () => {
                       portNumber: env.portNumber,
                       chatHistory: [],
                       searchHistoryDocs: env.searchHistoryDocs,
-                      searchHistoryGoogleDocs: env.searchHistoryGoogleDocs
+                      searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
+                      documentBuildContents: env.documentBuildContents
                     })
                     changeEnvironment(vals)
                     }}

@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('axios');
-const solr = require('solr-client');
 const SolrNode = require('solr-node')
 
 
@@ -74,41 +73,39 @@ router
 router  
     .route('/environmentSettings')
     .get(async (req,res) => {
-        if(req.session.env){       
-            console.log(1)        // Maintain Session Environment
-            console.log(req.session.env)
+        if(req.session.env){                             // Maintain Environment
             req.session.env = {
                 environment: req.session.env.environment,
                 targetAddress: req.session.env.targetAddress,
                 portNumber: req.session.env.portNumber,
                 chatHistory: req.session.env.chatHistory,
                 searchHistoryDocs: req.session.env.searchHistoryDocs,
-                searchHistoryGoogleDocs: req.session.env.searchHistoryGoogleDocs
+                searchHistoryGoogleDocs: req.session.env.searchHistoryGoogleDocs,
+                documentBuildContents: req.session.env.documentBuildContents
             }
-            console.log(req.session.env)
             res.json(req.session.env)
-        }else{   
-            console.log(2)                              // Setup Initial Connection
+        }else{                                          // Default Environment
             req.session.env = {
                 environment: 'Development',
                 targetAddress: '127.0.0.1',
                 portNumber: '5000',
                 chatHistory: [],
                 searchHistoryDocs: [],
-                searchHistoryGoogleDocs: []
+                searchHistoryGoogleDocs: [],
+                documentBuildContents: []
             }
             res.json(req.session.env)
         }
     })
     .post(async (req,res) => {
-        console.log(3)
-        req.session.env = {                        // Change Environment
+        req.session.env = {                            // Change Environment
             environment: req.body.environment,
             targetAddress: req.body.targetAddress,
             portNumber: req.body.portNumber,
             chatHistory: req.body.chatHistory,
             searchHistoryDocs: req.body.searchHistoryDocs,
-            searchHistoryGoogleDocs: req.body.searchHistoryGoogleDocs
+            searchHistoryGoogleDocs: req.body.searchHistoryGoogleDocs,
+            documentBuildContents: req.body.documentBuildContents
         }
         res.json(req.session.env)
 })
@@ -132,10 +129,8 @@ router
             'Connection': 'keep-alive',
             },
         }).then(data => {
-            //console.log(data.data.items)
             googleRes = data.data.items
         })
-
         /*
         await client.query("INSERT INTO \"chat_queries\" VALUES($1,$2,$3)",
             [question, date, question])

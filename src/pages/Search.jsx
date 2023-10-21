@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
-import { HStack, VStack, Progress, Text, Box, Button, Card, Stack, StackDivider, CardBody, Tabs, Tab, TabList, Fade, IconButton, Collapse } from "@chakra-ui/react";
+import { HStack, VStack, Progress, Text, Box, Button, Card, Stack, StackDivider, CardBody, Tabs, Tab, TabList, Fade, IconButton, Collapse, Textarea } from "@chakra-ui/react";
 import { SearchIcon } from '@chakra-ui/icons'
 import { useDisclosure } from "@chakra-ui/react";
 import { useState } from 'react';
@@ -24,8 +24,9 @@ function Search() {
 
   const [docs, setDocs] = useState([])
   const [googleRes, setGoogleRes] = useState([])
+  const [innerFormValues, setInnerFormValues] = useState({ documentBuilder: "", documentAuthor: ""});
 
-  const [resource, setResource] = useState('Internal')
+  const [resource, setResource] = useState(null)
 
   const resources = ['Internal', 'External']
 
@@ -43,10 +44,11 @@ function Search() {
   const {setEnv} = useContext(EnvContext)
 
   useEffect(() => {
+    console.log(env)
     if(env.searchHistoryDocs){
       setDocs(env.searchHistoryDocs)
       setGoogleRes(env.searchHistoryGoogleDocs)
-      if(env.searchHistoryDocs.length == 0){
+      if(env.searchHistoryDocs.length == 0 && env.searchHistoryGoogleDocs.length == 0){
         setSearchOpen(false)
       }else{
         setSearchOpen(true)
@@ -79,6 +81,37 @@ function Search() {
       });
   }
 
+  const handleDocumentSubmit = (values, actions) => {
+    console.log(values)
+    if (values.documentBuilder.trim() == "") {
+      onOpen();
+      return;
+    }
+  
+    const currentPosition = env.documentBuildContents.length
+    console.log(currentPosition)
+
+    const documentEntry = [{
+      id: currentPosition, 
+      entry: values.documentBuilder, 
+      author: values.documentAuthor,
+      link: values.documentLink
+    }]
+
+    const updatedDocumentBuildContents = [...env.documentBuildContents, documentEntry];
+
+    const vals = {
+      environment: env.environment,
+      targetAddress: env.targetAddress,
+      portNumber: env.portNumber,
+      chatHistory: env.chatHistory,
+      searchHistoryDocs: env.searchHistoryDocs,
+      searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
+      documentBuildContents: updatedDocumentBuildContents // something
+    };
+    changeEnvironment(vals)
+  };
+
   const getResponse = async (vals) => { 
     setLoading(true)
     const url = 'http://localhost:4000/searchSolr?q=' + vals
@@ -93,7 +126,6 @@ function Search() {
       return data.data
     })
     .then(data => {
-      console.log(data.solrResult)
       console.log(data.googleResult)
       setDocs(data.solrResult.docs)
       setGoogleRes(data.googleResult)
@@ -106,7 +138,8 @@ function Search() {
         portNumber: env.portNumber,
         chatHistory: env.chatHistory,
         searchHistoryDocs: data.solrResult.docs,
-        searchHistoryGoogleDocs: data.googleResult
+        searchHistoryGoogleDocs: data.googleResult,
+        documentBuildContents: env.documentBuildContents
       })
       changeEnvironment(vals)
     })
@@ -117,23 +150,27 @@ function Search() {
       initialValues={{ question: '' }}
       validationSchema={Yup.object({ question: Yup.string() })}
       onSubmit={(values, actions) => {
-        if (values.question.trim() == "") {
+        if (values.question.trim() == "" && innerFormValues.documentBuilder == "") {
           {onOpen()}
           return
         }
-        const vals = { ...values };
-        getResponse(vals.question)
-        actions.resetForm()
+        if(values.question.trim() != ""){
+          setSearchOpen(false)
+          const vals = { ...values };
+          getResponse(vals.question)
+          actions.resetForm()
+        }
+        setInnerFormValues({ documentBuilder: "", documentAuthor: "", documentLink: "" });
       }}
     >
 
       {(formik) => (
         <HStack
-          w="100%"
-          h='100%'
+          w="100vw"
+          h='100vh'
           as={Form}>
 
-          {Navbar()}
+        <Box>{Navbar()}</Box>
 
           {/* Alert Box */}
           <AlertDialog
@@ -170,7 +207,8 @@ function Search() {
                 portNumber: env.portNumber,
                 chatHistory: env.chatHistory,
                 searchHistoryDocs: [],
-                searchHistoryGoogleDocs: []
+                searchHistoryGoogleDocs: [],
+                documentBuildContents: env.documentBuildContents
               })
               changeEnvironment(vals)
             }}>
@@ -193,7 +231,7 @@ function Search() {
               aria-label='Search database' 
               icon={<SearchIcon />}
               onClick={() => {
-                setSearchOpen(false)
+                setFrame(-1)
               }} 
               h='4vh'
               w='4vw'
@@ -295,24 +333,46 @@ function Search() {
                               </HStack>
                               <Box w='100%'>
                               <Collapse in={frameOpen} animateOpacity>
-                                {index == frame && 
-                                  <HStack w='100%'>
+                                {index == frame &&
+                                  <VStack w='100%'>
                                   <iframe
                                     src={doc.formattedUrl}
                                     width="100%"
                                     height="400vh"
                                     title="Website Preview"
                                   />
-                                  <Button>
-                                    Transfer
+                                  <HStack width='100%'>
+                                  <Textarea
+                                  name='documentBuilder'
+                                  value={innerFormValues.documentBuilder}
+                                  placeholder={"Information to send to document"}
+                                  autoComplete="off"
+                                  minH="100px"
+                                  borderColor="black"
+                                  resize="none"  
+                                  overflowY="hidden"
+                                  onChange={(e) => {
+                                    setInnerFormValues({ 
+                                      documentBuilder: e.target.value, 
+                                      documentAuthor: doc.displayLink, 
+                                      documentLink: doc.link
+                                    })
+                                  }}
+                                />
+                                  <Button
+                                  type="submit"
+                                  h='100%'
+                                  padding={3}
+                                  onClick={() => {
+                                    handleDocumentSubmit(innerFormValues)
+                                  }}>
+                                    <VStack>
+                                      <Text>Send to</Text>
+                                      <Text>Document</Text>
+                                    </VStack>
                                   </Button>
-                                  <iframe
-                                    src={doc.formattedUrl}
-                                    width="100%"
-                                    height="400vh"
-                                    title="Website Preview"
-                                  />
                                   </HStack>
+                                  </VStack>
                                 }
                                 </Collapse>
                                 </Box>

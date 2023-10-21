@@ -2,6 +2,7 @@ import { ChatIcon, Search2Icon } from '@chakra-ui/icons'
 import {BiBarChartAlt2} from 'react-icons/bi'
 import { FiSettings, FiHelpCircle } from 'react-icons/fi'
 import { BsMap } from 'react-icons/bs'
+import { HiOutlineDocumentText } from 'react-icons/hi'
 
 export const NavbarData= [
     {
@@ -13,6 +14,11 @@ export const NavbarData= [
         title: "Search",
         link: "/Search",
         icon: <Search2Icon/>
+    },
+    {
+        title: "Document",
+        link: "/Document",
+        icon: <HiOutlineDocumentText/>
     },
     {
         title: "Map",

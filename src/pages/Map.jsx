@@ -1,15 +1,16 @@
-
 import React from "react";
 import Navbar from "../components/Navbar";
-import {HStack} from '@chakra-ui/react'
+import {HStack, Box} from '@chakra-ui/react'
   
-const Map = () => {
+const Trends = () => {
   return (
-    <HStack>
-      <Navbar></Navbar>
-      <h1>Map Page</h1>
-    </HStack>
+    <HStack
+    w="100vw"
+    h='100vh'>
+    <Box>{Navbar()}</Box>
+
+  </HStack>
   );
 };
   
-export default Map;
+export default Trends;

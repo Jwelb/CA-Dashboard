@@ -5,10 +5,12 @@ import {HStack} from '@chakra-ui/react'
   
 const Trends = () => {
   return (
-    <HStack>
-      <Navbar></Navbar>
-      <h1>Trends Page</h1>
-    </HStack>
+    <HStack
+    w="100vw"
+    h='100vh'>
+    {Navbar()}
+
+  </HStack>
   );
 };
   
