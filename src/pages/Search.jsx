@@ -26,7 +26,7 @@ function Search() {
   const [googleRes, setGoogleRes] = useState([])
   const [innerFormValues, setInnerFormValues] = useState({ documentBuilder: "", documentAuthor: ""});
 
-  const [resource, setResource] = useState(null)
+  const [resource, setResource] = useState('Internal')
 
   const resources = ['Internal', 'External']
 
@@ -44,7 +44,6 @@ function Search() {
   const {setEnv} = useContext(EnvContext)
 
   useEffect(() => {
-    console.log(env)
     if(env.searchHistoryDocs){
       setDocs(env.searchHistoryDocs)
       setGoogleRes(env.searchHistoryGoogleDocs)

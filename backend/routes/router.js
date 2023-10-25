@@ -130,6 +130,7 @@ router
             },
         }).then(data => {
             googleRes = data.data.items
+            //console.log(googleRes)
         })
         /*
         await client.query("INSERT INTO \"chat_queries\" VALUES($1,$2,$3)",
