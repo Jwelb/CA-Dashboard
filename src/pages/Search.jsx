@@ -103,9 +103,12 @@ function Search() {
     const updatedDocumentBuildContents = [...env.documentBuildContents, documentEntry];
 
     const vals = {
-      environment: env.environment,
-      targetAddress: env.targetAddress,
-      portNumber: env.portNumber,
+      llamaEnvironment: env.llamaEnvironment, 
+      llamaTargetAddress: env.llamaTargetAddress, 
+      llamaPortNumber: env.llamaPortNumber,
+      solrEnvironment: env.solrEnvironment, 
+      solrTargetAddress: env.solrTargetAddress, 
+      solrPortNumber: env.solrPortNumber,
       chatHistory: env.chatHistory,
       searchHistoryDocs: env.searchHistoryDocs,
       searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
@@ -135,9 +138,12 @@ function Search() {
       setSearchOpen(true)
 
       const vals = ({
-        environment: env.environment,
-        targetAddress: env.targetAddress,
-        portNumber: env.portNumber,
+        llamaEnvironment: env.llamaEnvironment, 
+        llamaTargetAddress: env.llamaTargetAddress, 
+        llamaPortNumber: env.llamaPortNumber,
+        solrEnvironment: env.solrEnvironment, 
+        solrTargetAddress: env.solrTargetAddress, 
+        solrPortNumber: env.solrPortNumber,
         chatHistory: env.chatHistory,
         searchHistoryDocs: data.solrResult.docs,
         searchHistoryGoogleDocs: data.googleResult,
@@ -207,9 +213,12 @@ function Search() {
             onClick={() => {
               setSearchOpen(false)
               const vals = ({
-                environment: env.environment,
-                targetAddress: env.targetAddress,
-                portNumber: env.portNumber,
+                llamaEnvironment: env.llamaEnvironment, 
+                llamaTargetAddress: env.llamaTargetAddress, 
+                llamaPortNumber: env.llamaPortNumber,
+                solrEnvironment: env.solrEnvironment, 
+                solrTargetAddress: env.solrTargetAddress, 
+                solrPortNumber: env.solrPortNumber,
                 chatHistory: env.chatHistory,
                 searchHistoryDocs: [],
                 searchHistoryGoogleDocs: [],

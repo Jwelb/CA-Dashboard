@@ -57,7 +57,7 @@ const Document = () => {
       ]
 
     useEffect(() => {
-        console.log(1)
+        console.log(env)
         if(env.documentBuildContents){
             setText(setInitialText(env.documentBuildContents))
             setLoading(false)

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Stack, IconButton, useDisclosure, Collapse, Box, List, ListItem, useColorModeValue, Text} from "@chakra-ui/react"
+import {Stack, IconButton, useDisclosure, Collapse, Box, List, ListItem, useColorModeValue, Text, HStack} from "@chakra-ui/react"
 import { HamburgerIcon } from '@chakra-ui/icons'
 
 import NavbarData from './NavbarData'
@@ -51,8 +51,10 @@ function Navbar() {
                 onClick={() => {
                   navigate(val.link)
                 }}>
-                <Box id="icon" mr={3} >{val.icon}</Box>
-                <Box id="title"><Text fontSize={'14px'}>{val.title}</Text></Box>
+                <HStack w='100%'>
+                    <Box id="icon" w='100%' ml={'20%'} align='left'>{val.icon}</Box>
+                    <Box id="title"w='100%' ml={'-20%'} align={'left'}><Text fontSize={'14px'}>{val.title}</Text></Box>
+                </HStack>
               </ListItem>
               )})}
               <ListItem id='footer'><ToggleColorMode/></ListItem>

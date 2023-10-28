@@ -4,9 +4,12 @@ export const EnvContext = createContext();
 
 const UserContext = ({ children }) => {
   const [env, setEnv] = useState({ 
-    environment: null, 
-    targetAddress: null, 
-    portNumber: null,
+    llamaEnvironment: null, 
+    llamaTargetAddress: null, 
+    llamaPortNumber: null,
+    solrEnvironment: null, 
+    solrTargetAddress: null, 
+    solrPortNumber: null,
     chatHistory: null,
     searchHistoryDocs: null,
     searchHistoryGoogleDocs: null,
@@ -21,9 +24,12 @@ const UserContext = ({ children }) => {
       })
       .then(data => {
         setEnv({
-          environment: data.environment,
-          targetAddress: data.targetAddress, 
-          portNumber: data.portNumber,
+          llamaEnvironment: data.llamaEnvironment, 
+          llamaTargetAddress: data.solrTargetAddress, 
+          llamaPortNumber: data.llamaPortNumber,
+          solrEnvironment: data.solrEnvironment, 
+          solrTargetAddress: data.solrTargetAddress, 
+          solrPortNumber: data.solrPortNumber,
           chatHistory: data.chatHistory,
           searchHistoryDocs: data.searchHistoryDocs,
           searchHistoryGoogleDocs: data.searchHistoryGoogleDocs,

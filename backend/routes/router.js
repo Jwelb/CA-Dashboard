@@ -75,9 +75,12 @@ router
     .get(async (req,res) => {
         if(req.session.env){                             // Maintain Environment
             req.session.env = {
-                environment: req.session.env.environment,
-                targetAddress: req.session.env.targetAddress,
-                portNumber: req.session.env.portNumber,
+                llamaEnvironment: req.session.env.llamaEnvironment, 
+                llamaTargetAddress: req.session.env.llamaTargetAddress, 
+                llamaPortNumber: req.session.env.llamaPortNumber,
+                solrEnvironment: req.session.env.solrEnvironment, 
+                solrTargetAddress: req.session.env.solrTargetAddress, 
+                solrPortNumber: req.session.env.solrPortNumber,
                 chatHistory: req.session.env.chatHistory,
                 searchHistoryDocs: req.session.env.searchHistoryDocs,
                 searchHistoryGoogleDocs: req.session.env.searchHistoryGoogleDocs,
@@ -87,9 +90,12 @@ router
             res.json(req.session.env)
         }else{                                          // Default Environment
             req.session.env = {
-                environment: 'Development',
-                targetAddress: '127.0.0.1',
-                portNumber: '5000',
+                llamaEnvironment: 'Development',
+                llamaTargetAddress: '127.0.0.1',
+                llamaPortNumber: '5000',
+                solrEnvironment: 'Development',
+                solrTargetAddress: '127.0.0.1',
+                solrPortNumber: '8983',
                 chatHistory: [],
                 searchHistoryDocs: [],
                 searchHistoryGoogleDocs: [],
@@ -101,15 +107,19 @@ router
     })
     .post(async (req,res) => {
         req.session.env = {                            // Change Environment
-            environment: req.body.environment,
-            targetAddress: req.body.targetAddress,
-            portNumber: req.body.portNumber,
+            llamaEnvironment: req.body.llamaEnvironment,
+            llamaTargetAddress: req.body.llamaTargetAddress,
+            llamaPortNumber: req.body.llamaPortNumber,
+            solrEnvironment: req.body.solrEnvironment,
+            solrTargetAddress: req.body.solrTargetAddress,
+            solrPortNumber: req.body.solrPortNumber,
             chatHistory: req.body.chatHistory,
             searchHistoryDocs: req.body.searchHistoryDocs,
             searchHistoryGoogleDocs: req.body.searchHistoryGoogleDocs,
             documentBuildContents: req.body.documentBuildContents,
             currentDocument: req.body.currentDocument
         }
+        console.log(req.session.env)
         res.json(req.session.env)
 })
 

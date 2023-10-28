@@ -110,9 +110,12 @@ const Chat = () => {
         setChatLength(questionAnswer.length)
 
         const vals = ({
-          environment: env.environment,
-          targetAddress: env.targetAddress,
-          portNumber: env.portNumber,
+          llamaEnvironment: env.llamaEnvironment, 
+          llamaTargetAddress: env.llamaTargetAddress, 
+          llamaPortNumber: env.llamaPortNumber,
+          solrEnvironment: env.solrEnvironment, 
+          solrTargetAddress: env.solrTargetAddress, 
+          solrPortNumber: env.solrPortNumber,
           chatHistory: updatedAnswers,
           searchHistoryDocs: env.searchHistoryDocs,
           searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
@@ -375,9 +378,12 @@ const Chat = () => {
                   onClick={() => {
                     setChatOpen(false)
                     const vals = ({
-                      environment: env.environment,
-                      targetAddress: env.targetAddress,
-                      portNumber: env.portNumber,
+                      llamaEnvironment: env.llamaEnvironment, 
+                      llamaTargetAddress: env.llamaTargetAddress, 
+                      llamaPortNumber: env.llamaPortNumber,
+                      solrEnvironment: env.solrEnvironment, 
+                      solrTargetAddress: env.solrTargetAddress, 
+                      solrPortNumber: env.solrPortNumber,
                       chatHistory: [],
                       searchHistoryDocs: env.searchHistoryDocs,
                       searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
