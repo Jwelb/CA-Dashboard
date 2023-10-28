@@ -81,7 +81,8 @@ router
                 chatHistory: req.session.env.chatHistory,
                 searchHistoryDocs: req.session.env.searchHistoryDocs,
                 searchHistoryGoogleDocs: req.session.env.searchHistoryGoogleDocs,
-                documentBuildContents: req.session.env.documentBuildContents
+                documentBuildContents: req.session.env.documentBuildContents,
+                currentDocument: req.session.env.currentDocument
             }
             res.json(req.session.env)
         }else{                                          // Default Environment
@@ -92,7 +93,8 @@ router
                 chatHistory: [],
                 searchHistoryDocs: [],
                 searchHistoryGoogleDocs: [],
-                documentBuildContents: []
+                documentBuildContents: [],
+                currentDocument: ''
             }
             res.json(req.session.env)
         }
@@ -105,7 +107,8 @@ router
             chatHistory: req.body.chatHistory,
             searchHistoryDocs: req.body.searchHistoryDocs,
             searchHistoryGoogleDocs: req.body.searchHistoryGoogleDocs,
-            documentBuildContents: req.body.documentBuildContents
+            documentBuildContents: req.body.documentBuildContents,
+            currentDocument: req.body.currentDocument
         }
         res.json(req.session.env)
 })

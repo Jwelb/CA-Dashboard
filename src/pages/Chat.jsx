@@ -116,7 +116,8 @@ const Chat = () => {
           chatHistory: updatedAnswers,
           searchHistoryDocs: env.searchHistoryDocs,
           searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
-          documentBuildContents: env.documentBuildContents
+          documentBuildContents: env.documentBuildContents,
+          currentDocument: env.currentDocument
         })
         changeEnvironment(vals)
       })
@@ -380,7 +381,8 @@ const Chat = () => {
                       chatHistory: [],
                       searchHistoryDocs: env.searchHistoryDocs,
                       searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
-                      documentBuildContents: env.documentBuildContents
+                      documentBuildContents: env.documentBuildContents,
+                      currentDocument: env.currentDocument
                     })
                     changeEnvironment(vals)
                     }}
@@ -394,7 +396,7 @@ const Chat = () => {
                   width='70vw'
                   h='6vh'
                   borderColor="black"
-                  mr='-2vw'
+                  mr='-1vw'
                 />
                 <Button
                   isLoading={loading}

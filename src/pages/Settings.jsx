@@ -42,6 +42,7 @@ const Settings = () => {
     vals.searchHistoryDocs = env.searchHistoryDocs
     vals.searchHistoryGoogleDocs = env.searchHistoryGoogleDocs
     vals.documentBuildContents = env.documentBuildContents
+    vals.currentDocument = env.currentDocument
 
     fetch("http://localhost:4000/environmentSettings", {
       method: "POST",
@@ -106,7 +107,6 @@ const Settings = () => {
             mt='1vh'
             onClick={() => {
               setFormToChange('targetAddress')
-              console.log(formToChange)
             }}>
             Change
           </Button>

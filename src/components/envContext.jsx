@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router";
-
 const { createContext, useState, useEffect } = require("react");
 
 export const EnvContext = createContext();
@@ -12,7 +10,8 @@ const UserContext = ({ children }) => {
     chatHistory: null,
     searchHistoryDocs: null,
     searchHistoryGoogleDocs: null,
-    documentBuildContents: null});
+    documentBuildContents: null,
+    currentDocument: null});
   useEffect(() => {
     fetch("http://localhost:4000/environmentSettings", {
       credentials: "include",
@@ -28,7 +27,8 @@ const UserContext = ({ children }) => {
           chatHistory: data.chatHistory,
           searchHistoryDocs: data.searchHistoryDocs,
           searchHistoryGoogleDocs: data.searchHistoryGoogleDocs,
-          documentBuildContents: data.documentBuildContents
+          documentBuildContents: data.documentBuildContents,
+          currentDocument: data.currentDocument
         })})
         }, []);
   return (

@@ -39,6 +39,9 @@ function Search() {
 
   const [frame, setFrame] = useState('initial')
   const barColor = useColorModeValue('#F4F7FF','#101720')
+  
+  const buttonColor = useColorModeValue('#F4F7FF','#101720')
+  const textColor = useColorModeValue('black','white')
 
   const {env} = useContext(EnvContext)
   const {setEnv} = useContext(EnvContext)
@@ -106,7 +109,8 @@ function Search() {
       chatHistory: env.chatHistory,
       searchHistoryDocs: env.searchHistoryDocs,
       searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
-      documentBuildContents: updatedDocumentBuildContents // something
+      documentBuildContents: updatedDocumentBuildContents,
+      currentDocument: env.currentDocument
     };
     changeEnvironment(vals)
   };
@@ -125,7 +129,6 @@ function Search() {
       return data.data
     })
     .then(data => {
-      console.log(data.googleResult)
       setDocs(data.solrResult.docs)
       setGoogleRes(data.googleResult)
       setLoading(false)
@@ -138,7 +141,8 @@ function Search() {
         chatHistory: env.chatHistory,
         searchHistoryDocs: data.solrResult.docs,
         searchHistoryGoogleDocs: data.googleResult,
-        documentBuildContents: env.documentBuildContents
+        documentBuildContents: env.documentBuildContents,
+        currentDocument: env.currentDocument
       })
       changeEnvironment(vals)
     })
@@ -197,7 +201,9 @@ function Search() {
 
           <VStack height='97vh' w='100vw'>
             <HStack mt='2vh' align={'center'}>
-            <Button mt='1vh'
+            <Button 
+            bg={buttonColor}
+            h='6vh'
             onClick={() => {
               setSearchOpen(false)
               const vals = ({
@@ -207,7 +213,8 @@ function Search() {
                 chatHistory: env.chatHistory,
                 searchHistoryDocs: [],
                 searchHistoryGoogleDocs: [],
-                documentBuildContents: env.documentBuildContents
+                documentBuildContents: env.documentBuildContents,
+                currentDocument: env.currentDocument
               })
               changeEnvironment(vals)
             }}>
@@ -218,22 +225,23 @@ function Search() {
                 placeholder={"Search Query goes here"}
                 autoComplete="off"
                 width='70vw'
-                height='5vh'
+                h='6vh'
+                mt='-1vh'
                 borderColor="black"
                 mr='-1vw'
               />
               <IconButton 
-              mt='1vh'
               type='submit' 
               align='center'
               isLoading={loading}
               aria-label='Search database' 
               icon={<SearchIcon />}
+              bg={buttonColor}
               onClick={() => {
                 setFrame(-1)
               }} 
-              h='4vh'
-              w='4vw'
+              w='5vw'
+              h='6vh'
               />
             </HStack>
             
@@ -281,7 +289,8 @@ function Search() {
                                   ...
                                   </Text>
                                 </VStack>
-                                <VStack align='right'>
+                                <VStack align='right'
+                                bg={buttonColor}>
                                   <Button w='5vw'
                                   onClick={()=> {
                                     setFrame(index)
@@ -311,12 +320,16 @@ function Search() {
                                 <VStack align='right'>
                                   
                                   <Link href={doc.formattedUrl} isExternal>
-                                    <Button w='5vw'>
+                                    <Button 
+                                    w='5vw'
+                                    bg={buttonColor}
+                                    >
                                       Visit
                                     </Button>
                                   </Link>
 
                                   <Button w='5vw'
+                                  bg={buttonColor}
                                   onClick={()=> {
                                     if(frame != index){
                                       setFrame(index)
@@ -362,6 +375,7 @@ function Search() {
                                   type="submit"
                                   h='100%'
                                   padding={3}
+                                  bg={buttonColor}
                                   onClick={() => {
                                     handleDocumentSubmit(innerFormValues)
                                   }}>
