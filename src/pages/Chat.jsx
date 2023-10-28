@@ -367,9 +367,10 @@ const Chat = () => {
               <HStack>
               <Button
                   isLoading={loading}
-                  height='5vh'
+                  height='6vh'
                   id='link'
                   bg={buttonColor}
+                  mt='1vh'
                   onClick={() => {
                     setChatOpen(false)
                     const vals = ({
@@ -391,15 +392,17 @@ const Chat = () => {
                   placeholder={"Question goes here"}
                   autoComplete="off"
                   width='70vw'
-                  h='5vh'
+                  h='6vh'
                   borderColor="black"
+                  mr='-2vw'
                 />
                 <Button
                   isLoading={loading}
                   rightIcon={<HiChevronDoubleRight/>}
                   type='submit'
-                  height='5vh'
+                  height='6vh'
                   id='link'
+                  mt='1vh'
                   bg={buttonColor}
                   onClick={() => {
                     setChatOpen(false)
