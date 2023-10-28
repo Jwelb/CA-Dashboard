@@ -14,6 +14,7 @@ const Document = () => {
     const [loading, setLoading] = useState(true)
 
     const pdfExportComponent = useRef(null)
+    const contentArea = useRef(null)
 
     useEffect(() => {
         if(env.documentBuildContents){
@@ -29,7 +30,8 @@ const Document = () => {
     };
 
     const handleExport = (event) => {
-        pdfExportComponent.current.save()
+        //pdfExportComponent.current.save()
+        savePDF(contentArea.current.querySelector('.ql-editor').innerHTML, { paperSize: "auto", margin: 40, fileName: `CA Dashboard Document` });
     }
 
     const setInitialText = (documents) => {
@@ -40,7 +42,6 @@ const Document = () => {
             `Entry ${doc.id + 1}:\nText: ${doc.entry}\nAuthor: ${doc.author}\nLink: ${doc.link}\n\n`;
             });
         });
-    console.log(result)
     return result;
     }
 
@@ -57,7 +58,7 @@ const Document = () => {
             onClick={() => {
                 handleExport()
             }}>Export to PDF</Button>
-            <PDFExport ref={pdfExportComponent} paperSize='A4'>
+            <div ref={contentArea}>
                 <pre>
                 <ReactQuill
                     theme="snow"
@@ -74,7 +75,7 @@ const Document = () => {
                         ],
                     }}/>
                 </pre>
-            </PDFExport>
+            </div>
         </Box>
     }
     </HStack>
