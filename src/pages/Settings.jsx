@@ -91,7 +91,7 @@ const Settings = () => {
       <HStack w='90%' rounded={5} h='30vh'>
         <VStack w='25%' h='30vh' mt='3%' ml='2%'>
         <Box align={'center'} w='100%' h='100%' mt='3vh'>
-          <Text>Llama Target IP Address</Text>
+          <Text>Solr Target IP Address</Text>
           <TextField
             name='targetAddress'
             placeholder={"127.0.0.1"}
@@ -114,7 +114,7 @@ const Settings = () => {
         </VStack>
         <VStack w='25%' h='30vh' mt='3%' ml="2%">
           <Box align={'center'} w='100%' h='100%' mt='3vh'>
-            <Text>Llama Target Port Number</Text>
+            <Text>Solr Target Port Number</Text>
             <TextField
               name='portNumber'
               placeholder={"5000"}
@@ -135,7 +135,7 @@ const Settings = () => {
         </VStack>
         <VStack  w='25%' h='30vh' mt='3%'>
         <Box align={'center'} w='100%' h='100%' mt='3vh'>
-          <Text mb='1vh'>Server Usage</Text>
+          <Text mb='1vh'>Solr Server Usage</Text>
           <VStack>
           <Button
             name='environment'
@@ -174,7 +174,7 @@ const Settings = () => {
           </Box>
         </VStack>
       </HStack>
-      {/* 
+       
       <HStack w='90%' rounded={3} h='30vh'>
         <VStack w='25%' h='30vh' mt='3%' ml='2%'>
         <Box align={'center'} w='100%' h='100%' mt='3vh'>
@@ -262,7 +262,7 @@ const Settings = () => {
         </VStack>
       </HStack>
 
-      
+      {/*
       <HStack w='90%' rounded={3} h='30vh'>
         <VStack w='25%' h='30vh' mt='3%' ml='2%'>
         <Box align={'center'} w='100%' h='100%' mt='3vh'>
