@@ -53,7 +53,7 @@ function Navbar() {
                 }}>
                 <HStack w='100%'>
                     <Box id="icon" w='100%' ml={'20%'} align='left'>{val.icon}</Box>
-                    <Box id="title"w='100%' ml={'-20%'} align={'left'}><Text fontSize={'14px'}>{val.title}</Text></Box>
+                    <Box id="title"w='100%' ml={'-35%'} align={'left'}><Text fontSize={'14px'}>{val.title}</Text></Box>
                 </HStack>
               </ListItem>
               )})}

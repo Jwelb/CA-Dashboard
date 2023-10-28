@@ -128,7 +128,7 @@ const Document = () => {
         h='100vh'>
         <Box>{Navbar()}</Box>
         <VStack w='100%' h='100%'>
-        <Box w='89%' h='95%' className="ql-editor">
+        <Box w='89%' h='95%' className="ql-editor" mt='3vh'>
             <Button 
             mb={'1vh'}
             mr={'1vw'}
