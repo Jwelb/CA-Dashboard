@@ -279,9 +279,9 @@ const Chat = () => {
                                           </Tag>
                                         </Tooltip>
                                       </HStack>
-                                      <Text fontSize={20}>
-                                        {questionAnswer.answer}
-                                      </Text>
+                                        <Text fontSize={20}>
+                                          {questionAnswer.answer}
+                                        </Text>
                                     </Box>
                                   </VStack>
                                 </HStack>
