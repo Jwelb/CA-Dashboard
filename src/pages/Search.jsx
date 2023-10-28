@@ -26,7 +26,7 @@ function Search() {
   const [googleRes, setGoogleRes] = useState([])
   const [innerFormValues, setInnerFormValues] = useState({ documentBuilder: "", documentAuthor: ""});
 
-  const [resource, setResource] = useState('Internal')
+  const [resource, setResource] = useState(null)
 
   const resources = ['Internal', 'External']
 
@@ -53,6 +53,11 @@ function Search() {
       if(env.searchHistoryDocs.length == 0 && env.searchHistoryGoogleDocs.length == 0){
         setSearchOpen(false)
       }else{
+        if(env.searchHistoryDocs.length > 0){
+          setResource('Internal')
+        }else{
+          setResource('External')
+        }
         setSearchOpen(true)
       }
     }else{
@@ -84,14 +89,12 @@ function Search() {
   }
 
   const handleDocumentSubmit = (values, actions) => {
-    console.log(values)
     if (values.documentBuilder.trim() == "") {
       onOpen();
       return;
     }
   
     const currentPosition = env.documentBuildContents.length
-    console.log(currentPosition)
 
     const documentEntry = [{
       id: currentPosition, 
@@ -258,12 +261,15 @@ function Search() {
             overflowX="auto"
             whiteSpace="wrap"
             overflowY="auto">
-            {(loading) ?  <Progress size='lg' isIndeterminate/> : '' } 
+            {(loading) ? <Progress size='lg' isIndeterminate/> : '' } 
             <Collapse in={searchOpen} animateOpacity>
               <Box w='80vw'>
-                <Card opacity={docs === 'initial' ? 0 : 1}>
+                <Card opacity={docs === null ? 0 : 1}>
                   <HStack padding={1} bg={barColor} rounded={5} >
-                    <Tabs alignItems={'center'}>
+                    <Tabs 
+                    alignItems={'center'} 
+                    variant='enclosed'
+                    defaultIndex={resource == 'Internal' ? 0 : 1}>
                       <TabList alignItems={'center'}>
                         {resources.map((item, index) => {
                           return(
