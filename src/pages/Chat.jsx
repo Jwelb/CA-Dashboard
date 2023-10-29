@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useState } from 'react';
 import TextField from "../components/TextField";
 import axios from 'axios'
-import { CheckIcon, SmallCloseIcon  } from '@chakra-ui/icons'
+import { CheckIcon, SmallCloseIcon } from '@chakra-ui/icons'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -17,21 +17,21 @@ import {
   TagLabel,
   useDisclosure,
   SkeletonCircle,
-  HStack, 
-  VStack, 
-  Text, 
-  Box, 
-  Button, 
-  ScaleFade, 
-  useColorModeValue, 
-  Collapse, 
-  Skeleton, 
-  Tooltip, 
+  HStack,
+  VStack,
+  Text,
+  Box,
+  Button,
+  ScaleFade,
+  useColorModeValue,
+  Collapse,
+  Skeleton,
+  Tooltip,
   Avatar
 } from '@chakra-ui/react'
 import { AiOutlineUser } from 'react-icons/ai'
 import { HiChevronDoubleRight } from "react-icons/hi2";
-import  Llama  from '../components/icons/llama.png'
+import Llama from '../components/icons/llama.png'
 import { EnvContext } from '../components/envContext';
 
 const Chat = () => {
@@ -44,25 +44,25 @@ const Chat = () => {
 
   const [loading, setLoading] = useState(false)
 
-  const buttonColor = useColorModeValue('#F4F7FF','#101720')
-  const textColor = useColorModeValue('black','white')
+  const buttonColor = useColorModeValue('#F4F7FF', '#101720')
+  const textColor = useColorModeValue('black', 'white')
 
   const [chatOpen, setChatOpen] = useState(false)
 
-  const [chatLength, setChatLength] = useState(1) ;
+  const [chatLength, setChatLength] = useState(1);
 
-  const {env} = useContext(EnvContext)
-  const {setEnv} = useContext(EnvContext)
+  const { env } = useContext(EnvContext)
+  const { setEnv } = useContext(EnvContext)
 
 
   useEffect(() => {
-      if(env.chatHistory){
-        setChatLength(env.chatHistory.length)
-        setQuestionAnswer(env.chatHistory)
-      }else{
-        setChatLength(1)
-      }
-    }, [env])
+    if (env.chatHistory) {
+      setChatLength(env.chatHistory.length)
+      setQuestionAnswer(env.chatHistory)
+    } else {
+      setChatLength(1)
+    }
+  }, [env])
 
   const changeEnvironment = async (vals) => {
     fetch("http://localhost:4000/environmentSettings", {
@@ -72,29 +72,30 @@ const Chat = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(vals),
-      })
+    })
       .catch(err => {
         return;
       })
       .then(res => {
         if (!res || !res.ok || res.status >= 400) {
-          return; 
+          return;
         }
         return res.json();
       })
       .then(data => {
-          setEnv({...data}) ;
+        setEnv({ ...data });
       });
   }
 
 
   const getAnswer = async (vals) => {
-    const currentIndex = questionAnswer.length; 
+    const currentIndex = questionAnswer.length;
     const updatedAnswers = [...questionAnswer, { Question: vals, answer: null }];
     setLoading(true)
+    console.log(vals)
     await axios({
-      method: 'post',
-      url: 'http://localhost:4000/chatQuery',
+      method: 'get',
+      url: `http://localhost:5000/chatQuery?question=${encodeURIComponent(vals)}`,
       headers: {
         'content-type': 'application/json',
       },
@@ -103,27 +104,32 @@ const Chat = () => {
         environment: env
       }
     }).then(data => {
-        updatedAnswers[currentIndex].answer = data.data;
-        setQuestionAnswer(updatedAnswers); 
-        setChatOpen(true)
-        setLoading(false)
-        setChatLength(questionAnswer.length)
+      const response = data.data;
+      //this is the string response
+      const resultsString = response[0].generation.content;
+      //updated answers current index answer is the string but why isnt it displaying on react????
+      updatedAnswers[currentIndex].answer = resultsString;
+      console.log(updatedAnswers[currentIndex].answer)
+      setQuestionAnswer(updatedAnswers);
+      setChatOpen(true)
+      setLoading(false)
+      setChatLength(questionAnswer.length)
 
-        const vals = ({
-          llamaEnvironment: env.llamaEnvironment, 
-          llamaTargetAddress: env.llamaTargetAddress, 
-          llamaPortNumber: env.llamaPortNumber,
-          solrEnvironment: env.solrEnvironment, 
-          solrTargetAddress: env.solrTargetAddress, 
-          solrPortNumber: env.solrPortNumber,
-          chatHistory: updatedAnswers,
-          searchHistoryDocs: env.searchHistoryDocs,
-          searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
-          documentBuildContents: env.documentBuildContents,
-          currentDocument: env.currentDocument
-        })
-        changeEnvironment(vals)
+      const vals = ({
+        llamaEnvironment: env.llamaEnvironment,
+        llamaTargetAddress: env.llamaTargetAddress,
+        llamaPortNumber: env.llamaPortNumber,
+        solrEnvironment: env.solrEnvironment,
+        solrTargetAddress: env.solrTargetAddress,
+        solrPortNumber: env.solrPortNumber,
+        chatHistory: updatedAnswers,
+        searchHistoryDocs: env.searchHistoryDocs,
+        searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
+        documentBuildContents: env.documentBuildContents,
+        currentDocument: env.currentDocument
       })
+      changeEnvironment(vals)
+    })
   }
 
   const getFeedback = async (vals) => {
@@ -137,7 +143,7 @@ const Chat = () => {
       validationSchema={Yup.object({ question: Yup.string() })}
       onSubmit={(values, actions) => {
         if (values.question.trim() == "") {
-          {onOpen()}
+          { onOpen() }
           return
         }
         setQuestion(values.question)
@@ -151,7 +157,7 @@ const Chat = () => {
           w="100vw"
           h='100vh'
           as={Form}>
-            
+
           <Box>{Navbar()}</Box>
 
           {/* Alert Box */}
@@ -164,7 +170,7 @@ const Chat = () => {
                 <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                   Enter some input
                 </AlertDialogHeader>
-                <AlertDialogBody> 
+                <AlertDialogBody>
                   Please enter a question so that we can answer it!
                 </AlertDialogBody>
                 <AlertDialogFooter>
@@ -178,80 +184,80 @@ const Chat = () => {
 
           {/* User Question and Llama Answer*/}
           <VStack w='100vw'>
-              <HStack 
+            <HStack
               align={'center'}
-              h='100%' 
-              w='100%' 
+              h='100%'
+              w='100%'
               overflowX="auto"
               whiteSpace="wrap"
               overflowY="auto">
-                <VStack h='85vh' w='75vw' ml='7vw' align={'center'}>
-                  {questionAnswer.map((questionAnswer, index) => {
-                    const isLastItem = index === chatLength ;
-                    return (
-                        <VStack 
-                        key={index} 
-                        w='75vw'
-                        align={'center'}>
-                            <HStack w='75vw' align={'center'}>
-                              <HStack w='75vw' align={'center'} ml='1'>
-                              <VStack 
-                              w={'75vw'}
-                              align={'center'} 
-                              border='2px' 
-                              rounded={10} 
-                              padding={3} 
-                              borderColor={"#676e79"}>
-                                  <Box align={'right'} w='100%'>
-                                    <Tooltip label="Query #">
-                                      <Tag 
-                                      size={'sm'} 
-                                      colorScheme='teal' 
-                                      variant={"outline"}
-                                      h='2vh'
-                                      mr='3px'
-                                      ml='3px'>
-                                          <TagLabel>
-                                            Question {index + 1}
-                                          </TagLabel>
-                                      </Tag>
-                                    </Tooltip>
-                                    <Text fontSize={20} align={'right'}>
-                                  {questionAnswer.Question}
-                                  </Text>
-                                  </Box>
-                                </VStack>
-                                </HStack>
-
-                                <Box>
-                                  <Avatar bg='lightblue' showBorder icon={<AiOutlineUser/>}/>
-                                </Box>
-                                </HStack>
-                            
-                            <ScaleFade initialScale={.7} in={!isLastItem}>
-                            <HStack align={'center'}>
-                            <Box>
-                              <Avatar src={Llama} bg='white' ml='-3vw'/>
+              <VStack h='85vh' w='75vw' ml='7vw' align={'center'}>
+                {questionAnswer.map((questionAnswer, index) => {
+                  const isLastItem = index === chatLength;
+                  return (
+                    <VStack
+                      key={index}
+                      w='75vw'
+                      align={'center'}>
+                      <HStack w='75vw' align={'center'}>
+                        <HStack w='75vw' align={'center'} ml='1'>
+                          <VStack
+                            w={'75vw'}
+                            align={'center'}
+                            border='2px'
+                            rounded={10}
+                            padding={3}
+                            borderColor={"#676e79"}>
+                            <Box align={'right'} w='100%'>
+                              <Tooltip label="Query #">
+                                <Tag
+                                  size={'sm'}
+                                  colorScheme='teal'
+                                  variant={"outline"}
+                                  h='2vh'
+                                  mr='3px'
+                                  ml='3px'>
+                                  <TagLabel>
+                                    Question {index + 1}
+                                  </TagLabel>
+                                </Tag>
+                              </Tooltip>
+                              <Text fontSize={20} align={'right'}>
+                                {questionAnswer.Question}
+                              </Text>
                             </Box>
-                            <Box w='75vw' align={'center'}>
-                              <HStack w='75vw'>
-                                <HStack align={'center'} w='100%'>
-                                  <VStack 
-                                  align={'left'} 
+                          </VStack>
+                        </HStack>
+
+                        <Box>
+                          <Avatar bg='lightblue' showBorder icon={<AiOutlineUser />} />
+                        </Box>
+                      </HStack>
+
+                      <ScaleFade initialScale={.7} in={!isLastItem}>
+                        <HStack align={'center'}>
+                          <Box>
+                            <Avatar src={Llama} bg='white' ml='-3vw' />
+                          </Box>
+                          <Box w='75vw' align={'center'}>
+                            <HStack w='75vw'>
+                              <HStack align={'center'} w='100%'>
+                                <VStack
+                                  align={'left'}
                                   width={'75vw'}>
-                                    <Box 
+                                  <Box
                                     align='left'
-                                    border='2px'  
-                                    rounded={10} 
+                                    border='2px'
+                                    rounded={10}
                                     padding={3}
                                     borderColor={"#676e79"}>
-                                        <HStack>
-                                          <Tooltip label="Good Result">
-                                          <Tag 
+                                    <HStack>
+                                      <Tooltip label="Good Result">
+                                        <Tag
                                           as={'button'}
                                           type="button"
-                                          size={'sm'} 
-                                          colorScheme='green' 
+                                          size={'sm'}
+                                          colorScheme='green'
                                           variant={"outline"}
                                           h='2vh'
                                           mb='2'
@@ -259,17 +265,17 @@ const Chat = () => {
                                             getFeedback('Like')
                                           }}
                                           padding={3}>
-                                              <TagLabel>
-                                                <CheckIcon/>
-                                              </TagLabel>
-                                          </Tag>
-                                        </Tooltip>
-                                        <Tooltip label="Negative Result">
-                                          <Tag 
+                                          <TagLabel>
+                                            <CheckIcon />
+                                          </TagLabel>
+                                        </Tag>
+                                      </Tooltip>
+                                      <Tooltip label="Negative Result">
+                                        <Tag
                                           as={'button'}
                                           type="button"
-                                          size={'sm'} 
-                                          colorScheme='red' 
+                                          size={'sm'}
+                                          colorScheme='red'
                                           variant={"outline"}
                                           h='2vh'
                                           mb='2'
@@ -277,99 +283,100 @@ const Chat = () => {
                                             getFeedback('Dislike')
                                           }}
                                           padding={3}>
-                                            <TagLabel>
-                                              <SmallCloseIcon/>
-                                            </TagLabel>
-                                          </Tag>
-                                        </Tooltip>
-                                      </HStack>
-                                        <Text fontSize={20}>
-                                          {questionAnswer.answer}
-                                        </Text>
-                                    </Box>
-                                  </VStack>
-                                </HStack>
+                                          <TagLabel>
+                                            <SmallCloseIcon />
+                                          </TagLabel>
+                                        </Tag>
+                                      </Tooltip>
+                                    </HStack>
+                                    <Text fontSize={20}>
+                                      {questionAnswer.answer}
+                                    </Text>
+                                  </Box>
+                                </VStack>
                               </HStack>
-                            </Box>
                             </HStack>
-                            </ScaleFade>
-                        </VStack>)})}
+                          </Box>
+                        </HStack>
+                      </ScaleFade>
+                    </VStack>)
+                })}
 
-                  {/* Skeleton Loading */}
-                  <VStack w='85vw' ml={1}>
+                {/* Skeleton Loading */}
+                <VStack w='85vw' ml={1}>
                   <Collapse in={loading}>
-                  {loading &&
-                    <VStack width={'85vw'} align='center' ml={1}>
-                      <HStack w='75vw'>
-                        <HStack w='100%' align={'center'}>
-                          <Skeleton 
-                          color='white'
-                          w='100%'
-                          isLoaded={!chatOpen}
-                          rounded={10}>
-                            <HStack w='75vw'>
-                              <Box 
-                              align={'right'} 
+                    {loading &&
+                      <VStack width={'85vw'} align='center' ml={1}>
+                        <HStack w='75vw'>
+                          <HStack w='100%' align={'center'}>
+                            <Skeleton
+                              color='white'
                               w='100%'
-                              border='2px' 
-                              rounded={10} 
-                              padding={3} 
-                              borderColor={"#676e79"}>
-                                <Tag 
-                                size={'sm'} 
-                                colorScheme='teal' 
-                                variant={"outline"}
-                                h='2vh'
-                                mr='3px'
-                                ml='3px'>
+                              isLoaded={!chatOpen}
+                              rounded={10}>
+                              <HStack w='75vw'>
+                                <Box
+                                  align={'right'}
+                                  w='100%'
+                                  border='2px'
+                                  rounded={10}
+                                  padding={3}
+                                  borderColor={"#676e79"}>
+                                  <Tag
+                                    size={'sm'}
+                                    colorScheme='teal'
+                                    variant={"outline"}
+                                    h='2vh'
+                                    mr='3px'
+                                    ml='3px'>
                                     <TagLabel>
                                       Question {chatLength + 1}
                                     </TagLabel>
-                                </Tag>
-                                <Text fontSize={20} align={'right'} color={textColor}>
-                                {currentQuestion}
-                                </Text>
-                              </Box>
-                            </HStack>
-                          </Skeleton>
+                                  </Tag>
+                                  <Text fontSize={20} align={'right'} color={textColor}>
+                                    {currentQuestion}
+                                  </Text>
+                                </Box>
+                              </HStack>
+                            </Skeleton>
+                          </HStack>
+                          <Box>
+                            <Avatar bg='lightblue' showBorder icon={<AiOutlineUser />} />
+                          </Box>
                         </HStack>
-                      <Box>
-                          <Avatar bg='lightblue' showBorder icon={<AiOutlineUser/>}/>
-                      </Box>
-                      </HStack>
 
-                      <HStack w='85vw' ml={1}>
-                      <Box w='5vw' align='center'>
-                          <SkeletonCircle size='12' />
-                      </Box>
-                      <HStack w='75vw' ml={-2}>  
-                        <HStack w='100%'>
-                              <Skeleton 
-                              color='white'
-                              isLoaded={chatOpen}
-                              w='100%'
-                              rounded={10}
-                              align='center'>
-                              <Box 
-                              padding={3} 
-                              h='9vh'
-                              rounded={10}>
-                              </Box>
+                        <HStack w='85vw' ml={1}>
+                          <Box w='5vw' align='center'>
+                            <SkeletonCircle size='12' />
+                          </Box>
+                          <HStack w='75vw' ml={-2}>
+                            <HStack w='100%'>
+                              <Skeleton
+                                color='white'
+                                isLoaded={chatOpen}
+                                w='100%'
+                                rounded={10}
+                                align='center'>
+                                <Box
+                                  padding={3}
+                                  h='9vh'
+                                  rounded={10}>
+                                </Box>
                               </Skeleton>
-                          </HStack> 
+                            </HStack>
+                          </HStack>
                         </HStack>
-                      </HStack>
-                    </VStack>}
+                      </VStack>}
                   </Collapse>
-                  </VStack>
-                  
+                </VStack>
+
               </VStack>
             </HStack>
 
             {/* Input Elements */}
             <Box mt='1vh'>
               <HStack>
-              <Button
+                <Button
                   isLoading={loading}
                   height='6vh'
                   id='link'
@@ -378,11 +385,11 @@ const Chat = () => {
                   onClick={() => {
                     setChatOpen(false)
                     const vals = ({
-                      llamaEnvironment: env.llamaEnvironment, 
-                      llamaTargetAddress: env.llamaTargetAddress, 
+                      llamaEnvironment: env.llamaEnvironment,
+                      llamaTargetAddress: env.llamaTargetAddress,
                       llamaPortNumber: env.llamaPortNumber,
-                      solrEnvironment: env.solrEnvironment, 
-                      solrTargetAddress: env.solrTargetAddress, 
+                      solrEnvironment: env.solrEnvironment,
+                      solrTargetAddress: env.solrTargetAddress,
                       solrPortNumber: env.solrPortNumber,
                       chatHistory: [],
                       searchHistoryDocs: env.searchHistoryDocs,
@@ -391,8 +398,8 @@ const Chat = () => {
                       currentDocument: env.currentDocument
                     })
                     changeEnvironment(vals)
-                    }}
-                  >
+                  }}
+                >
                   Clear History
                 </Button>
                 <TextField
@@ -406,7 +413,7 @@ const Chat = () => {
                 />
                 <Button
                   isLoading={loading}
-                  rightIcon={<HiChevronDoubleRight/>}
+                  rightIcon={<HiChevronDoubleRight />}
                   type='submit'
                   height='6vh'
                   id='link'
@@ -415,7 +422,7 @@ const Chat = () => {
                   onClick={() => {
                     setChatOpen(false)
                   }}
-                  >
+                >
                   Enter
                 </Button>
               </HStack>
@@ -424,7 +431,7 @@ const Chat = () => {
           </VStack>
 
         </HStack>
-        
+
       )}
     </Formik>
   )
