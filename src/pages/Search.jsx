@@ -26,7 +26,7 @@ function Search() {
   const [googleRes, setGoogleRes] = useState([])
   const [innerFormValues, setInnerFormValues] = useState({ documentBuilder: "", documentAuthor: ""});
 
-  const [resource, setResource] = useState(null)
+  const [resource, setResource] = useState('Internal')
 
   const resources = ['Internal', 'External']
 
@@ -51,17 +51,15 @@ function Search() {
       setDocs(env.searchHistoryDocs)
       setGoogleRes(env.searchHistoryGoogleDocs)
       if(env.searchHistoryDocs.length == 0 && env.searchHistoryGoogleDocs.length == 0){
+        console.log(1)
         setSearchOpen(false)
       }else{
-        if(env.searchHistoryDocs.length > 0){
-          setResource('Internal')
-        }else{
-          setResource('External')
-        }
+        console.log(2)
         setSearchOpen(true)
       }
     }else{
-      setSearchOpen(false)
+      console.log(3)
+      setSearchOpen(true)
     }
   }, [env])
 
@@ -123,6 +121,7 @@ function Search() {
 
   const getResponse = async (vals) => { 
     setLoading(true)
+    setSearchOpen(false)
     const url = 'http://localhost:4000/searchSolr?q=' + vals
     await axios({
       method: 'get',
@@ -135,7 +134,7 @@ function Search() {
       return data.data
     })
     .then(data => {
-      setDocs(data.solrResult.docs)
+      setDocs(data.solrResult)
       setGoogleRes(data.googleResult)
       setLoading(false)
       setSearchOpen(true)
@@ -148,7 +147,7 @@ function Search() {
         solrTargetAddress: env.solrTargetAddress, 
         solrPortNumber: env.solrPortNumber,
         chatHistory: env.chatHistory,
-        searchHistoryDocs: data.solrResult.docs,
+        searchHistoryDocs: data.solrResult,
         searchHistoryGoogleDocs: data.googleResult,
         documentBuildContents: env.documentBuildContents,
         currentDocument: env.currentDocument
@@ -257,13 +256,15 @@ function Search() {
               />
             </HStack>
             
-            <Box w='80vw' mt='2vh'
+            <Box 
+            w='80vw' 
+            mt='2vh'
             overflowX="auto"
             whiteSpace="wrap"
             overflowY="auto">
-            {(loading) ? <Progress size='lg' isIndeterminate/> : '' } 
-            <Collapse in={searchOpen} animateOpacity>
+            {(loading)? <Progress size='lg' isIndeterminate/> :  
               <Box w='80vw'>
+                {searchOpen &&
                 <Card opacity={docs === null ? 0 : 1}>
                   <HStack padding={1} bg={barColor} rounded={5} >
                     <Tabs 
@@ -301,7 +302,7 @@ function Search() {
                                   {doc.title || 'No title Found'}  - {doc.author}
                                   </Text>
                                   <Text pt='15px' fontSize='md'>
-                                  ...
+                                    <pre dangerouslySetInnerHTML={{__html: doc.content.toString().replace(/<em>(.*?)<\/em>/g, '<u>$1</u>')}} />
                                   </Text>
                                 </VStack>
                                 <VStack align='right'
@@ -411,9 +412,8 @@ function Search() {
                       )})}
                     </Stack>
                   </Card>
-                </Card>
-              </Box>
-            </Collapse>
+                </Card>}
+              </Box>}
             </Box>
           </VStack>
         </HStack>)}

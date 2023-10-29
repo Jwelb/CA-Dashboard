@@ -119,7 +119,6 @@ router
             documentBuildContents: req.body.documentBuildContents,
             currentDocument: req.body.currentDocument
         }
-        console.log(req.session.env)
         res.json(req.session.env)
 })
 
@@ -152,21 +151,41 @@ router
         console.log('Query successfully sent.')
     } catch (error) {
         console.error('Error making request:', error);
-        res.status(500).send('Internal Server Error');
-    }
-  
-    const strQuery = solrClient.query().q(query);
-  
-    solrClient.search(strQuery, function (err, result) {
-    if (err) {
-       console.log(err);
-       return;
-    }
-    const solrRes = result.response
-    //console.log(result.response)
+        //res.status(500).send('Internal Server Error');
+    }             
+    const solrQuery = `http://localhost:8983/solr/gettingstarted/select?fl=id%2Cauthor%2Cdate%2Ctitle&hl.fl=*&hl.q=${query}&hl=true&indent=true&q.op=OR&q=content%3A%5B*%20TO%20*%5D&useParams=`
+    await fetch(solrQuery)
+    .then(response => response.json())
+    .then(data => {
+        //console.log(data)
+        rawSolrRes = data.response.docs
+        highlights = data.highlighting
+    })
+
+    const MAX_CHARACTERS = 100
+
+    const solrRes = rawSolrRes.map(item => {
+        const newData = {...item}
+
+        // Check if the ID exists in the highlighting object
+        newData.content = (highlights[item.id]?.content || 'No Snippet Found');
+        return newData
+    })
+    //console.log(solrRes)
+    //console.log(rawSolrRes)
     res.json({solrResult: solrRes, googleResult: googleRes})
+    
+
+    // solrClient.search(strQuery, function (err, result) {
+    // if (err) {
+    //    console.log(err);
+    //    return;
+    // }
+    // const solrRes = result.response
+    // //console.log(result.response)
+    //res.json({solrResult: solrRes, googleResult: googleRes})
+    // }
  });
-});
   
 
 module.exports = router 
