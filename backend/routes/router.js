@@ -25,26 +25,21 @@ router
         console.log({Question: question})
         // IP ADDRESS VARIABLE 
         // PORT NUMBER ADDRESS VARIABLE
-
-        if(req.body.environment.environment == 'Production'){
+        console.log(req.body.environment)
+        if(req.body.environment.llamaEnvironment == 'Production'){
             try {
                 base = ('http://' + 
-                    req.body.environment.targetAddress + ":" +
-                    req.body.environment.portNumber  + 
-                    '/generate_response')
+                    req.body.environment.llamaTargetAddress + ":" +
+                    req.body.environment.llamaPortNumber  + 
+                    '/chatQuery')
 
-                finalURL = base.concat("?Question=" + question)
-                console.log(finalURL)
+                finalURL = base.concat("?question=" + encodeURIComponent(question))
                 
                 await axios({
                     method: 'GET',
                     url: finalURL,
                     headers: {
                     'Content-type': 'application/json',
-                    'User-Agent': 'Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion',
-                    'Accept': '/*',
-                    'Accept-Encoding': 'gzip, deflate, br',
-                    'Connection': 'keep-alive',
                     },
                 }).then(data => {
                     return data.data
@@ -53,8 +48,8 @@ router
                     answer = data[0].generation.content
                 })
 
-                const date = new Date()
                 /*
+                const date = new Date()
                 await client.query("INSERT INTO \"chat_queries\" VALUES($1,$2,$3)",
                     [question, date, question])
                 */
@@ -66,6 +61,7 @@ router
             }
         }else{
         await delay(2000)
+        console.log(2)
         res.send(question)
     }
 })

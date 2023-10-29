@@ -94,8 +94,8 @@ const Chat = () => {
     setLoading(true)
     console.log(vals)
     await axios({
-      method: 'get',
-      url: `http://localhost:5000/chatQuery?question=${encodeURIComponent(vals)}`,
+      method: 'post',
+      url: 'http://localhost:4000/chatQuery',
       headers: {
         'content-type': 'application/json',
       },
@@ -104,12 +104,7 @@ const Chat = () => {
         environment: env
       }
     }).then(data => {
-      const response = data.data;
-      //this is the string response
-      const resultsString = response[0].generation.content;
-      //updated answers current index answer is the string but why isnt it displaying on react????
-      updatedAnswers[currentIndex].answer = resultsString;
-      console.log(updatedAnswers[currentIndex].answer)
+      updatedAnswers[currentIndex].answer = data.data;
       setQuestionAnswer(updatedAnswers);
       setChatOpen(true)
       setLoading(false)
