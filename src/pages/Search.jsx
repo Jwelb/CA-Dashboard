@@ -51,14 +51,11 @@ function Search() {
       setDocs(env.searchHistoryDocs)
       setGoogleRes(env.searchHistoryGoogleDocs)
       if(env.searchHistoryDocs.length == 0 && env.searchHistoryGoogleDocs.length == 0){
-        console.log(1)
         setSearchOpen(false)
       }else{
-        console.log(2)
         setSearchOpen(true)
       }
     }else{
-      console.log(3)
       setSearchOpen(true)
     }
   }, [env])
@@ -302,7 +299,8 @@ function Search() {
                                   {doc.title || 'No title Found'}  - {doc.author}
                                   </Text>
                                   <Text pt='15px' fontSize='md'>
-                                    <pre dangerouslySetInnerHTML={{__html: doc.content.toString().replace(/<em>(.*?)<\/em>/g, '<u>$1</u>')}} />
+                                    <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'Segoe UI', fontSize:'14px' }}
+                                    dangerouslySetInnerHTML={{__html: doc.content.toString().replace(/<em>(.*?)<\/em>/g, '<strong><u>$1</u></strong>')}} />
                                   </Text>
                                 </VStack>
                                 <VStack align='right'

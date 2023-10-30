@@ -245,7 +245,9 @@ const Chat = () => {
                                     border='2px'
                                     rounded={10}
                                     padding={3}
-                                    borderColor={"#676e79"}>
+                                    borderColor={"#676e79"}
+                                    overflow="auto" // Enable scrolling if content overflows
+                                  >
                                     <HStack>
                                       <Tooltip label="Good Result">
                                         <Tag
@@ -284,9 +286,9 @@ const Chat = () => {
                                         </Tag>
                                       </Tooltip>
                                     </HStack>
-                                    <Text fontSize={20}>
+                                    <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'Segoe UI', fontSize:'18px' }}>
                                       {questionAnswer.answer}
-                                    </Text>
+                                    </pre>
                                   </Box>
                                 </VStack>
                               </HStack>

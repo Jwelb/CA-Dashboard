@@ -116,7 +116,7 @@ const Document = () => {
     documents.forEach((object) => {
         object.forEach((doc) => {
             result += 
-            `\nText: ${doc.entry}\nAuthor: ${doc.author}\nLink: ${doc.link}\n`;
+            `Text: ${doc.entry}\nAuthor: ${doc.author}\nLink: ${doc.link}\n`;
             });
         });
     return result;

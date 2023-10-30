@@ -153,7 +153,6 @@ router
     await fetch(solrQuery)
     .then(response => response.json())
     .then(data => {
-        //console.log(data)
         rawSolrRes = data.response.docs
         highlights = data.highlighting
     })
