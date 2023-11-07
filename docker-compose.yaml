@@ -7,11 +7,21 @@ services:
       - '4000:4000'
     volumes:
       - './backend:/app'
+
   frontend:
-    build: /src
+    build: ./frontend
     container_name: frontend_container
     ports: 
       - '3000:3000'
     stdin_open: true
     tty: true
 
+  solr:
+    container_name: solr_container
+    image: solr:latest
+    ports:
+      - '8983:8983'
+
+networks:
+  my-net:
+    driver: bridge

@@ -120,11 +120,16 @@ function Search() {
     setLoading(true)
     setSearchOpen(false)
     const url = 'http://localhost:4000/searchSolr?q=' + vals
+    console.log(url)
     await axios({
-      method: 'get',
+      method: 'post',
       url: url,
       headers: {
         'content-type': 'application/json',
+      },
+      data: {
+        question: vals,
+        env: env
       }
     })
     .then(data => {
