@@ -120,8 +120,9 @@ router
 
 router
     .route('/searchSolr')    
-    .get(async (req, res) => {
-    const query = req.query.q;
+    .post(async (req, res) => {
+    console.log(req.body)
+    const query = req.body.question;
     console.log(query, 'is the query')
     try {
         const apiKey = 'AIzaSyCA0NoHS71O1M_AgsM4s_iAbjZ4f9IYRg4'
@@ -149,7 +150,9 @@ router
         console.error('Error making request:', error);
         //res.status(500).send('Internal Server Error');
     }             
-    const solrQuery = `http://localhost:8983/solr/gettingstarted/select?fl=id%2Cauthor%2Cdate%2Ctitle&hl.fl=*&hl.q=${query}&hl=true&indent=true&q.op=OR&q=content%3A%5B*%20TO%20*%5D&useParams=`
+    const solrEnv = req.body.env.solrEnvironment == 'Production' ? 'solr' : 'localhost'
+    const solrQuery = `http://${solrEnv}:${req.body.env.solrPortNumber}/solr/gettingstarted/select?fl=id%2Cauthor%2Cdate%2Ctitle&hl.fl=*&hl.q=${query}&hl=true&indent=true&q.op=OR&q=content%3A%5B*%20TO%20*%5D&useParams=`
+    console.log(solrQuery)
     await fetch(solrQuery)
     .then(response => response.json())
     .then(data => {
