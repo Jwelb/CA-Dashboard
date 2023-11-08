@@ -259,13 +259,13 @@ function Search() {
             </HStack>
             
             <Box 
-            w='80vw' 
+            w='90%' 
             mt='2vh'
-            overflowX="auto"
             whiteSpace="wrap"
             overflowY="auto">
             {(loading)? <Progress size='lg' isIndeterminate/> :  
-              <Box w='80vw'>
+              <Box 
+              w='100%'>
                 {searchOpen &&
                 <Card opacity={docs === null ? 0 : 1}>
                   <HStack padding={1} bg={barColor} rounded={5} >
@@ -291,7 +291,8 @@ function Search() {
                     </Tabs>
                   </HStack>
                   
-                  <Card>
+                  <Card
+                  w='100%'>
                     <Stack divider={<StackDivider />} spacing='.3'>
                       {resource=='Internal' && docs.map((doc, index) => {
                         return (
@@ -308,11 +309,17 @@ function Search() {
                                     dangerouslySetInnerHTML={{__html: doc.content.toString().replace(/<em>(.*?)<\/em>/g, '<strong><u>$1</u></strong>')}} />
                                   </Text>
                                 </VStack>
-                                <VStack align='right'
-                                bg={buttonColor}>
+                                <VStack align='right'>
                                   <Button w='5vw'
+                                  bg={buttonColor}
                                   onClick={()=> {
-                                    setFrame(index)
+                                    if(frame != index){
+                                      setFrame(index)
+                                      setFrameOpen(true)
+                                    }else{
+                                      setFrame(-1)
+                                      setFrameOpen(false)
+                                    }
                                   }}>
                                     Preview
                                   </Button>

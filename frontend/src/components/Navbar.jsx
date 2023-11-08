@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Stack, IconButton, useDisclosure, Collapse, Box, List, ListItem, useColorModeValue, Text, HStack} from "@chakra-ui/react"
 import { HamburgerIcon } from '@chakra-ui/icons'
 
@@ -21,14 +21,13 @@ function Navbar() {
     className="Sidebar">
       <IconButton
       icon={<HamburgerIcon/>}
-      height='4vh'
       onClick={onToggle}
       id='contextMenu'
       mb='-2'
       bg={barColor}
       color={textColor}
       w='100%'
-      h='5vh'
+      h='7vh'
       />
       <Collapse in={!isOpen} animateOpacity>
         <Stack 
@@ -45,9 +44,7 @@ function Navbar() {
               <ListItem 
                 key={key} 
                 className="row"
-                mt={1}
-                mb={1}
-                id={window.location.pathname === val.link ? "active" : "" }
+                id={window.location.pathname === val.link ? "active" : "non-active" }
                 onClick={() => {
                   navigate(val.link)
                 }}>
