@@ -14,7 +14,8 @@ const UserContext = ({ children }) => {
     searchHistoryDocs: null,
     searchHistoryGoogleDocs: null,
     documentBuildContents: null,
-    currentDocument: null});
+    currentDocument: null,
+    solrConfig: null});
   useEffect(() => {
     fetch("http://localhost:4000/environmentSettings", {
       credentials: "include",
@@ -34,7 +35,8 @@ const UserContext = ({ children }) => {
           searchHistoryDocs: data.searchHistoryDocs,
           searchHistoryGoogleDocs: data.searchHistoryGoogleDocs,
           documentBuildContents: data.documentBuildContents,
-          currentDocument: data.currentDocument
+          currentDocument: data.currentDocument,
+          solrConfig: data.solrConfig
         })})
         }, []);
   return (

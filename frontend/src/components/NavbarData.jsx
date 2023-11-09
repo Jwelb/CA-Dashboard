@@ -21,6 +21,11 @@ export const NavbarData= [
         icon: <HiOutlineDocumentText/>
     },
     {
+        title: "Data Upload",
+        link: "/dataUpload",
+        icon: <HiOutlineDocumentText/>
+    },
+    {
         title: "Map",
         link: "/Map",
         icon: <BsMap/>

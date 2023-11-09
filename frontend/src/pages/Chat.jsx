@@ -121,7 +121,8 @@ const Chat = () => {
         searchHistoryDocs: env.searchHistoryDocs,
         searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
         documentBuildContents: env.documentBuildContents,
-        currentDocument: env.currentDocument
+        currentDocument: env.currentDocument,
+        solrConfig: env.solrConfig
       })
       changeEnvironment(vals)
     })
@@ -277,6 +278,7 @@ const Chat = () => {
                                           h='2vh'
                                           mb='2'
                                           onClick={() => {
+                                            console.log(env)
                                             getFeedback('Dislike')
                                           }}
                                           padding={3}>
@@ -392,7 +394,8 @@ const Chat = () => {
                       searchHistoryDocs: env.searchHistoryDocs,
                       searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
                       documentBuildContents: env.documentBuildContents,
-                      currentDocument: env.currentDocument
+                      currentDocument: env.currentDocument,
+                      solrConfig: env.solrConfig
                     })
                     changeEnvironment(vals)
                   }}

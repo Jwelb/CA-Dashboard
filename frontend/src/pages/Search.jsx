@@ -111,7 +111,8 @@ function Search() {
       searchHistoryDocs: env.searchHistoryDocs,
       searchHistoryGoogleDocs: env.searchHistoryGoogleDocs,
       documentBuildContents: updatedDocumentBuildContents,
-      currentDocument: env.currentDocument
+      currentDocument: env.currentDocument,
+      solrConfig: env.solrConfig
     };
     changeEnvironment(vals)
   };
@@ -152,7 +153,8 @@ function Search() {
         searchHistoryDocs: data.solrResult,
         searchHistoryGoogleDocs: data.googleResult,
         documentBuildContents: env.documentBuildContents,
-        currentDocument: env.currentDocument
+        currentDocument: env.currentDocument,
+        solrConfig: env.solrConfig
       })
       changeEnvironment(vals)
     })
@@ -227,7 +229,8 @@ function Search() {
                 searchHistoryDocs: [],
                 searchHistoryGoogleDocs: [],
                 documentBuildContents: env.documentBuildContents,
-                currentDocument: env.currentDocument
+                currentDocument: env.currentDocument,
+                solrConfig: env.solrConfig
               })
               changeEnvironment(vals)
             }}>

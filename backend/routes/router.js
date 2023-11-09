@@ -1,19 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('axios');
-const SolrNode = require('solr-node')
-
 
 const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
 );
-
-const solrClient = new SolrNode({
-    host: '127.0.0.1',
-    port: '8983',
-    core: 'gettingstarted',
-    protocol: 'http'
-});
   
 // Set logger level (can be set to DEBUG, INFO, WARN, ERROR, FATAL or OFF)
 require('log4js').getLogger('solr-node').level = 'DEBUG';
@@ -79,7 +70,8 @@ router
                 searchHistoryDocs: req.session.env.searchHistoryDocs,
                 searchHistoryGoogleDocs: req.session.env.searchHistoryGoogleDocs,
                 documentBuildContents: req.session.env.documentBuildContents,
-                currentDocument: req.session.env.currentDocument
+                currentDocument: req.session.env.currentDocument,
+                solrConfig: req.session.env.solrConfig
             }
             res.json(req.session.env)
         }else{                                          // Default Environment
@@ -94,7 +86,8 @@ router
                 searchHistoryDocs: [],
                 searchHistoryGoogleDocs: [],
                 documentBuildContents: [],
-                currentDocument: ''
+                currentDocument: '',
+                solrConfig: false
             }
             res.json(req.session.env)
         }
@@ -111,10 +104,84 @@ router
             searchHistoryDocs: req.body.searchHistoryDocs,
             searchHistoryGoogleDocs: req.body.searchHistoryGoogleDocs,
             documentBuildContents: req.body.documentBuildContents,
-            currentDocument: req.body.currentDocument
+            currentDocument: req.body.currentDocument,
+            solrConfig: req.body.solrConfig
         }
         res.json(req.session.env)
 })
+
+router 
+    .route('/uploadSolrFile')
+    .post(async (req, res) => {
+      console.log(req.body)
+      res.send(1)
+    })
+
+router
+    .route('/configureSolr')
+    .post(async (req, res) => {
+ 
+        contentField = '{ "add-field": { "name":"content", "type":"text_general", "indexed":true } }'
+        console.log({field: contentField})
+        // base = ('http://' + 
+        //     req.body.environment.llamaTargetAddress + ":" +
+        //     req.body.environment.llamaPortNumber  + 
+        //     '/chatQuery')
+
+        // finalURL = base.concat("?question=" + encodeURIComponent(question))
+
+        await axios({
+            method: 'POST',
+            url: 'http://localhost:8983/solr/gettingstarted/schema',
+            headers: {
+            'Content-type': 'application/json',
+            },
+            data: contentField
+        }).then(data => {
+            console.log(data)
+        }).catch(error => {
+          if (error.response && error.response.data && error.response.data.error && error.response.data.error.msg.includes("Field 'content' already exists")) {
+            // Do nothing, as this is the expected error message
+            console.log("Ignoring error: /update/extract already exists");
+          } else {
+            // Handle other errors
+            console.error(error);
+        }})
+
+        await axios({
+          method: 'post',
+          url: 'http://localhost:8983/solr/gettingstarted/config', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: {
+            'add-requestHandler': {
+              name: '/update/extract',
+              class: 'solr.DumpRequestHandler',
+              startup: 'lazy',
+              defaults: {
+                lowernames: true,
+                'fmap.content': '_text_',
+              },
+            }
+          },
+        }).catch(error => {
+          if (error.response && error.response.data && error.response.data.error && error.response.data.error.msg.includes("/update/extract already exists")) {
+            // Do nothing, as this is the expected error message
+            console.log("Ignoring error: /update/extract already exists");
+          } else {
+            // Handle other errors
+            console.error(error);
+        }})
+
+        res.send('Success')
+        /*
+        const date = new Date()
+        await client.query("INSERT INTO \"chat_queries\" VALUES($1,$2,$3)",
+            [question, date, question])
+        */
+            
+    })
 
 router
     .route('/searchSolr')    
@@ -148,7 +215,6 @@ router
             console.error('Error making request:', error);
             res.status(500).send('Internal Server Error');
         }             
-        const solrEnv = req.body.env.solrEnvironment 
         const solrQuery = `http://solr:${req.body.env.solrPortNumber}/solr/gettingstarted/select?fl=id%2Cauthor%2Cdate%2Ctitle&hl.fl=*&hl.q=${query}&hl=true&indent=true&q.op=OR&q=content%3A%5B*%20TO%20*%5D&useParams=`
         await fetch(solrQuery)
         .then(response => response.json())

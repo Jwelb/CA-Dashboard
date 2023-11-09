@@ -17,10 +17,10 @@ services:
     tty: true
 
   solr:
-    container_name: solr_container
     image: solr
+    container_name: solr_container
     ports:
-      - '8983:8983'
+      - "8983:8983"
 
 networks:
   my-net:
