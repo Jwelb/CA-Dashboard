@@ -21,7 +21,7 @@
 }
 
 .sideBarList #active{
-  cursor: context-menu ;
+  cursor: default ;
   background-color: #676e79;
 }
 

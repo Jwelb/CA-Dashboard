@@ -132,7 +132,7 @@ router
 
         await axios({
             method: 'POST',
-            url: 'http://localhost:8983/solr/gettingstarted/schema',
+            url: 'http://solr:8983/solr/gettingstarted/schema',
             headers: {
             'Content-type': 'application/json',
             },
@@ -150,7 +150,7 @@ router
 
         await axios({
           method: 'post',
-          url: 'http://localhost:8983/solr/gettingstarted/config', 
+          url: 'http://solr:8983/solr/gettingstarted/config', 
           headers: {
             'Content-Type': 'application/json',
           },
