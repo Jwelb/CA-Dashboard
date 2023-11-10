@@ -121,7 +121,7 @@ router
     .route('/configureSolr')
     .post(async (req, res) => {
  
-        contentField = '{ "add-field": { "name":"content", "type":"text_general", "indexed":true } }'
+        contentField = '{ "add-field": { "name":"content", "type":"text_general", "indexed":true, "stored":true } }'
         console.log({field: contentField})
         // base = ('http://' + 
         //     req.body.environment.llamaTargetAddress + ":" +

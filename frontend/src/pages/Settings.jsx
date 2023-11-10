@@ -92,6 +92,7 @@ const Settings = () => {
         vals.solrEnvironment = env.solrEnvironment
         vals.solrTargetAddress = env.solrTargetAddress
         vals.solrPortNumber = env.solrPortNumber
+        vals.solrConfig = env.solrConfig
         break
       case 'llamaTargetAddress':
         vals.llamaEnvironment = env.llamaEnvironment
@@ -99,6 +100,7 @@ const Settings = () => {
         vals.solrEnvironment = env.solrEnvironment
         vals.solrTargetAddress = env.solrTargetAddress
         vals.solrPortNumber = env.solrPortNumber
+        vals.solrConfig = env.solrConfig
         break
       case 'llamaPortNumber':
         vals.llamaTargetAddress = env.llamaTargetAddress
@@ -106,6 +108,7 @@ const Settings = () => {
         vals.solrEnvironment = env.solrEnvironment
         vals.solrTargetAddress = env.solrTargetAddress
         vals.solrPortNumber = env.solrPortNumber
+        vals.solrConfig = env.solrConfig
         break
       case 'solrEnvironment':
         vals.solrEnvironment = solrEnv
@@ -114,6 +117,7 @@ const Settings = () => {
         vals.llamaTargetAddress = env.llamaTargetAddress
         vals.llamaEnvironment = env.llamaEnvironment
         vals.llamaPortNumber = env.llamaPortNumber
+        vals.solrConfig = env.solrConfig
         break
       case 'solrTargetAddress':
         vals.solrEnvironment = env.solrEnvironment
@@ -121,6 +125,7 @@ const Settings = () => {
         vals.llamaTargetAddress = env.llamaTargetAddress
         vals.llamaEnvironment = env.llamaEnvironment
         vals.llamaPortNumber = env.llamaPortNumber
+        vals.solrConfig = env.solrConfig
         break
       case 'solrPortNumber':
         vals.solrEnvironment = env.solrEnvironment
@@ -128,6 +133,7 @@ const Settings = () => {
         vals.llamaTargetAddress = env.llamaTargetAddress
         vals.llamaEnvironment = env.llamaEnvironment
         vals.llamaPortNumber = env.llamaPortNumber
+        vals.solrConfig = env.solrConfig
         break
     }
 
