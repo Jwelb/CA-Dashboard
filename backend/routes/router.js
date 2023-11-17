@@ -114,7 +114,7 @@ router
     .route('/uploadSolrFile')
     .post(async (req, res) => {
       console.log(req.body)
-      res.send(1)
+      res.send(req.body)
     })
 
 router

@@ -3,6 +3,8 @@ import {BiBarChartAlt2} from 'react-icons/bi'
 import { FiSettings, FiHelpCircle } from 'react-icons/fi'
 import { BsMap } from 'react-icons/bs'
 import { HiOutlineDocumentText } from 'react-icons/hi'
+import { BiExport } from "react-icons/bi";
+
 
 export const NavbarData= [
     {
@@ -23,28 +25,28 @@ export const NavbarData= [
     {
         title: "Data Upload",
         link: "/dataUpload",
-        icon: <HiOutlineDocumentText/>
+        icon: <BiExport/>
     },
-    {
-        title: "Map",
-        link: "/Map",
-        icon: <BsMap/>
-    },
-    {
-        title: "Trends",
-        link: "/Trends",
-        icon: <BiBarChartAlt2/>
-    },
+    // {
+    //     title: "Map",
+    //     link: "/Map",
+    //     icon: <BsMap/>
+    // },
+    // {
+    //     title: "Trends",
+    //     link: "/Trends",
+    //     icon: <BiBarChartAlt2/>
+    // },
     {
         title: "Settings",
         link: "/Settings",
         icon: <FiSettings/>
     },
-    {
-        title: "Help",
-        link: "/Help",
-        icon: <FiHelpCircle/>
-    }
+    // {
+    //     title: "Help",
+    //     link: "/Help",
+    //     icon: <FiHelpCircle/>
+    // }
 ]
 
 export default NavbarData
