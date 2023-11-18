@@ -17,7 +17,7 @@ services:
     tty: true
 
   solr:
-    image: solr:latest
+    image: solr
     container_name: solr_container
     ports:
       - "8983:8983"
