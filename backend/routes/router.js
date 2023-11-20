@@ -214,9 +214,8 @@ router
         } catch (error) {
             console.error('Error making request:', error);
             res.status(500).send('Internal Server Error');
-        }             
-        const solrQuery = `http://solr:${req.body.env.solrPortNumber}/solr/gettingstarted/select?fl=id%2Cauthor%2Cdate%2Ctitle&hl.fl=*&hl.q=${query}&hl=true&indent=true&q.op=OR&q=content%3A%5B*%20TO%20*%5D&useParams=`
-        await fetch(solrQuery)
+        }                              
+        await fetch(`http://solr:${req.body.env.solrPortNumber}/solr/gettingstarted/select?hl.fl=*&hl.q=${query}&hl=true&indent=true&q.op=OR&q=*%3A*&useParams=`)
         .then(response => response.json())
         .then(data => {
             rawSolrRes = data.response.docs
@@ -232,7 +231,7 @@ router
             newData.content = (highlights[item.id]?.content || 'No Snippet Found');
             return newData
         })
-        //console.log(solrRes)
+        console.log(solrRes)
         //console.log(rawSolrRes)
         res.json({solrResult: solrRes, googleResult: googleRes})
     }else{
