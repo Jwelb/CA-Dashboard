@@ -111,77 +111,97 @@ router
 })
 
 router 
-    .route('/uploadSolrFile')
-    .post(async (req, res) => {
-      console.log(req.body)
-      res.send(req.body)
-    })
+  .route('/uploadSolrFile')
+  .post(async (req, res) => {
+    console.log(req.body)
+    res.send(req.body)
+})
 
-router
-    .route('/configureSolr')
-    .post(async (req, res) => {
- 
-        contentField = '{ "add-field": { "name":"content", "type":"text_general", "indexed":true, "stored":true } }'
-        console.log({field: contentField})
-        // base = ('http://' + 
-        //     req.body.environment.llamaTargetAddress + ":" +
-        //     req.body.environment.llamaPortNumber  + 
-        //     '/chatQuery')
+// router
+//   .route('/configureSolr')
+//   .post(async (req, res) => {
 
-        // finalURL = base.concat("?question=" + encodeURIComponent(question))
+//       contentField = '{ "add-field": { "name":"content", "type":"text_general", "indexed":true, "stored":true } }'
+//       console.log({field: contentField})
 
-        await axios({
-            method: 'POST',
-            url: 'http://solr:8983/solr/gettingstarted/schema',
-            headers: {
-            'Content-type': 'application/json',
-            },
-            data: contentField
-        }).then(data => {
-            console.log(data)
-        }).catch(error => {
-          if (error.response && error.response.data && error.response.data.error && error.response.data.error.msg.includes("Field 'content' already exists")) {
-            // Do nothing, as this is the expected error message
-            console.log("Ignoring error: /update/extract already exists");
-          } else {
-            // Handle other errors
-            console.error(error);
-        }})
+//       await axios({
+//           method: 'POST',
+//           url: 'http://localhost:8983/solr/gettingstarted/schema',
+//           headers: {
+//           'Content-type': 'application/json',
+//           },
+//           data: contentField
+//       }).then(data => {
+//           console.log(data)
+//       }).catch(error => {
+//         if (error.response && error.response.data && error.response.data.error && error.response.data.error.msg.includes("Field 'content' already exists")) {
+//           // Do nothing, as this is the expected error message
+//           console.log("Ignoring error: That field already exists already exists");
+//         } else {
+//           // Handle other errors
+//           console.error(error);
+//       }})
 
-        await axios({
-          method: 'post',
-          url: 'http://solr:8983/solr/gettingstarted/config', 
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          data: {
-            'add-requestHandler': {
-              name: '/update/extract',
-              class: 'solr.DumpRequestHandler',
-              startup: 'lazy',
-              defaults: {
-                lowernames: true,
-                'fmap.content': '_text_',
-              },
-            }
-          },
-        }).catch(error => {
-          if (error.response && error.response.data && error.response.data.error && error.response.data.error.msg.includes("/update/extract already exists")) {
-            // Do nothing, as this is the expected error message
-            console.log("Ignoring error: /update/extract already exists");
-          } else {
-            // Handle other errors
-            console.error(error);
-        }})
+//       await axios({
+//         method: 'post',
+//         url: 'http://localhost:8983/solr/gettingstarted/config', 
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         data: {
+//           'add-requestHandler': {
+//             name: '/update/extract',
+//             class: 'solr.extraction.ExtractingRequestHandler',
+//             startup: 'lazy',
+//             defaults: {
+//               lowernames: true,
+//               'fmap.content': '_text_',
+//             },
+//           }
+//         },
+//       }).then(data => {
+//         console.log(data.error)
+//       }).catch(error => {
+//         if (error.response && error.response.data && error.response.data.error && error.response.data.error.msg.includes("/update/extract already exists")) {
+//           // Do nothing, as this is the expected error message
+//           console.log("Ignoring error: /update/extract already exists");
+//         }else if(error.response) {
+//           // Handle other errors
+//           console.error(error.response);
+//       }}).then(console.log('successfull added update/extract!'))
 
-        res.send('Success')
-        /*
-        const date = new Date()
-        await client.query("INSERT INTO \"chat_queries\" VALUES($1,$2,$3)",
-            [question, date, question])
-        */
+//       // <lib dir="${solr.install.dir:../../..}/modules/extraction/lib" regex=".*\.jar" />
+//       await axios({
+//         method: 'post',
+//         url: 'http://solr:8983/solr/gettingstarted/config', 
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         data: {
+//           'add-runtimelib': {
+//             "name": '${solr.install.dir:../../..}/modules/extraction/lib',
+//             "regex": '.*\.jar',
+//           }
+//         },
+//       }).then(data => {
+//         console.log(data.error)
+//       }).catch(error => {
+//         if (error.response && error.response.data && error.response.data.error && error.response.data.error.msg.includes("/update/extract already exists")) {
+//           // Do nothing, as this is the expected error message
+//           console.log("Ignoring error: /update/extract already exists");
+//         }else {
+//           // Handle other errors
+//           console.error(error.response);
+//       }})
+      
+//       res.send('Success')
+//       /*
+//       const date = new Date()
+//       await client.query("INSERT INTO \"chat_queries\" VALUES($1,$2,$3)",
+//           [question, date, question])
+//       */
             
-    })
+// })
 
 router
     .route('/searchSolr')    
@@ -215,7 +235,7 @@ router
             console.error('Error making request:', error);
             res.status(500).send('Internal Server Error');
         }                              
-        await fetch(`http://solr:${req.body.env.solrPortNumber}/solr/gettingstarted/select?hl.fl=*&hl.q=${query}&hl=true&indent=true&q.op=OR&q=*%3A*&useParams=`)
+        await fetch(`http://solr:${req.body.env.solrPortNumber}/solr/CA-Dashboard/select?hl.fl=*&hl.q=${query}&hl=true&indent=true&q.op=OR&q=*%3A*&useParams=`)
         .then(response => response.json())
         .then(data => {
             rawSolrRes = data.response.docs

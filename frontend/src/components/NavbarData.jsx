@@ -22,11 +22,11 @@ export const NavbarData= [
         link: "/Document",
         icon: <HiOutlineDocumentText/>
     },
-    {
-        title: "Data Upload",
-        link: "/dataUpload",
-        icon: <BiExport/>
-    },
+    // {
+    //     title: "Data Upload",
+    //     link: "/dataUpload",
+    //     icon: <BiExport/>
+    // },
     // {
     //     title: "Map",
     //     link: "/Map",

@@ -165,21 +165,6 @@ const Settings = () => {
     });
   }
 
-
-  const configureSolr = async () => {
-    if(!env.solrConfig){
-      await axios({
-        method: 'post',
-        url: 'http://localhost:4000/configureSolr',
-        headers: {
-          'content-type': 'application/json',
-        }
-      }).then(res => {
-        onOpen()
-      })
-    }
-  }
-
   return (
     <Formik
       initialValues={{
@@ -288,26 +273,6 @@ const Settings = () => {
           
           </Box>
         </VStack>
-
-        <VStack w='20%' h='30vh' mt='3%'>
-          <Box align={'center'} w='100%' h='100%' mt='3vh'>
-          <Text mb='1vh'>Configure Solr</Text>
-          <Button
-            name='solrConfig'
-            type='submit'
-            height='5vh'
-            id='link'
-            cursor={env.solrConfig == true ? 'not-allowed' : 'pointer'}
-            disabled={env.solrConfig == true ? true : false}
-            bg={env.solrConfig == true ? 'teal' : 'grey'}
-            onClick={() => {
-              setFormToChange('solrConfig')
-              configureSolr()
-            }}>
-            Configure
-          </Button>
-          </Box>
-          </VStack>
         
         <VStack w='20%' h='30vh'>
           <Box align={'center'} w='100%' h='100%' mt='8vh'>
