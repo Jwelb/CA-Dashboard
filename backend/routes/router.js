@@ -14,24 +14,28 @@ router
     .post(async (req, res) => {
         question = req.body.question
         console.log({Question: question})
-        // IP ADDRESS VARIABLE 
-        // PORT NUMBER ADDRESS VARIABLE
+
         if(req.body.environment.llamaEnvironment == 'Production'){
-            try {
+              try{
                 base = ('http://' + 
                     req.body.environment.llamaTargetAddress + ":" +
                     req.body.environment.llamaPortNumber  + 
                     '/chatQuery')
-
+              
                 finalURL = base.concat("?question=" + encodeURIComponent(question))
                 
+                console.log(finalURL)
+
                 await axios({
                     method: 'GET',
                     url: finalURL,
                     headers: {
                     'Content-type': 'application/json',
                     },
+                }).catch(error => {
+                  console.log(error)
                 }).then(data => {
+                    console.log('data: ', data)
                     return data.data
                 }).then(data => {
                     console.log(data[0].generation.content)
@@ -45,10 +49,9 @@ router
                 */
                 console.log('Query successfully sent.')
                 res.send(answer)
-            } catch (error) {
-                console.error('Error making request:', error);
-                res.status(500).send('Internal Server Error');
-            }
+              }catch{
+                res.send('Error processing request.')
+              }
         }else{
         await delay(2000)
         res.send(question)
