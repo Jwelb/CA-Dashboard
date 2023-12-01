@@ -47,8 +47,7 @@ function Navbar() {
                 onClick={() => {
                   navigate(val.link)
                 }}>
-                  {console.log(key)}
-                <HStack w='100%'>
+                <HStack w='100%' mr='20%'>
                     <Box id="icon" w='100%' ml={'20%'} align='left'>{val.icon}</Box>
                     <Box id="title"w='100%' ml={'-35%'} align={'left'}><Text fontSize={'16px'}>{val.title}</Text></Box>
                 </HStack>
