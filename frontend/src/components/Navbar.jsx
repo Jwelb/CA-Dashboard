@@ -37,17 +37,17 @@ function Navbar() {
         color={textColor}
         w='100%'
         >
-          
           <List className='sideBarList'>
             {NavbarData.map((val, key) => {
             return (
               <ListItem 
                 key={key} 
                 className="row"
-                id={window.location.pathname === val.link ? "active" : "non-active" }
+                id={(window.location.pathname === val.link) || (window.location.pathname === '/' && key===0) ? "active" : "non-active" }
                 onClick={() => {
                   navigate(val.link)
                 }}>
+                  {console.log(key)}
                 <HStack w='100%'>
                     <Box id="icon" w='100%' ml={'20%'} align='left'>{val.icon}</Box>
                     <Box id="title"w='100%' ml={'-35%'} align={'left'}><Text fontSize={'16px'}>{val.title}</Text></Box>
