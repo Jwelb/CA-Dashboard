@@ -32,9 +32,10 @@ services:
   llama:
     build: ./llama
     container_name: llama_container
-    ports: '5000:5000'
+    ports: 
+      - "5000:5000"
     volumes:
-      - './llama:/app'
+      - './llama:/llama'
 
 networks:
   my-net:
