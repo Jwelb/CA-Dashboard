@@ -22,7 +22,8 @@ router
                     req.body.environment.llamaPortNumber  + 
                     '/chatQuery')
               
-                finalURL = base.concat("?question=" + encodeURIComponent(question))
+                //finalURL = base.concat("?question=" + encodeURIComponent(question))
+                finalURL = ("http://llama:5000/chatQuery?question=" + encodeURIComponent(question))
                 
                 console.log(finalURL)
 
@@ -51,8 +52,7 @@ router
                 res.send(answer)
               }catch{
                 res.send('Error processing request.')
-              }
-        }else{
+              }        }else{
         await delay(2000)
         res.send(question)
     }

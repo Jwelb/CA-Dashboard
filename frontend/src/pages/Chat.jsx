@@ -77,12 +77,14 @@ const Chat = () => {
         return;
       })
       .then(res => {
+        console.log(res)
         if (!res || !res.ok || res.status >= 400) {
           return;
         }
         return res.json();
       })
       .then(data => {
+        console.log(data)
         setEnv({ ...data });
       });
   }

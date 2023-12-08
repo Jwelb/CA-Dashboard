@@ -8,6 +8,8 @@ services:
       - '4000:4000'
     volumes:
       - './backend:/app'
+    networks:
+      - my-net
 
   frontend:
     build: ./frontend
@@ -16,26 +18,35 @@ services:
       - '3000:3000'
     stdin_open: true
     tty: true
+    networks:
+      - my-net
 
   solr:
     image: solr:9.4
     container_name: solr_container
     ports:
-      - "8983:8983"
+      - '8983:8983'
     command: 
       - solr-precreate
       - CA-Dashboard
     volumes:
       - ./configsets/myconfig/conf/solrconfig.xml:/opt/solr/server/solr/configsets/_default/conf/solrconfig.xml
       - ./configsets/myconfig/conf/managed-schema.xml:/opt/solr/server/solr/configsets/_default/conf/managed-schema.xml
-    
+    networks:
+      - my-net
+
   llama:
     build: ./llama
-    container_name: llama_container
-    ports: '5000:5000'
+    container_name: llama
+    runtime: nvidia
+    ports: 
+      - '5000:5000'
     volumes:
-      - './llama:/app'
+      - './llama:/llama'
+    networks:
+      - my-net
 
 networks:
   my-net:
     driver: bridge
+    name: my-net
