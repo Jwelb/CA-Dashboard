@@ -35,7 +35,9 @@ services:
     networks:
       - my-net
 
-  container_name: llama
+  llama:
+    build: ./llama
+    container_name: llama
     runtime: nvidia
     ports: 
       - '5000:5000'

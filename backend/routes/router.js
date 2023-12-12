@@ -79,10 +79,10 @@ router
             res.json(req.session.env)
         }else{                                          // Default Environment
             req.session.env = {
-                llamaEnvironment: 'Development',
+                llamaEnvironment: 'Production',
                 llamaTargetAddress: '127.0.0.1',
                 llamaPortNumber: '5000',
-                solrEnvironment: 'Development',
+                solrEnvironment: 'Production',
                 solrTargetAddress: '127.0.0.1',
                 solrPortNumber: '8983',
                 chatHistory: [],
